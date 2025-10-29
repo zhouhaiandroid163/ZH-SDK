@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZhSdklog</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- 引入Prism.js用于代码高亮 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <!-- 引入Java和JSON语言支持 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet">
+
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+            info: '#86909C',
+            dark: {
+              100: '#F2F3F5',
+              200: '#E5E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+              800: '#0A0C10',
+            }
+          },
+          fontFamily: {
+            mono: ['Consolas', 'Monaco', 'monospace'],
+          },
+        },
+      }
+    }
+  </script>
+
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .log-row-hover {
+        @apply hover:bg-dark-600/50 transition-colors duration-150;
+      }
+      .log-type-pill {
+        @apply text-xs px-2 py-0.5 rounded-full font-medium;
+      }
+      .log-data-container {
+        @apply overflow-hidden transition-all duration-300 ease-in-out;
+      }
+      .log-row-active {
+        @apply bg-dark-600/40 border-l-4 border-primary shadow-[inset_0_0_0_1px_rgba(22,93,255,0.3)];
+      }
+      .resizer {
+        @apply w-1 bg-dark-600 hover:bg-primary cursor-col-resize transition-colors relative;
+      }
+      .resizer::before {
+        content: '';
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-dark-500;
+      }
+    }
+  </style>
+
+  <style>
+    /* 自定义滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1D2129;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #4E5969;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #86909C;
+    }
+
+    /* 确保页面占满高度 */
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* 拖拽相关样式 */
+    .main-container {
+      display: flex;
+      height: calc(100vh - 61px);
+    }
+
+    .left-panel {
+      flex: 0 0 66.666%;
+      min-width: 300px;
+      max-width: calc(100% - 200px);
+      overflow: hidden;
+    }
+
+    .right-panel {
+      flex: 1;
+      min-width: 200px;
+      overflow: hidden;
+    }
+
+    /* 文件选择按钮样式 */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .file-input-wrapper input[type=file] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* 代码块样式调整 */
+    pre[class*="language-"] {
+      margin: 0;
+      padding: 1em;
+      border-radius: 0.3em;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body class="bg-dark-800 text-dark-100 font-mono">
+  <!-- 顶部导航栏 -->
+  <header class="bg-dark-700 border-b border-dark-600 py-3 px-6 flex items-center justify-between shadow-md">
+    <div class="flex items-center space-x-3">
+      <h1 class="text-lg font-semibold">ZhSdklog</h1>
+    </div>
+
+    <!-- 添加文件选择按钮 -->
+    <div class="file-input-wrapper">
+      <button
+        class="bg-primary hover:bg-primary/80 text-white text-sm px-3 py-1.5 rounded-md transition-colors flex items-center">
+        <i class="fa fa-upload mr-2"></i>Select log file
+      </button>
+      <input type="file" id="fileInput" accept=".data" />
+    </div>
+  </header>
+
+  <!-- 主要内容区 - 可调整比例的双栏布局 -->
+  <div class="main-container">
+    <!-- 左侧日志列表 -->
+    <main class="left-panel flex flex-col">
+      <!-- 表头 -->
+      <div
+        class="grid grid-cols-[80px_220px_1fr] bg-dark-700 border-b border-dark-600 py-2 px-4 text-dark-300 text-sm font-medium">
+        <div class="pl-3">Line</div>
+        <div>Time</div>
+        <div>Data</div>
+      </div>
+
+      <!-- 日志内容区 -->
+      <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-1 text-sm">
+      </div>
+    </main>
+
+    <!-- 可拖动分隔线 -->
+    <div id="resizer" class="resizer"></div>
+
+    <!-- 右侧详情区 -->
+    <aside class="right-panel flex flex-col bg-dark-800">
+      <!-- 右侧详情标题 -->
+      <div
+        class="bg-dark-700 border-b border-dark-600 py-2 px-4 text-dark-100 text-sm font-medium flex justify-between items-center">
+        <span>Log Details</span>
+        <span id="detail-count" class="text-dark-400">Unselected Log</span>
+      </div>
+
+      <!-- 右侧详情内容 -->
+      <div id="detail-content" class="flex-1 overflow-y-auto p-4 text-sm">
+        <div class="flex items-center justify-center h-full text-dark-400">
+          <i class="fa fa-info-circle mr-2"></i> Click on the log line to view
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // 声明全局变量
+    let inputData = '';  // 将由文件内容填充
+    let logData = [];
+
+    // DOM元素
+    const logContainer = document.getElementById('log-container');
+    const detailContent = document.getElementById('detail-content');
+    const detailCount = document.getElementById('detail-count');
+    const resizer = document.getElementById('resizer');
+    const leftPanel = document.querySelector('.left-panel');
+    const rightPanel = document.querySelector('.right-panel');
+    const fileInput = document.getElementById('fileInput');
+    let selectedLogId = null;
+    let isResizing = false;
+
+    // 初始化文件选择功能
+    function initFileSelection() {
+      fileInput.addEventListener('change', handleFileSelect);
+      // 页面加载完成后立即触发文件选择对话框
+      window.addEventListener('load', () => {
+        // 延迟触发以确保页面完全加载
+        setTimeout(() => {
+          fileInput.click();
+        }, 100);
+      });
+    }
+
+    // 处理文件选择
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        alert('Please select a file');
+        // 如果用户取消选择，重新触发文件选择
+        setTimeout(() => fileInput.click(), 100);
+        return;
+      }
+
+      // 验证文件类型
+      if (file.type !== 'text/plain' && !file.name.endsWith('.data')) {
+        alert('Please select the correct file format (.data)');
+        // 重新触发文件选择
+        setTimeout(() => fileInput.click(), 100);
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        try {
+          // 读取
+          inputData = e.target.result.replace(/\\\//g, '/').replace(/\\\//g, '/');
+          // 处理并加载日志数据
+          logData = getData();
+          renderLogs();
+          // alert('File loaded successfully!');
+        } catch (error) {
+          alert('File read failed : ' + error.message);
+          // 重新触发文件选择
+          setTimeout(() => fileInput.click(), 100);
+        }
+      };
+
+      reader.onerror = function () {
+        alert('文件读取错误');
+        // 重新触发文件选择
+        setTimeout(() => fileInput.click(), 100);
+      };
+
+      reader.readAsText(file);
+    }
+
+    // 初始化拖拽功能
+    function initResizer() {
+      resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+
+        const containerRect = document.querySelector('.main-container').getBoundingClientRect();
+        const leftWidth = e.clientX - containerRect.left;
+
+        if (leftWidth >= 300 && leftWidth <= containerRect.width - 200) {
+          const leftPercent = (leftWidth / containerRect.width) * 100;
+          leftPanel.style.flex = `0 0 ${leftPercent}%`;
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (isResizing) {
+          isResizing = false;
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+        }
+      });
+
+      // 触摸设备支持
+      resizer.addEventListener('touchstart', (e) => {
+        isResizing = true;
+        e.preventDefault();
+      });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!isResizing) return;
+
+        const containerRect = document.querySelector('.main-container').getBoundingClientRect();
+        const leftWidth = e.touches[0].clientX - containerRect.left;
+
+        if (leftWidth >= 300 && leftWidth <= containerRect.width - 200) {
+          const leftPercent = (leftWidth / containerRect.width) * 100;
+          leftPanel.style.flex = `0 0 ${leftPercent}%`;
+        }
+      });
+
+      document.addEventListener('touchend', () => {
+        isResizing = false;
+      });
+    }
+
+    function getData() {
+      const jsonObj = JSON.parse(inputData);
+      const jsonArr = jsonObj.logArr;
+
+      const resultData = []
+
+      for (let index = 0; index < jsonArr.length; index++) {
+        const item = jsonArr[index];
+
+        let data = item.content
+        let type = "unknown"
+        let longData = false
+
+        // 仍然需要类型判断来确定是否为长数据，但不在UI上显示类型
+        if (data.includes(" data=")) {
+          type = "Data"
+          longData = true
+          try {
+            const benData = data.split('data=')
+            data = benData[0] + "data=" + JSON.stringify(JSON.parse(benData[1]), null, 2)
+          } catch (e) {
+          }
+        } else if (data.startsWith("btn")) {
+          type = "Button"
+        } else if (data.includes("CallBack")) {
+          type = "CallBack"
+        } else {
+          type = "Example"
+        }
+
+        logEntry = {
+          id: index + 1,
+          line: index + 1,
+          time: item.time,
+          type: type,  // 保留类型信息供内部处理使用
+          data: data,
+          expanded: false,
+          longData: longData
+        }
+
+        resultData.push(logEntry);
+      }
+
+      return resultData;
+    }
+
+    // 渲染日志行
+    function renderLogRow(log) {
+      const logRow = document.createElement('div');
+      // 调整网格布局，将Time列宽度从180px增加到220px
+      const rowClasses = `grid grid-cols-[80px_220px_1fr] items-start py-2 px-3 rounded-md log-row-hover group transition-all duration-200 ${selectedLogId === log.id ? 'log-row-active' : ''}`;
+      logRow.className = rowClasses;
+      logRow.dataset.id = log.id;
+      logRow.dataset.line = log.line;
+
+      // 行数列
+      const lineCol = document.createElement('div');
+      lineCol.className = `pl-3 ${selectedLogId === log.id ? 'text-primary font-medium' : 'text-dark-400'}`;
+      lineCol.textContent = log.line;
+
+      // 时间列
+      const timeCol = document.createElement('div');
+      timeCol.className = selectedLogId === log.id ? 'text-primary pr-4' : 'text-dark-300 pr-4';
+      timeCol.textContent = log.time;
+
+      // 数据列
+      const dataCol = document.createElement('div');
+      dataCol.className = selectedLogId === log.id ? 'text-white break-all' : 'text-dark-200 break-all';
+
+      if (log.longData) {
+        dataCol.innerHTML = `
+          <div class="log-data-container ${log.expanded ? 'max-h-[500px]' : 'max-h-[20px]'}">
+            <pre class="whitespace-pre-wrap">${log.data}</pre>
+          </div>
+          <button class="toggle-btn mt-1 text-primary hover:text-primary/80 text-xs flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <i class="fa ${log.expanded ? 'fa-chevron-up' : 'fa-chevron-down'} mr-1"></i>
+            ${log.expanded ? 'fold' : 'expand'}
+          </button>
+        `;
+
+        // 折叠/展开功能
+        const toggleBtn = dataCol.querySelector('.toggle-btn');
+        const dataContainer = dataCol.querySelector('.log-data-container');
+
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          log.expanded = !log.expanded;
+          dataContainer.classList.toggle('max-h-[500px]', log.expanded);
+          dataContainer.classList.toggle('max-h-[20px]', !log.expanded);
+          toggleBtn.innerHTML = `<i class="fa ${log.expanded ? 'fa-chevron-up' : 'fa-chevron-down'} mr-1"></i>${log.expanded ? 'fold' : 'expand'}`;
+        });
+      } else {
+        dataCol.innerHTML = `<pre class="whitespace-pre-wrap">${log.data}</pre>`;
+      }
+
+      // 组装日志行
+      logRow.appendChild(lineCol);
+      logRow.appendChild(timeCol);
+      logRow.appendChild(dataCol);
+
+      // 添加点击事件
+      logRow.addEventListener('click', () => {
+        selectLog(log.id);
+      });
+
+      return logRow;
+    }
+
+    // 选择日志并显示详情
+    function selectLog(logId) {
+      selectedLogId = logId;
+      renderLogs();
+
+      const selectedLog = logData.find(log => log.id === logId);
+      const jsonArr = getApiData()
+      let apiData = ''
+
+      for (let index = 0; index < jsonArr.length; index++) {
+        const item = jsonArr[index];
+        const filterArr = selectedLog.data.split(' ')
+
+        if (selectedLog.type == "Example" && item.content.includes(filterArr[0])) {
+          apiData = item.content;
+          break
+        } else if (selectedLog.type == "CallBack" && capitalizeFirstLetter(filterArr[0]).includes(item.title)) {
+          apiData = item.content;
+          break
+        } else if (selectedLog.type == "Data" && capitalizeFirstLetter(filterArr[0]).includes(item.title)) {
+          apiData = item.content;
+          break
+        }
+
+      }
+
+      let myData = selectedLog.data
+      let myDetailed = ''
+
+      if (myData.includes(" data=")) {
+        try {
+          const benData = myData.split('data=')
+          myData = benData[0]
+          // 尝试解析为JSON
+          const parsedJson = JSON.parse(benData[1]);
+          // 格式化JSON以便显示
+          myDetailed = JSON.stringify(parsedJson, null, 2);
+        } catch (e) {
+          // 如果解析失败，直接显示原始数据
+          myDetailed = benData[1];
+        }
+      }
+
+
+      if (selectedLog) {
+        detailCount.textContent = `Log entry ${selectedLog.line}`;
+        detailContent.innerHTML = `
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-dark-300 mb-1 text-xs tracking-wider">Data</h3>
+              <div class="bg-dark-700/50 rounded-md p-3">
+                <pre class="whitespace-pre-wrap text-dark-100">${myData}</pre>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-dark-300 mb-1 text-xs tracking-wider">Details (Json)</h3>
+              <pre class="line-numbers"><code class="language-json">${myDetailed}</code></pre>
+            </div>
+            
+            <div>
+             <h3 class="text-dark-300 mb-1 text-xs tracking-wider">Api (Java)</h3>
+             <div class="mb-2">
+               <a href="https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf?from=from_copylink" target="_blank" 
+                 class="text-primary hover:text-primary/80 text-sm flex items-center transition-colors">
+                 <i class="fa fa-external-link mr-1"></i>
+                 View full API documentation
+               </a>
+             </div>
+             <pre class="line-numbers"><code class="language-java">${apiData}</code></pre>
+            </div>
+          </div>
+        `;
+
+        // 对代码进行高亮处理
+        Prism.highlightAllUnder(detailContent);
+      }
+
+      detailContent.scrollTop = 0;
+    }
+
+    function getApiData() {
+      try {
+        const jsonObj = JSON.parse(inputData);
+        const jsonArr = jsonObj.docArr;
+        return jsonArr || [];
+      } catch (error) {
+        console.error('JSON parse fail：', error);
+        return [];
+      }
+    }
+
+    function capitalizeFirstLetter(str) {
+      if (!str || typeof str !== 'string') return str;
+      return str.replace(/^./, match => match.toUpperCase());
+    }
+
+    // 渲染日志列表
+    function renderLogs() {
+      logContainer.innerHTML = '';
+      logData.forEach(log => {
+        const logRow = renderLogRow(log);
+        logContainer.appendChild(logRow);
+      });
+    }
+
+    // 初始化页面
+    initResizer();
+    initFileSelection();
+  </script>
+</body>
+
+</html>
