@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMicroRestart"
+                style="@style/public_button"
+                android:text="@string/micro_restart" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMicroShutdown"
+                style="@style/public_button"
+                android:text="@string/micro_shutdown" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMicroFindWear"
+                style="@style/public_button"
+                android:text="@string/micro_find_wear" />
+
+            <include
+                android:id="@+id/layoutTakePhoto"
+                layout="@layout/item_micro_take_photo" />
+
+            <include
+                android:id="@+id/layoutWidgetList"
+                layout="@layout/item_micro_widget_list" />
+
+            <include
+                android:id="@+id/layoutApplicationList"
+                layout="@layout/item_micro_application_list" />
+
+            <include
+                android:id="@+id/layoutSportsIconList"
+                layout="@layout/item_micro_sport_icon_list" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cxConnect"
+            style="@style/help_cx"
+            android:text="@string/connect_info" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llConnect"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConnectDevice"
+                style="@style/public_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/connect_device" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDisConnectDevice"
+                style="@style/public_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/disconnect_device" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDeviceName"
+                    style="@style/public_textview01"
+                    tools:text="DeviceName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDeviceAddress"
+                    style="@style/public_textview02"
+                    tools:text="aa:bb:cc:dd:ee:ff" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvConnectState"
+                    style="@style/public_textview02"
+                    tools:text="@string/connect_state_0" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <CheckBox
+        android:id="@+id/cxFun"
+        style="@style/public_checkbox"
+        android:text="@string/fun_info" />
+
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
+        android:visibility="gone" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

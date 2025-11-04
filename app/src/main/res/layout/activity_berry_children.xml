@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutBerryChildChild"
+                layout="@layout/item_berry_child_child" />
+
+            <include
+                android:id="@+id/layoutBerryChildParent"
+                layout="@layout/item_berry_child_parent" />
+
+            <include
+                android:id="@+id/layoutBerryChildFc"
+                layout="@layout/item_berry_child_fc" />
+
+            <include
+                android:id="@+id/layoutBerryChildChallenge"
+                layout="@layout/item_berry_child_challenge" />
+
+            <include
+                android:id="@+id/layoutBerryChildrenRevenue"
+                layout="@layout/item_berry_child_revenue" />
+
+            <include
+                android:id="@+id/layoutBerryChildrenMedal"
+                layout="@layout/item_berry_child_medal" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

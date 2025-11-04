@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/public_lin01"
+            android:visibility="visible">
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_cmd" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiCmd"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiCmd"
+                style="@style/public_button"
+                android:text="@string/send_ai_cmd" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_cmd" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiError"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiError"
+                style="@style/public_button"
+                android:text="@string/send_ai_error" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_content" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiTranslatedText"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiTranslatedText"
+                style="@style/public_button"
+                android:text="@string/send_ai_translated_text" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_content" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiAnswerText"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiAnswerText"
+                style="@style/public_button"
+                android:text="@string/send_ai_answer_text" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                style="@style/public_input_lin"
+                android:layout_marginTop="20dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_title" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiVTitle"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_value" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiVValue"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_unit" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiVUnit"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_footer" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiVFooter"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvViewUiTime"
+                    style="@style/public_textview03" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendViewUi"
+                style="@style/public_button"
+                android:text="@string/send_view_ui" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_title" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHTitle"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_period" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHPeriod"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_title" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHValueTitle"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_y_axis_max" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHYMax"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_max" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHMaxValue"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_min" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHMinValue"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_avg" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHAvgValue"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_unit" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHUnit"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_date" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHDate"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_chart" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHChartValue"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_category" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiHCategory"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendHistoryUi"
+                style="@style/public_button"
+                android:text="@string/send_history_ui" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_scenario" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiAScenario"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_threshold" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiAThresholdValue"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_date" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiADate"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_unit" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiAUnit"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAiActionTime"
+                    style="@style/public_textview03" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiAction"
+                style="@style/public_button"
+                android:text="@string/send_ai_action" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_scenario" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiTScenario"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAiToggleTime"
+                    style="@style/public_textview03" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <CheckBox
+                android:id="@+id/cbAiTToggleStatus"
+                style="@style/public_checkbox"
+                android:text="@string/btn_switch" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiToggle"
+                style="@style/public_button"
+                android:text="@string/send_ai_toggle" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_scenario" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiOFScenario"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAiOpenFunTime"
+                    style="@style/public_textview03" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_phone" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiOFContactsNumber"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_sport_type" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiOFWorkoutType"
+                    style="@style/public_edit_number"
+                    android:singleLine="true" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_duration" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiOFDuration"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_music_cmd" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAiOFMusicCommand"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendAiOpenFun"
+                style="@style/public_button"
+                android:text="@string/send_ai_open_fun" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

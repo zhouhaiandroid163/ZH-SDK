@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDataGetSimpleSettingSummary"
+                style="@style/public_button"
+                android:text="@string/data_get_simple_set_summary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetDevice"
+                style="@style/public_button"
+                android:text="@string/data_get_device" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetBattery"
+                style="@style/public_button"
+                android:text="@string/data_get_battery" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetBatteryUseList"
+                style="@style/public_button"
+                android:text="@string/data_get_battery_use_list" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRealDataSwitch"
+                style="@style/public_button"
+                android:text="@string/data_real_switch" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetFitness"
+                style="@style/public_button"
+                android:text="@string/data_get_fitness" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetSport"
+                style="@style/public_button"
+                android:text="@string/data_get_sport" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetDeviceHistoryLog"
+                style="@style/public_button"
+                android:text="@string/data_get_device_history_log" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetDeviceHistoryLogBerry"
+                style="@style/public_button"
+                android:text="@string/data_get_device_history_log_berry" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

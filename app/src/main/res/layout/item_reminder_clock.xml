@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/reminder_clock" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_clock_name" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etName"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/start_time" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStartTime"
+                style="@style/public_textview03" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <CheckBox
+            android:id="@+id/cbSwitch"
+            style="@style/public_checkbox"
+            android:text="@string/btn_switch" />
+
+        <CheckBox
+            android:id="@+id/cbWeek1"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week1" />
+
+        <CheckBox
+            android:id="@+id/cbWeek2"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week2" />
+
+        <CheckBox
+            android:id="@+id/cbWeek3"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week3" />
+
+        <CheckBox
+            android:id="@+id/cbWeek4"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week4" />
+
+        <CheckBox
+            android:id="@+id/cbWeek5"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week5" />
+
+        <CheckBox
+            android:id="@+id/cbWeek6"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week6" />
+
+        <CheckBox
+            android:id="@+id/cbWeek7"
+            style="@style/public_checkbox"
+            android:text="@string/clock_week7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGet"
+            style="@style/public_button"
+            android:text="@string/btn_get" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSet"
+            style="@style/public_button"
+            android:text="@string/btn_set" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

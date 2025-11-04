@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="start|top"
+                android:minHeight="100dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnContactsGet"
+                style="@style/public_button"
+                android:text="@string/contacts_get" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnContactsSet"
+                style="@style/public_button"
+                android:text="@string/contacts_set" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etEmoji"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="start|top"
+                android:minHeight="100dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetEmoji"
+                style="@style/public_button"
+                android:text="@string/send_emoji" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSuccess"
+                style="@style/public_button"
+                android:text="@string/reply_success" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFail"
+                style="@style/public_button"
+                android:text="@string/reply_fail" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

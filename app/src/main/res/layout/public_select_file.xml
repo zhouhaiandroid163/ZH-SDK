@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_lin02">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/input_attention" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTip"
+            style="@style/public_textview02" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/input_file_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFileName"
+            style="@style/public_textview02" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSelectFile"
+        style="@style/public_button"
+        android:text="@string/select_file" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

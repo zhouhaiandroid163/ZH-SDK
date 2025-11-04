@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/input_id" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etId"
+            style="@style/public_edit_number" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/input_name" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etName"
+            style="@style/public_edit_str" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/input_content" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etContent"
+            style="@style/public_edit_str" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/start_time" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartTime"
+            style="@style/public_textview03" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/end_time" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEndTime"
+            style="@style/public_textview03" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <CheckBox
+        android:id="@+id/cbWeek1"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week1" />
+
+    <CheckBox
+        android:id="@+id/cbWeek2"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week2" />
+
+    <CheckBox
+        android:id="@+id/cbWeek3"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week3" />
+
+    <CheckBox
+        android:id="@+id/cbWeek4"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week4" />
+
+    <CheckBox
+        android:id="@+id/cbWeek5"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week5" />
+
+    <CheckBox
+        android:id="@+id/cbWeek6"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week6" />
+
+    <CheckBox
+        android:id="@+id/cbWeek7"
+        style="@style/public_checkbox"
+        android:text="@string/clock_week7" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

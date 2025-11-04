@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutWorldClock"
+                layout="@layout/item_fun_world_clock" />
+
+            <include
+                android:id="@+id/layoutMusic"
+                layout="@layout/item_fun_music" />
+
+            <include
+                android:id="@+id/layoutStock"
+                layout="@layout/item_fun_stock" />
+
+            <include
+                android:id="@+id/layoutContinuousHeart"
+                layout="@layout/item_fun_continuous_heart" />
+
+            <include
+                android:id="@+id/layoutHeartRealTime"
+                layout="@layout/item_fun_heart_real_time" />
+
+            <include
+                android:id="@+id/layoutContinuousSpo2"
+                layout="@layout/item_fun_continuous_spo2" />
+
+            <include
+                android:id="@+id/layoutContinuousTemperature"
+                layout="@layout/item_fun_continuous_temperature" />
+
+            <include
+                android:id="@+id/layoutPressureMode"
+                layout="@layout/item_fun_pressure_mode" />
+
+            <include
+                android:id="@+id/layoutRem"
+                layout="@layout/item_fun_rem" />
+
+            <include
+                android:id="@+id/layoutSleepMode"
+                layout="@layout/item_fun_sleep_mode" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

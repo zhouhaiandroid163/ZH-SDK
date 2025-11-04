@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/user_set_sync_time" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetSystemTime"
+            style="@style/public_button"
+            android:text="@string/set_system_time" />
+
+        <CheckBox
+            android:id="@+id/cbTimeType"
+            style="@style/public_checkbox"
+            android:text="@string/time_type_12" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSeTimeType"
+            style="@style/public_button"
+            android:text="@string/set_time_type" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGeTimeType"
+            style="@style/public_button"
+            android:text="@string/get_time_type" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetSystemTimeOrTimeType"
+            style="@style/public_button"
+            android:text="@string/set_system_time_or_time_type" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#899"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDialId"
+        style="@style/public_textview01"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/ivImg"
+        app:layout_constraintTop_toTopOf="@id/ivImg"
+        tools:text="ID" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDialName"
+        style="@style/public_textview01"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/tvDialId"
+        app:layout_constraintTop_toBottomOf="@id/tvDialId"
+        tools:text="Name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDialType"
+        style="@style/public_textview01"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/tvDialName"
+        app:layout_constraintTop_toBottomOf="@id/tvDialName"
+        tools:text="Type" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCur"
+        style="@style/public_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_set_now"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivImg" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDel"
+        style="@style/public_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImg"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#999"
+        app:layout_constraintTop_toBottomOf="@id/ivImg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

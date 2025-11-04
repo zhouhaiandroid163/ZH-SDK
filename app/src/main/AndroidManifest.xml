@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.zjw.sdkdemo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 允许震动 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 允许应用保持不锁屏 -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--
+ Needed only if your app looks for Bluetooth devices.
+         You must add an attribute to this permission, or declare the
+         ACCESS_FINE_LOCATION permission, depending on the results when you
+         check location usage in your app.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <!--
+ Needed only if your app makes the device discoverable to Bluetooth
+        devices.
+        <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    -->
+    <!--
+ Needed only if your app communicates with already-paired Bluetooth
+         devices.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!--
+	Location permission is required on Android 6+.
+	Since Android 10 the FINE LOCATION will be required.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--读存储（媒体和文件）权限，Android 13及更高版本申请-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <application
+        android:name=".base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".function.ScanDeviceActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".function.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.help.HelpActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.BindUnBindActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.DataActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.FileActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.SetUserActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.SetOtherActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.SetFunActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.SportAuxiliaryActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.SportScreenActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.RemindActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.MicroActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.MeasureTypeActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+        <activity
+            android:name=".function.apricot.MeasureActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.ESimActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.BreathingLightActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.EmojiActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="false" />
+
+        <activity
+            android:name=".function.apricot.EvActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+
+        <activity
+            android:name=".function.apricot.DeviceHistoryLogActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.ChildrenActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.WeatherActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.DialActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.DiyDialV1Activity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.DiyDialV2SimpleActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.DiyDialV2Activity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.DiyFunctionSelectActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.dial.PhotoDialActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.ring.RingActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.ring.RingSportScreenActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.sifli.SifliActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.sifli.SifliOtaActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+        <activity
+            android:name=".function.apricot.sifli.SifliDialActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.sifli.SifliPhotoActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.test.NotifySendTestActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.test.SyncTestActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.apricot.test.LoopBindActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="false" />
+
+        <activity
+            android:name=".function.apricot.test.LoopFitnessActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="false" />
+
+        <activity
+            android:name=".function.berry.BerryFileActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryDialActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryBindUnBindActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryRemindActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryWeatherActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+        <activity
+            android:name=".function.berry.BerrySetOtherActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryDeviceHistoryLogActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.factory.BerryDeviceRealtimeLogActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryWeatherTestActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryChildrenActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryOfflineMapActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerrySocketActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.berry.BerryAiVoiceActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.factory.FactoryActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <activity
+            android:name=".function.factory.RingHeartRawGetActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
+    </application>
+
+</manifest>

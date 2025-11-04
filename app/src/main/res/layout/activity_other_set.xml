@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutWristScreen"
+                layout="@layout/item_other_wrist_screen" />
+
+            <include
+                android:id="@+id/layoutScreenSetting"
+                layout="@layout/item_other_screen_setting" />
+
+            <include
+                android:id="@+id/layoutOverlayScreen"
+                layout="@layout/item_other_overlay_screen" />
+
+            <include
+                android:id="@+id/layoutScreenDisplay"
+                layout="@layout/item_other_screen_display" />
+
+            <include
+                android:id="@+id/layoutVibrationIntensity"
+                layout="@layout/item_other_vibration_intensity" />
+
+            <include
+                android:id="@+id/layoutVibrationTime"
+                layout="@layout/item_other_vibration_time" />
+
+            <include
+                android:id="@+id/layoutDoNotDisturbMode"
+                layout="@layout/item_other_do_not_disturb_mode" />
+
+            <include
+                android:id="@+id/layoutPowerSaving"
+                layout="@layout/item_other_power_saving" />
+
+            <include
+                android:id="@+id/layoutFindWearSettings"
+                layout="@layout/item_other_find_wear_settings" />
+
+            <include
+                android:id="@+id/layoutCallCustomizeSettings"
+                layout="@layout/item_other_customize_setting" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

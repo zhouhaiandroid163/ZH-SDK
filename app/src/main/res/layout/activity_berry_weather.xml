@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbWeatherSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weather_switch"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendSwitch"
+                style="@style/public_button"
+                android:text="@string/weather_switch" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLatestWeather"
+                style="@style/public_button"
+                android:text="@string/weather_send_new" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnForecastWeatherByDay"
+                style="@style/public_button"
+                android:text="@string/weather_send_day" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnForecastWeatherByHour"
+                style="@style/public_button"
+                android:text="@string/weather_send_hour" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendPressure"
+                style="@style/public_button"
+                android:text="@string/weather_send_pressure" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

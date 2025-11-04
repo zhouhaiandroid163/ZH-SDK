@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivPreview"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@mipmap/sport_share_custom_camera" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDialName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/dial_complex"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toEndOf="@id/ivPreview"
+                app:layout_constraintTop_toTopOf="@id/ivPreview" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/btn_sync"
+                app:layout_constraintStart_toStartOf="@+id/tvDialName"
+                app:layout_constraintTop_toBottomOf="@+id/tvDialName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvUpLoadPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/bg_img"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPreview" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tvUpLoadPhoto"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:itemCount="1"
+                tools:listitem="@layout/list_item_diy_photo" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/style"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvPhoto" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tvStyle"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:itemCount="1"
+                tools:listitem="@layout/list_item_diy_photo" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFunction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/complex_styles"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvStyle" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComplex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tvFunction"
+                tools:listitem="@layout/list_item_complex" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

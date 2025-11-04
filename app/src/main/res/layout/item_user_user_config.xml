@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/user_set_user_config" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetUserInfo"
+            style="@style/public_button"
+            android:text="@string/set_user_info" />
+
+        <CheckBox
+            android:id="@+id/cbUnitType"
+            style="@style/public_checkbox"
+            android:checked="true"
+            android:text="@string/unit_type_imperial" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetUnitType"
+            style="@style/public_button"
+            android:text="@string/set_unit_type" />
+
+        <CheckBox
+            android:id="@+id/cbTemperatureType"
+            style="@style/public_checkbox"
+            android:text="@string/Temperature_type_fahrenheit" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetTemperatureType"
+            style="@style/public_button"
+            android:text="@string/set_temperature_type" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetUserInfoOrUnit"
+            style="@style/public_button"
+            android:text="@string/set_user_info_or_unit" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGetUserProfile"
+            style="@style/public_button"
+            android:text="@string/get_user_profile" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

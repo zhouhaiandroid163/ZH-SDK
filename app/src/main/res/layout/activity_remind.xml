@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutNoticeSystem"
+                layout="@layout/item_reminder_notice_system" />
+
+            <include
+                android:id="@+id/layoutNoticeOther"
+                layout="@layout/item_reminder_notice_other" />
+
+            <include
+                android:id="@+id/layoutNoiceSet"
+                layout="@layout/item_remind_notice_set" />
+
+            <include
+                android:id="@+id/layoutBtCallSwitch"
+                layout="@layout/item_reminder_bt_call_switch" />
+
+            <include
+                android:id="@+id/layoutCallSet"
+                layout="@layout/item_reminder_call_set" />
+
+            <include
+                android:id="@+id/layoutQuitReply"
+                layout="@layout/item_reminder_quick_reply" />
+
+            <include
+                android:id="@+id/layoutContactsList"
+                layout="@layout/item_reminder_contacts_list" />
+
+            <include
+                android:id="@+id/layoutLargeContactsList"
+                layout="@layout/item_reminder_large_contacts_list" />
+
+            <include
+                android:id="@+id/layoutSosContacts"
+                layout="@layout/item_reminder_sos_contacts" />
+
+            <include
+                android:id="@+id/layoutFavoriteContacts"
+                layout="@layout/item_reminder_favorite_contacts" />
+
+            <include
+                android:id="@+id/layoutEvent"
+                layout="@layout/item_reminder_event" />
+
+            <include
+                android:id="@+id/layoutClock"
+                layout="@layout/item_reminder_clock" />
+
+            <include
+                android:id="@+id/layoutSedentary"
+                layout="@layout/item_reminder_sedentary" />
+
+            <include
+                android:id="@+id/layoutMedication"
+                layout="@layout/item_reminder_medication" />
+
+            <include
+                android:id="@+id/layoutDrinkWater"
+                layout="@layout/item_reminder_drink_water" />
+
+            <include
+                android:id="@+id/layoutMeals"
+                layout="@layout/item_reminder_meals" />
+
+            <include
+                android:id="@+id/layoutWashHand"
+                layout="@layout/item_reminder_wash_hand" />
+
+            <include
+                android:id="@+id/layoutPhysiologicalCycle"
+                layout="@layout/item_reminder_physiological_cycle" />
+
+            <include
+                android:id="@+id/layoutSleepReminder"
+                layout="@layout/item_reminder_sleep_reminder" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

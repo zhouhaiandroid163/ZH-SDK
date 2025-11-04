@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutTip"
+                layout="@layout/public_item_tip" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivEffect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dip"
+                android:background="#605bff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTextColor1"
+                style="@style/public_button"
+                android:text="@string/text_color_1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTextColor2"
+                style="@style/public_button"
+                android:text="@string/text_color_2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTextColor3"
+                style="@style/public_button"
+                android:text="@string/text_color_3" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSend"
+                style="@style/public_button"
+                android:text="@string/btn_send" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

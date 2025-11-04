@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layoutBerrySetOtherVault"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/other_vault_berry" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_card_id" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCardId01"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_category" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCategory"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_pay_app_type" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etPayAppType"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_is_always" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etIsAlways"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_delete_days" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etDeleteDays"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_password" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etPassword"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_card_data" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCardData"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVaultAdd"
+            style="@style/public_button"
+            android:text="@string/vault_add" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVaultGetSimpleList"
+            style="@style/public_button"
+            android:text="@string/vault_get_simple_list" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_card_id" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCardId02"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVaultIdGet"
+            style="@style/public_button"
+            android:text="@string/vault_id_get" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_card_ids" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCardIds"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVaultIdDelete"
+            style="@style/public_button"
+            android:text="@string/vault_id_delete" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_user_id" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etUserId01"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBindDevice"
+                style="@style/public_button"
+                android:text="@string/bind_device" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_user_id" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etUserId02"
+                    style="@style/public_edit_str" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVerifyUserId"
+                style="@style/public_button"
+                android:text="@string/verify_user_id" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnUnBindDevice"
+                style="@style/public_button"
+                android:text="@string/unbind_device" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDeviceConfirmUnbind"
+                style="@style/public_button"
+                android:text="@string/device_confirm_unbind" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDeviceBtPar"
+                style="@style/public_button"
+                android:text="@string/send_pair" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

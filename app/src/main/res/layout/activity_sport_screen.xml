@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetSportState"
+                style="@style/public_button"
+                android:text="@string/get_device_sport_state" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                style="@style/public_input_lin"
+                android:layout_marginTop="20dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_sport_type" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSportType"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_connect_state" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvConnectState"
+                    style="@style/public_textview02" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_sport_state" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSportState"
+                    style="@style/public_textview02" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_sport_data" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvWearData"
+                    style="@style/public_textview02" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnStart"
+                style="@style/public_button"
+                android:text="@string/btn_start" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnPause"
+                style="@style/public_button"
+                android:text="@string/btn_pause" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnResume"
+                style="@style/public_button"
+                android:text="@string/btn_continue" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEnd"
+                style="@style/public_button"
+                android:text="@string/btn_end" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

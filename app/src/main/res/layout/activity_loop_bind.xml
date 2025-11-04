@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/public_input_lin"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="循环次数(请输入大于等于1的正整数)" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etCount"
+                style="@style/public_edit_number"
+                android:text="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/public_input_lin"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="循环间隔(毫秒，请输入大于等于1000毫秒的正整数)" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etInterval"
+                style="@style/public_edit_number"
+                android:text="1000" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/public_input_lin"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="维持时间-执行完之后，隔多久调用解绑(毫秒，请输入大于等于1000毫秒的正整数)" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etDuration"
+                style="@style/public_edit_number"
+                android:text="1000" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStart"
+            style="@style/public_button"
+            android:layout_marginTop="10dp"
+            android:text="开始循环" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatus"
+            style="@style/public_textview01"
+            android:text="@string/input_connect_state" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBindStatus"
+            style="@style/public_textview01"
+            android:text="@string/input_bind_state" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCount"
+            style="@style/public_textview01"
+            android:text="@string/input_count" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSucNum"
+            style="@style/public_textview01"
+            android:text="@string/input_success_number" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFailNum"
+            style="@style/public_textview01"
+            android:text="@string/input_fail_number" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLog"
+            style="@style/public_textview01"
+            android:text="@string/input_log_info" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

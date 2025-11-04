@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingSportScreen"
+                style="@style/public_button"
+                android:text="@string/ring_sport_screen" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingMeasure"
+                style="@style/public_button"
+                android:text="@string/ring_measure" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingAirplaneMode"
+                style="@style/public_button"
+                android:text="@string/ring_airplane_mode" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetChargingCaseState"
+                style="@style/public_button"
+                android:text="@string/ring_get_charging_case_state" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetAutoSport"
+                style="@style/public_button"
+                android:text="@string/ring_get_auto_sport" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetNfcSleepError"
+                style="@style/public_button"
+                android:text="@string/ring_get_nfc_sleep_error" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetWearingStatus"
+                style="@style/public_button"
+                android:text="@string/ring_get_wearing_status" />
+
+            <include
+                android:id="@+id/layoutAllSleepSwitch"
+                layout="@layout/item_ring_all_sleep_switch" />
+
+            <include
+                android:id="@+id/layoutAutoActivityDetection"
+                layout="@layout/item_ring_auto_activity_detection" />
+
+            <include
+                android:id="@+id/layoutAutoMotionRecognize"
+                layout="@layout/item_ring_auto_motion_recognize" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

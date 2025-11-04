@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/toHeartRate"
+            style="@style/public_button"
+            android:text="@string/heart" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/toBloodOxygen"
+            style="@style/public_button"
+            android:text="@string/spo2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/toStress"
+            style="@style/public_button"
+            android:text="@string/hrv_pressure" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/toTemperature"
+            style="@style/public_button"
+            android:text="@string/temperature" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/toGoMoreStress"
+            style="@style/public_button"
+            android:text="@string/pressure" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

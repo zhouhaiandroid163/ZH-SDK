@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_connect_state" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etDataConnectType"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_fail_state" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etFailStatus"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTime"
+                    style="@style/public_textview03" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_car_time" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCarStatus"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_charge_state" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etChargeStatus"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_now_power" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCurrentCharge"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_full_charge_time" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etFullChargeTime"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_sport_mode_remaining_mileage" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSportMode"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_power_mode_remaining_mileage" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etPowerMode"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_save_mode_remaining_mileage" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etEcoMode"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_front_wheel_pressure" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etFrontWheel"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_rear_wheel_pressure" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etRearWheel"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_total_distance" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etTotalDistance"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_total_carbon_emissions" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etTotalCarbonEmission"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_now_day_total_distance" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCurDayTotalDistance"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_now_day_avg_speed" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCurDayAvgSpeed"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_now_day_total_duration" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCurDayTotalDrivingTime"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEvDataSet"
+                style="@style/public_button"
+                android:text="@string/ev_data_set" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/ev_reminder" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etEvRemind"
+                    style="@style/public_edit_number" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEvRemindSet"
+                style="@style/public_button"
+                android:text="@string/ev_reminder_set" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

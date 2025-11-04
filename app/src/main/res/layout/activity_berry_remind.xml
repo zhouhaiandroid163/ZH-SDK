@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutBerryRemindSyncCallSwitch"
+                layout="@layout/item_berry_remind_sync_call_switch" />
+
+            <include
+                android:id="@+id/layoutBerryRemindWhatsAppQuickReply"
+                layout="@layout/item_berry_remind_whats_app_quick_reply" />
+
+            <include
+                android:id="@+id/layoutBerryRemindSuperNotice"
+                layout="@layout/item_berry_remind_super_notice" />
+
+            <include
+                android:id="@+id/layoutBerryRemindFavoriteHeadContacts"
+                layout="@layout/item_berry_remind_favorite_head_contacts" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

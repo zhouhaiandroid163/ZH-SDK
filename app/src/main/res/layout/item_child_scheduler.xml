@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/child_schedule" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="gone">
+
+        <TextView
+            style="@style/public_textview01"
+            android:layout_width="match_parent"
+            android:background="#8ABCDE"
+            android:padding="10dp"
+            android:text="@string/schedule_alert" />
+
+        <include
+            android:id="@+id/layoutAlert"
+            layout="@layout/item_general_scheduler" />
+
+        <TextView
+            style="@style/public_textview01"
+            android:layout_width="match_parent"
+            android:background="#8ABCDE"
+            android:padding="10dp"
+            android:text="@string/schedule_habit" />
+
+        <include
+            android:id="@+id/layoutHid"
+            layout="@layout/item_general_scheduler" />
+
+        <TextView
+            style="@style/public_textview01"
+            android:layout_width="match_parent"
+            android:background="#8ABCDE"
+            android:padding="10dp"
+            android:text="@string/schedule_reminder" />
+
+        <include
+            android:id="@+id/layoutRid"
+            layout="@layout/item_general_scheduler" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGet"
+            style="@style/public_button"
+            android:text="@string/btn_get" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSet"
+            style="@style/public_button"
+            android:text="@string/btn_set" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

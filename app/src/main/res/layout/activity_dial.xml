@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/layoutDialManage"
+                layout="@layout/item_dail_manage" />
+
+            <include
+                android:id="@+id/layoutDialOrdinary"
+                layout="@layout/item_dail_ordinary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDialPhoto"
+                style="@style/public_button"
+                android:text="@string/clock_dial_photo" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnClockDialDiyV1Demo"
+                style="@style/public_button"
+                android:text="@string/clock_dial_diy_v1_demo" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnClockDialDiyV2"
+                style="@style/public_button"
+                android:text="@string/clock_dial_diy_v2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnClockDialDiyV2DemoNumber"
+                style="@style/public_button"
+                android:text="@string/clock_dial_diy_v2_demo_number" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnClockDialDiyV2DemoPointer"
+                style="@style/public_button"
+                android:text="@string/clock_dial_diy_v2_demo_pointer" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

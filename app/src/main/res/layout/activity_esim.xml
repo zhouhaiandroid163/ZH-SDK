@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layoutLog"
+        layout="@layout/public_item_log" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnScanQr"
+                style="@style/public_button"
+                android:text="@string/scan_qr_code" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                style="@style/public_input_lin"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_activation_code" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etActivationCode"
+                    style="@style/public_edit_number"
+                    android:minHeight="100dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sendActivationCode"
+                style="@style/public_button"
+                android:text="@string/send_activation_code" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetEsimEidSettings"
+                style="@style/public_button"
+                android:layout_marginTop="20dp"
+                android:text="@string/get_esim_eid_settings" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetEsimCommonDataSettings"
+                style="@style/public_button"
+                android:text="@string/get_esim_common_data_settings" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDeleteEsimData"
+                style="@style/public_button"
+                android:text="@string/delete_esim_data" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
