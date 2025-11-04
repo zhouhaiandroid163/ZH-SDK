@@ -25,7 +25,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Android-ZH-Watch-SDK-Example"
+rootProject.name = "ZH-SDK"
 include(":app")
 include(":imagepick")
 include(":libopus")
