@@ -15,7 +15,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llLog"
         style="@style/public_lin01"
-        android:layout_height="350dp"
+        android:layout_height="150dp"
         tools:visibility="gone">
 
         <androidx.appcompat.widget.LinearLayoutCompat

@@ -1,5 +1,6 @@
 package com.zjw.sdkdemo.base
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.zhapp.ble.ControlBleTools
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.function.help.HelpActivity
@@ -26,6 +28,7 @@ import com.zjw.sdkdemo.utils.ToastUtils
 import org.json.JSONArray
 import org.json.JSONObject
 
+@SuppressLint("SetTextI18n")
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,6 +133,12 @@ open class BaseActivity : AppCompatActivity() {
         this.logTag = tag
         this.logTextView = textView
         logArr = JSONArray()
+        //设置logView高度为屏幕高度的1/4
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+        val layoutParams = logView.layoutParams
+        layoutParams.height = screenHeight / 4
+        logView.layoutParams = layoutParams
 
         setMyCheckBox(logCheckBox, logView)
 
@@ -155,24 +164,30 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun addLogI(str: String) {
-        Log.i(logTag, str)
-        logTextView.append(str + "\n\n")
-        logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
+        ThreadUtils.runOnUiThread {
+            Log.i(logTag, str)
+            logTextView.text = str + "\n\n" + logTextView.text
+            logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
+        }
     }
 
     fun addLogBean(str: String, data: Any) {
-        val dataStr1 = "$str data=${formatObject(data)}"
-        Log.i(logTag, dataStr1)
-        logTextView.append(dataStr1 + "\n")
+        ThreadUtils.runOnUiThread {
+            val dataStr1 = "$str data=${formatObject(data)}"
+            Log.i(logTag, dataStr1)
+            logTextView.text = dataStr1 + "\n" + logTextView.text
 
-        val contentStr = "$str data=${GsonUtils.toJson(data)}"
-        logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", contentStr))
+            val contentStr = "$str data=${GsonUtils.toJson(data)}"
+            logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", contentStr))
+        }
     }
 
     fun addLogE(str: String) {
-        Log.e(logTag, str)
-        logTextView.append(str + "\n\n")
-        logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
+        ThreadUtils.runOnUiThread {
+            Log.e(logTag, str)
+            logTextView.text = str + "\n\n" + logTextView.text
+            logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
+        }
     }
 
     fun selectTime(textView: AppCompatTextView) {

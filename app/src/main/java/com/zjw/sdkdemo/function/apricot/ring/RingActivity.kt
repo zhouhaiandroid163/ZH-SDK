@@ -93,6 +93,16 @@ class RingActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.btnRingGetWearingStatus){
+            addLogI("btnRingGetWearingStatus")
+            addLogI("getRingWearingStatus")
+            ControlBleTools.getInstance().getRingWearingStatus(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getRingWearingStatus state=$state")
+                }
+            })
+        }
+
         clickCheckConnect(binding.layoutAllSleepSwitch.btnGet) {
             addLogI("layoutAllSleepSwitch.btnGet")
             addLogI("getRingAllDaySleepConfig")
