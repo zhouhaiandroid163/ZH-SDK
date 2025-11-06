@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.ProcessUtils
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.utils.SaveLog
 import com.zjw.sdkdemo.livedata.DeviceLiveData
+import com.zjw.sdkdemo.utils.MySaveLog
 
 @SuppressLint("StaticFieldLeak")
 class BaseApplication : Application() {
@@ -37,7 +38,7 @@ class BaseApplication : Application() {
     private fun initData() {
         ControlBleTools.getInstance().init(this)
         DeviceLiveData.initCallBack()
-        SaveLog.init(this)
+        MySaveLog.init(this)
     }
 
 }
