@@ -159,6 +159,7 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         sendButton.setOnClickListener {
+            if(SpUtils.getLogUserID().isEmpty()) return@setOnClickListener
             LogSendUtil.sendLogDataFile( logTag, logArr)
         }
     }

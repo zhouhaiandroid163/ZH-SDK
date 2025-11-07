@@ -50,7 +50,7 @@ object SpUtils {
     }
 
     @JvmStatic
-    fun getLogUserID(): String = getValue("log_user_id", "-1")
+    fun getLogUserID(): String = getValue("log_user_id", "")
 //    fun getLogUserID(): String = "e8aa4cf6"
 
 }
