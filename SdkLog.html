@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SdkLog</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Prism.js用于JSON语法高亮 -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+
+  <!-- 引入Font Awesome用于图标 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+            info: '#86909C',
+            dark: {
+              100: '#F2F3F5',
+              200: '#E5E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+              800: '#0A0C10',
+            }
+          },
+          fontFamily: {
+            mono: ['Consolas', 'Monaco', 'monospace'],
+          },
+        },
+      }
+    }
+  </script>
+
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+        .log-row-hover {
+          @apply hover:bg-dark-600/50 transition-colors duration-150;
+        }
+        .log-type-pill {
+          @apply text-xs px-2 py-0.5 rounded-full font-medium;
+        }
+        .log-data-container {
+          @apply overflow-hidden transition-all duration-300 ease-in-out;
+        }
+        .log-row-active {
+          @apply bg-dark-600/40 border-l-4 border-primary shadow-[inset_0_0_1px_rgba(22,93,255,0.3)];
+        }
+        .resizer {
+          @apply w-1 bg-dark-600 hover:bg-primary cursor-col-resize transition-colors relative;
+        }
+        .resizer::before {
+          content: '';
+          @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-dark-500;
+        }
+        .json-toggle {
+          @apply cursor-pointer inline-flex items-center mr-2 
+                text-orange-300 
+                hover:text-orange-100 
+                transition-colors duration-150;
+        }
+        .json-container {
+          @apply mt-2 pl-4 border-l-2 border-dark-600 rounded-r-md bg-dark-700/50 overflow-hidden;
+        }
+        .json-line {
+          @apply whitespace-pre-wrap;
+        }
+        .filter-dropdown {
+          @apply absolute z-50 mt-1 w-64 bg-dark-700 border border-dark-500 rounded-md shadow-lg max-h-[60vh] flex flex-col;
+        }
+        .filter-items-wrapper {
+          @apply flex-1 overflow-y-auto p-2 pt-3 pb-3;
+        }
+        .filter-all-item {
+          @apply border-b border-dark-500 font-medium sticky top-0 bg-dark-700 z-20 py-2.5;
+        }
+        .filter-item {
+          @apply px-4 py-2.5 text-sm hover:bg-primary/30 cursor-pointer flex items-center justify-between transition-colors;
+        }
+        .filter-checkbox {
+          @apply w-4 h-4 rounded border-dark-400 bg-dark-600 text-primary focus:ring-primary/50;
+        }
+        .filter-footer {
+          @apply border-t border-dark-500 p-2 flex justify-end gap-2 sticky bottom-0 bg-dark-700;
+        }
+        .filter-btn {
+          @apply px-3 py-1 text-sm rounded-md transition-colors;
+        }
+        .filter-btn-disabled {
+          @apply bg-dark-500 text-dark-400 cursor-not-allowed;
+        }
+        .filter-header-active {
+          @apply bg-primary/80 shadow-[0_0_0_2px_rgba(22,93,255,0.5)];
+        }
+        .filter-cancel-btn {
+          @apply bg-dark-500 hover:bg-dark-400;
+        }
+      }
+    </style>
+
+  <style>
+    /* 自定义滚动条样式 - 调窄宽度（8px）并优化对比度 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      /* 🔴 从20px调窄到8px */
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1D2129;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #6B7280;
+      border-radius: 4px;
+      border: 1px solid #1D2129;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #165DFF;
+      border-color: #1D2129;
+    }
+
+    ::-webkit-scrollbar-button {
+      background: #272E3B;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-button:hover {
+      background: #165DFF;
+    }
+
+    /* 确保页面占满高度 */
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* 拖拽相关样式 */
+    .main-container {
+      display: flex;
+      height: calc(100vh - 61px);
+    }
+
+    /* 确保筛选控件内部元素左对齐 */
+    .filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      transition: background-color 0.2s;
+      position: relative;
+      gap: 3px;
+    }
+
+    /* hover效果优化（可选） */
+    .filter-header:hover {
+      background-color: rgba(22, 93, 255, 0.8);
+    }
+
+    /* 文件选择按钮样式 */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .file-input-wrapper input[type=file] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* 代码块样式调整 */
+    pre[class*="language-"] {
+      margin: 0;
+      padding: 1em;
+      border-radius: 0.3em;
+      overflow-x: auto;
+      background: transparent !important;
+    }
+
+    /* JSON折叠相关样式 */
+    .json-collapsible {
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .json-collapsible.expanded {
+      max-height: 2000px;
+    }
+
+    /* Prism.js 自定义颜色适配深色主题 */
+    .token.property {
+      color: #a6e22e;
+    }
+
+    .token.string {
+      color: #e6db74;
+    }
+
+    .token.number {
+      color: #ae81ff;
+    }
+
+    .token.boolean {
+      color: #ae81ff;
+    }
+
+    .token.null {
+      color: #ae81ff;
+    }
+
+    .token.punctuation {
+      color: #f8f8f2;
+    }
+
+    .token.brace {
+      color: #f8f8f2;
+    }
+
+    /* 筛选下拉菜单隐藏/显示过渡 */
+    .filter-dropdown {
+      display: none;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .filter-dropdown.show {
+      display: flex;
+      /* 🔴 改为flex显示 */
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 筛选选中状态的计数样式 */
+    .filter-count {
+      @apply bg-dark-600 text-dark-300 text-xs px-1.5 py-0.5 rounded-full;
+    }
+
+    /* 筛选条件激活状态提示 */
+    .filter-active-indicator {
+      @apply absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center text-[10px] font-bold;
+    }
+
+    /* 修复筛选菜单滚动时的边框重叠问题 */
+    .filter-items-wrapper::-webkit-scrollbar-track {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+
+<body class="bg-dark-800 text-dark-100 font-mono">
+  <!-- 顶部导航栏 -->
+  <header class="bg-dark-700 border-b border-dark-600 py-3 px-6 flex items-center justify-start shadow-md gap-4">
+  <div class="flex items-center space-x-3">
+      <h1 class="text-lg font-semibold">SdkLog_20251107_v1.1</h1>
+    </div>
+
+    <!-- Date筛选 -->
+    <div class="filter-header ml-0 bg-primary px-4 py-2 rounded-md cursor-pointer relative" id="date-filter-header">
+      <span id="date-filter-text">Date</span>
+      <span id="date-filter-active" class="filter-active-indicator hidden">⭐</span>
+    </div>
+
+    <!-- Type筛选 -->
+    <div class="filter-header ml-0 bg-primary px-4 py-2 rounded-md cursor-pointer relative" id="type-filter-header">
+      <span id="type-filter-text">Type</span>
+      <span id="type-filter-active" class="filter-active-indicator hidden">⭐</span>
+    </div>
+
+    <!-- Tag筛选 -->
+    <div class="filter-header bg-primary px-4 py-2 rounded-md cursor-pointer relative" id="tag-filter-header">
+      <span id="tag-filter-text">Tag</span>
+      <span id="tag-filter-active" class="filter-active-indicator hidden">⭐</span>
+    </div>
+
+    <!-- 文件选择按钮 -->
+    <div class="file-input-wrapper" style="margin-left: auto;">
+      <button
+        class="bg-primary hover:bg-primary/80 text-white text-sm px-3 py-1.5 rounded-md transition-colors flex items-center">
+        <i class="fa fa-upload mr-2"></i>Select log file
+      </button>
+      <input type="file" id="fileInput" accept=".zh" />
+    </div>
+  </header>
+
+  <!-- Date筛选下拉菜单 -->
+  <div id="date-filter-dropdown" class="filter-dropdown">
+    <div class="filter-items-wrapper" id="date-filter-items">
+      <!-- 全选框和筛选项将动态生成 -->
+    </div>
+    <div class="filter-footer">
+      <button id="date-filter-apply" class="filter-btn bg-primary hover:bg-primary/80" disabled>确定</button>
+      <button id="date-filter-cancel" class="filter-btn filter-cancel-btn">取消</button>
+    </div>
+  </div>
+
+  <!-- Type筛选下拉菜单 -->
+  <div id="type-filter-dropdown" class="filter-dropdown">
+    <div class="filter-items-wrapper" id="type-filter-items">
+      <!-- 全选框和筛选项将动态生成 -->
+    </div>
+    <div class="filter-footer">
+      <button id="type-filter-apply" class="filter-btn bg-primary hover:bg-primary/80" disabled>确定</button>
+      <button id="type-filter-cancel" class="filter-btn filter-cancel-btn">取消</button>
+    </div>
+  </div>
+
+  <!-- Tag筛选下拉菜单 -->
+  <div id="tag-filter-dropdown" class="filter-dropdown">
+    <div class="filter-items-wrapper" id="tag-filter-items">
+      <!-- 全选框和筛选项将动态生成 -->
+    </div>
+    <div class="filter-footer">
+      <button id="tag-filter-apply" class="filter-btn bg-primary hover:bg-primary/80" disabled>确定</button>
+      <button id="tag-filter-cancel" class="filter-btn filter-cancel-btn">取消</button>
+    </div>
+  </div>
+
+  <!-- 主要内容区 -->
+  <div class="main-container">
+    <div id="log-container" class="flex-1 overflow-y-auto space-y-1 text-sm">
+    </div>
+  </div>
+
+  <script>
+    // 声明全局变量
+    let inputData = '';
+    let logData = [];
+    let filteredLogData = [];
+    let dateFilterSelections = new Set();
+    let typeFilterSelections = new Set();
+    let tagFilterSelections = new Set();
+    let tempDateSelections = new Set();
+    let tempTypeSelections = new Set();
+    let tempTagSelections = new Set();
+    let allDates = new Set();
+    let allTypes = new Set();
+    let allTags = new Set();
+
+    // DOM元素
+    const logContainer = document.getElementById('log-container');
+
+    const fileInput = document.getElementById('fileInput');
+
+
+
+    // Date筛选相关元素
+    const dateFilterHeader = document.getElementById('date-filter-header');
+    const dateFilterDropdown = document.getElementById('date-filter-dropdown');
+    const dateFilterItems = document.getElementById('date-filter-items');
+    const dateFilterApply = document.getElementById('date-filter-apply');
+    const dateFilterActive = document.getElementById('date-filter-active');
+    const dateFilterCancel = document.getElementById('date-filter-cancel');
+
+    // Type筛选相关元素
+    const typeFilterHeader = document.getElementById('type-filter-header');
+    const typeFilterDropdown = document.getElementById('type-filter-dropdown');
+    const typeFilterItems = document.getElementById('type-filter-items');
+    const typeFilterApply = document.getElementById('type-filter-apply');
+    const typeFilterActive = document.getElementById('type-filter-active');
+    const typeFilterCancel = document.getElementById('type-filter-cancel');
+
+    // Tag筛选相关元素
+    const tagFilterHeader = document.getElementById('tag-filter-header');
+    const tagFilterDropdown = document.getElementById('tag-filter-dropdown');
+    const tagFilterItems = document.getElementById('tag-filter-items');
+    const tagFilterApply = document.getElementById('tag-filter-apply');
+    const tagFilterActive = document.getElementById('tag-filter-active');
+    const tagFilterCancel = document.getElementById('tag-filter-cancel');
+
+    // 初始化文件选择功能
+    function initFileSelection() {
+      fileInput.addEventListener('change', handleFileSelect);
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          fileInput.click();
+        }, 100);
+      });
+    }
+
+    // 初始化Date筛选功能
+    function initDateFilter() {
+      console.log("test001", "401")
+      dateFilterHeader.addEventListener('click', (e) => {
+        console.log("test001", "顶部按钮1")
+        e.stopPropagation();
+        closeTypeFilterDropdown();
+        closeTagFilterDropdown();
+        const isShow = dateFilterDropdown.classList.toggle('show');
+
+        if (isShow) {
+          console.log("test001", "显示1")
+          tempDateSelections = new Set(dateFilterSelections);
+          renderDateFilterItems();
+          updateDateFilterCounts();
+          updateApplyButtonStatus('date');
+          dateFilterDropdown.style.zIndex = 30;
+          typeFilterDropdown.style.zIndex = 10;
+          tagFilterDropdown.style.zIndex = 10;
+        } else {
+          console.log("test001", "隐藏1")
+          tempDateSelections.clear();
+        }
+
+        document.addEventListener('click', closeDateFilterDropdown);
+      });
+
+      dateFilterDropdown.addEventListener('click', (e) => {
+        console.log("test001", "列表1")
+        e.stopPropagation();
+      });
+
+      dateFilterApply.addEventListener('click', () => {
+        console.log("test001", "确定1")
+        dateFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        dateFilterSelections = new Set(tempDateSelections);
+        applyCombinedFilter();
+        dateFilterDropdown.classList.remove('show');
+        updateFilterActiveIndicator();
+        tempDateSelections.clear();
+      });
+
+      dateFilterCancel.addEventListener('click', () => {
+        console.log("test001", "取消1")
+        dateFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        tempDateSelections.clear();
+        dateFilterDropdown.classList.remove('show');
+      });
+    }
+
+    // 初始化Type筛选功能
+    function initTypeFilter() {
+      console.log("test001", "402")
+      typeFilterHeader.addEventListener('click', (e) => {
+        console.log("test001", "顶部按钮2")
+        e.stopPropagation();
+        closeDateFilterDropdown();
+        closeTagFilterDropdown();
+        const isShow = typeFilterDropdown.classList.toggle('show');
+
+        if (isShow) {
+          console.log("test001", "显示2")
+          tempTypeSelections = new Set(typeFilterSelections);
+          renderTypeFilterItems();
+          updateTypeFilterCounts();
+          updateApplyButtonStatus('type');
+          dateFilterDropdown.style.zIndex = 10;
+          typeFilterDropdown.style.zIndex = 30;
+          tagFilterDropdown.style.zIndex = 10;
+        } else {
+          console.log("test001", "隐藏2")
+          tempTypeSelections.clear();
+        }
+
+        document.addEventListener('click', closeTypeFilterDropdown);
+      });
+
+      typeFilterDropdown.addEventListener('click', (e) => {
+        console.log("test001", "列表2")
+        e.stopPropagation();
+      });
+
+      typeFilterApply.addEventListener('click', () => {
+        console.log("test001", "确定2")
+        typeFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        typeFilterSelections = new Set(tempTypeSelections);
+        applyCombinedFilter();
+        typeFilterDropdown.classList.remove('show');
+        updateFilterActiveIndicator();
+        tempTypeSelections.clear();
+      });
+
+      typeFilterCancel.addEventListener('click', () => {
+        console.log("test001", "取消2")
+        typeFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        tempTypeSelections.clear();
+        typeFilterDropdown.classList.remove('show');
+      });
+    }
+
+    // 初始化Tag筛选功能
+    function initTagFilter() {
+      console.log("test001", "403")
+      tagFilterHeader.addEventListener('click', (e) => {
+        console.log("test001", "顶部按钮3")
+        e.stopPropagation();
+        closeDateFilterDropdown();
+        closeTypeFilterDropdown();
+        const isShow = tagFilterDropdown.classList.toggle('show');
+
+        if (isShow) {
+          console.log("test001", "显示3")
+          tempTagSelections = new Set(tagFilterSelections);
+          renderTagFilterItems();
+          updateTagFilterCounts();
+          updateApplyButtonStatus('tag');
+          dateFilterDropdown.style.zIndex = 10;
+          typeFilterDropdown.style.zIndex = 10;
+          tagFilterDropdown.style.zIndex = 30;
+        } else {
+          console.log("test001", "隐藏3")
+          tempTagSelections.clear();
+        }
+
+        document.addEventListener('click', closeTagFilterDropdown);
+      });
+
+      tagFilterDropdown.addEventListener('click', (e) => {
+        console.log("test001", "列表3")
+        e.stopPropagation();
+      });
+
+      tagFilterApply.addEventListener('click', () => {
+        console.log("test001", "确定3")
+        tagFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        tagFilterSelections = new Set(tempTagSelections);
+        applyCombinedFilter();
+        tagFilterDropdown.classList.remove('show');
+        updateFilterActiveIndicator();
+        tempTagSelections.clear();
+      });
+
+      tagFilterCancel.addEventListener('click', () => {
+        console.log("test001", "取消3")
+        tagFilterDropdown.style.zIndex = 10;
+        logContainer.style.zIndex = 20;
+        tempTagSelections.clear();
+        tagFilterDropdown.classList.remove('show');
+      });
+    }
+
+    // 更新确定按钮状态
+    function updateApplyButtonStatus(filterType) {
+      console.log("test001", "900 filterType = " + filterType)
+      if (filterType === 'date') {
+        const isDisabled = tempDateSelections.size === 0;
+        dateFilterApply.disabled = isDisabled;
+        dateFilterApply.className = isDisabled
+          ? 'filter-btn filter-btn-disabled'
+          : 'filter-btn bg-primary hover:bg-primary/80';
+      } else if (filterType === 'type') {
+        const isDisabled = tempTypeSelections.size === 0;
+        typeFilterApply.disabled = isDisabled;
+        typeFilterApply.className = isDisabled
+          ? 'filter-btn filter-btn-disabled'
+          : 'filter-btn bg-primary hover:bg-primary/80';
+      } else if (filterType === 'tag') {
+        const isDisabled = tempTagSelections.size === 0;
+        tagFilterApply.disabled = isDisabled;
+        tagFilterApply.className = isDisabled
+          ? 'filter-btn filter-btn-disabled'
+          : 'filter-btn bg-primary hover:bg-primary/80';
+      }
+    }
+
+    // 关闭Type筛选下拉菜单
+    function closeDateFilterDropdown() {
+      console.log("test001", "501")
+      dateFilterDropdown.style.zIndex = 10;
+      logContainer.style.zIndex = 20;
+      if (dateFilterDropdown.classList.contains('show')) {
+        tempDateSelections.clear();
+        dateFilterDropdown.classList.remove('show');
+      }
+      document.removeEventListener('click', closeDateFilterDropdown);
+    }
+
+    // 关闭Type筛选下拉菜单
+    function closeTypeFilterDropdown() {
+      console.log("test001", "502")
+      typeFilterDropdown.style.zIndex = 10;
+      logContainer.style.zIndex = 20;
+      if (typeFilterDropdown.classList.contains('show')) {
+        tempTypeSelections.clear();
+        typeFilterDropdown.classList.remove('show');
+      }
+      document.removeEventListener('click', closeTypeFilterDropdown);
+
+    }
+
+    // 关闭Tag筛选下拉菜单
+    function closeTagFilterDropdown() {
+      console.log("test001", "503")
+      tagFilterDropdown.style.zIndex = 10;
+      logContainer.style.zIndex = 20;
+      if (tagFilterDropdown.classList.contains('show')) {
+        tempTagSelections.clear();
+        tagFilterDropdown.classList.remove('show');
+      }
+      document.removeEventListener('click', closeTagFilterDropdown);
+    }
+
+    // 点击页面其他地方关闭所有筛选菜单
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.filter-header') && !e.target.closest('.filter-dropdown')) {
+        closeDateFilterDropdown();
+        closeTypeFilterDropdown();
+        closeTagFilterDropdown();
+      }
+    });
+
+    // 收集筛选数据
+    function collectAllFiltersData() {
+      console.log("test001", "100")
+      allDates.clear();
+      allTypes.clear();
+      allTags.clear();
+
+      logData.forEach(log => {
+        if (log.date) {
+          allDates.add(log.date.trim());
+        }
+        if (log.type) {
+          allTypes.add(log.type.trim());
+        }
+        if (log.tag) {
+          allTags.add(log.tag.trim());
+        }
+      });
+      dateFilterSelections = new Set(allDates);
+      typeFilterSelections = new Set(allTypes);
+      tagFilterSelections = new Set(allTags);
+      tempDateSelections = new Set(dateFilterSelections);
+      tempTypeSelections = new Set(typeFilterSelections);
+      tempTagSelections = new Set(tagFilterSelections);
+
+      renderDateFilterItems();
+      renderTypeFilterItems();
+      renderTagFilterItems();
+
+      updateApplyButtonStatus('date');
+      updateApplyButtonStatus('type');
+      updateApplyButtonStatus('tag');
+    }
+
+    function renderDateFilterItems() {
+      console.log("test001", "101")
+      dateFilterItems.innerHTML = '';
+
+      const sortedDates = Array.from(allDates).sort((a, b) => a.localeCompare(b));
+
+      // 添加全选框（带数量统计，固定顶部）
+      const allSelectItem = createAllSelectItem('date');
+      dateFilterItems.appendChild(allSelectItem);
+
+      // 添加普通筛选项
+      sortedDates.forEach(date => {
+        const filterItem = document.createElement('div');
+        filterItem.className = 'filter-item';
+        filterItem.dataset.date = date;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'filter-checkbox mr-3';
+        checkbox.id = `date-filter-${date}`;
+        checkbox.value = date;
+        checkbox.checked = tempDateSelections.has(date);
+
+        // 复选框变更事件（核心：不阻止冒泡，直接处理状态）
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            tempDateSelections.add(date);
+          } else {
+            tempDateSelections.delete(date);
+          }
+          syncAllSelectStatus('date');
+          updateApplyButtonStatus('date');
+          updateDateFilterCounts();
+        });
+
+        const label = document.createElement('label');
+        label.htmlFor = `date-filter-${date}`;
+        label.className = 'flex-1 cursor-pointer'; // 确保标签可点击
+        label.textContent = date;
+
+        const countSpan = document.createElement('span');
+        countSpan.className = 'filter-count';
+        countSpan.dataset.count = '0';
+        countSpan.textContent = '0';
+
+        filterItem.appendChild(checkbox);
+        filterItem.appendChild(label);
+        filterItem.appendChild(countSpan);
+        dateFilterItems.appendChild(filterItem);
+
+        filterItem.addEventListener('click', (e) => {
+          if (e.target !== checkbox && e.target !== label && e.target !== countSpan) {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+          }
+        });
+      });
+
+      updateDateFilterCounts();
+      updateFilterActiveIndicator();
+    }
+
+    function renderTypeFilterItems() {
+      console.log("test001", "102")
+      typeFilterItems.innerHTML = '';
+
+      const sortedTypes = Array.from(allTypes).sort((a, b) => a.localeCompare(b));
+
+      // 添加全选框（带数量统计，固定顶部）
+      const allSelectItem = createAllSelectItem('type');
+      typeFilterItems.appendChild(allSelectItem);
+
+      // 添加普通筛选项
+      sortedTypes.forEach(type => {
+        const filterItem = document.createElement('div');
+        filterItem.className = 'filter-item';
+        filterItem.dataset.type = type;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'filter-checkbox mr-3';
+        checkbox.id = `type-filter-${type}`;
+        checkbox.value = type;
+        checkbox.checked = tempTypeSelections.has(type);
+
+        // 复选框变更事件（核心：不阻止冒泡，直接处理状态）
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            tempTypeSelections.add(type);
+          } else {
+            tempTypeSelections.delete(type);
+          }
+          syncAllSelectStatus('type');
+          updateApplyButtonStatus('type');
+          updateTypeFilterCounts();
+        });
+
+        const label = document.createElement('label');
+        label.htmlFor = `type-filter-${type}`;
+        label.className = 'flex-1 cursor-pointer'; // 确保标签可点击
+        label.textContent = type;
+
+        const countSpan = document.createElement('span');
+        countSpan.className = 'filter-count';
+        countSpan.dataset.count = '0';
+        countSpan.textContent = '0';
+
+        filterItem.appendChild(checkbox);
+        filterItem.appendChild(label);
+        filterItem.appendChild(countSpan);
+        typeFilterItems.appendChild(filterItem);
+
+        filterItem.addEventListener('click', (e) => {
+          if (e.target !== checkbox && e.target !== label && e.target !== countSpan) {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+          }
+        });
+      });
+
+      updateTypeFilterCounts();
+      updateFilterActiveIndicator();
+    }
+
+    // 渲染Tag筛选项
+    function renderTagFilterItems() {
+      console.log("test001", "103")
+      tagFilterItems.innerHTML = '';
+
+      const sortedTags = Array.from(allTags).sort((a, b) => a.localeCompare(b));
+
+      // 添加全选框（带数量统计，固定顶部）
+      const allSelectItem = createAllSelectItem('tag');
+      tagFilterItems.appendChild(allSelectItem);
+
+      // 添加普通筛选项
+      sortedTags.forEach(tag => {
+        const filterItem = document.createElement('div');
+        filterItem.className = 'filter-item';
+        filterItem.dataset.tag = tag;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'filter-checkbox mr-3';
+        checkbox.id = `tag-filter-${tag}`;
+        checkbox.value = tag;
+        checkbox.checked = tempTagSelections.has(tag);
+
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            tempTagSelections.add(tag);
+          } else {
+            tempTagSelections.delete(tag);
+          }
+          syncAllSelectStatus('tag');
+          updateApplyButtonStatus('tag');
+          updateTagFilterCounts();
+        });
+
+        const label = document.createElement('label');
+        label.htmlFor = `tag-filter-${tag}`;
+        label.className = 'flex-1 cursor-pointer';
+        label.textContent = tag;
+
+        const countSpan = document.createElement('span');
+        countSpan.className = 'filter-count';
+        countSpan.dataset.count = '0';
+        countSpan.textContent = '0';
+
+        filterItem.appendChild(checkbox);
+        filterItem.appendChild(label);
+        filterItem.appendChild(countSpan);
+        tagFilterItems.appendChild(filterItem);
+
+        filterItem.addEventListener('click', (e) => {
+          if (e.target !== checkbox && e.target !== label && e.target !== countSpan) {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+          }
+        });
+      });
+
+      updateTagFilterCounts();
+      updateFilterActiveIndicator();
+    }
+
+    function createAllSelectItem(filterType) {
+      console.log("test001", "400 filterType = " + filterType)
+      const allItem = document.createElement('div');
+      allItem.className = 'filter-item filter-all-item';
+      allItem.dataset.filter = filterType;
+
+      const allCheckbox = document.createElement('input');
+      allCheckbox.type = 'checkbox';
+      allCheckbox.className = 'filter-checkbox mr-3';
+      allCheckbox.id = `${filterType}-filter-all`;
+      allCheckbox.value = 'all';
+
+      // 基于临时集合设置全选框初始状态
+      if (filterType === 'date') {
+        allCheckbox.checked = tempDateSelections.size === allDates.size && allDates.size > 0;
+      } else if (filterType === 'type') {
+        allCheckbox.checked = tempTypeSelections.size === allTypes.size && allTypes.size > 0;
+      } else {
+        allCheckbox.checked = tempTagSelections.size === allTags.size && allTags.size > 0;
+      }
+
+      // 全选框变更事件
+      allCheckbox.addEventListener('change', () => {
+        const isChecked = allCheckbox.checked;
+        if (filterType === 'date') {
+          tempDateSelections.clear();
+          if (isChecked) {
+            allDates.forEach(date => tempDateSelections.add(date));
+          }
+          // 更新所有子复选框状态
+          document.querySelectorAll('#date-filter-items .filter-item[data-date] input').forEach(checkbox => {
+            checkbox.checked = isChecked;
+          });
+        } else if (filterType === 'type') {
+          tempTypeSelections.clear();
+          if (isChecked) {
+            allTypes.forEach(type => tempTypeSelections.add(type));
+          }
+          // 更新所有子复选框状态
+          document.querySelectorAll('#type-filter-items .filter-item[data-type] input').forEach(checkbox => {
+            checkbox.checked = isChecked;
+          });
+        } else {
+          tempTagSelections.clear();
+          if (isChecked) {
+            allTags.forEach(tag => tempTagSelections.add(tag));
+          }
+          document.querySelectorAll('#tag-filter-items .filter-item[data-tag] input').forEach(checkbox => {
+            checkbox.checked = isChecked;
+          });
+        }
+
+        updateApplyButtonStatus(filterType);
+        updateFilterCounts(filterType);
+        updateFilterActiveIndicator();
+      });
+
+      const allLabel = document.createElement('label');
+      allLabel.htmlFor = `${filterType}-filter-all`;
+      allLabel.className = 'flex-1 cursor-pointer';
+      allLabel.textContent = '全选';
+
+      const allCountSpan = document.createElement('span');
+      allCountSpan.className = 'filter-count';
+      allCountSpan.dataset.count = '0';
+      allCountSpan.textContent = '0';
+
+      allItem.appendChild(allCheckbox);
+      allItem.appendChild(allLabel);
+      allItem.appendChild(allCountSpan);
+
+      // 点击整行触发全选框变更
+      allItem.addEventListener('click', (e) => {
+        if (e.target !== allCheckbox && e.target !== allLabel && e.target !== allCountSpan) {
+          allCheckbox.checked = !allCheckbox.checked;
+          allCheckbox.dispatchEvent(new Event('change'));
+        }
+      });
+
+      return allItem;
+    }
+
+    // 同步全选框状态
+    function syncAllSelectStatus(filterType) {
+      console.log("test001", "200 filterType = " + filterType)
+      const allCheckbox = document.getElementById(`${filterType}-filter-all`);
+      if (!allCheckbox) return;
+
+      if (filterType === 'date') {
+        const isAllSelected = tempDateSelections.size === allDates.size && allDates.size > 0;
+        allCheckbox.checked = isAllSelected;
+      }
+      else if (filterType === 'type') {
+        const isAllSelected = tempTypeSelections.size === allTypes.size && allTypes.size > 0;
+        allCheckbox.checked = isAllSelected;
+      } else {
+        const isAllSelected = tempTagSelections.size === allTags.size && allTags.size > 0;
+        allCheckbox.checked = isAllSelected;
+      }
+    }
+
+    // 通用方法：更新筛选计数
+    function updateFilterCounts(filterType) {
+      console.log("test001", "600 filterType = " + filterType)
+      if (filterType === 'date') {
+        updateDateFilterCounts();
+      } else if (filterType === 'type') {
+        updateTypeFilterCounts();
+      } else {
+        updateTagFilterCounts();
+      }
+    }
+
+    // 更新Date筛选菜单中所有选项的数量统计（包含全选按钮）
+    function updateDateFilterCounts() {
+      console.log("test001", "201")
+      // 1. 更新普通选项数量
+      document.querySelectorAll('#date-filter-items .filter-item[data-date]').forEach(item => {
+        const date = item.dataset.date;
+        const countSpan = item.querySelector('.filter-count');
+
+        const count = logData.filter(log => {
+          const dateMatch = log.date.trim() === date;
+          const typeMatch = typeFilterSelections.size === 0 || typeFilterSelections.has(log.type.trim());
+          const tagMatch = tagFilterSelections.size === 0 || tagFilterSelections.has(log.tag.trim());
+          return dateMatch && typeMatch && tagMatch;
+        }).length;
+
+        countSpan.dataset.count = count;
+        countSpan.textContent = count;
+
+        if (count === 0) {
+          item.classList.add('opacity-50');
+          item.querySelector('input').disabled = true;
+        } else {
+          item.classList.remove('opacity-50');
+          item.querySelector('input').disabled = false;
+        }
+      });
+
+      // 更新全选按钮的数量统计（选中项的总日志数）
+      const allSelectItem = document.querySelector('#date-filter-items .filter-all-item');
+      const allCountSpan = allSelectItem.querySelector('.filter-count');
+
+      // 计算所有选中Date的日志总数（考虑当前Tag筛选条件）
+      let totalCount = 0;
+      tempDateSelections.forEach(date => {
+        const dateCount = logData.filter(log => {
+          const dateMatch = log.date.trim() === date;
+          const typeMatch = typeFilterSelections.size === 0 || typeFilterSelections.has(log.type.trim());
+          const tagMatch = tagFilterSelections.size === 0 || tagFilterSelections.has(log.tag.trim());
+          return dateMatch && typeMatch && tagMatch;
+        }).length;
+        totalCount += dateCount;
+      });
+
+      allCountSpan.dataset.count = totalCount;
+      allCountSpan.textContent = totalCount;
+    }
+
+    // 更新Type筛选菜单中所有选项的数量统计（包含全选按钮）
+    function updateTypeFilterCounts() {
+      console.log("test001", "202")
+      // 1. 更新普通选项数量
+      document.querySelectorAll('#type-filter-items .filter-item[data-type]').forEach(item => {
+        const type = item.dataset.type;
+        const countSpan = item.querySelector('.filter-count');
+
+        const count = logData.filter(log => {
+          const typeMatch = log.type.trim() === type;
+          const dateMatch = dateFilterSelections.size === 0 || dateFilterSelections.has(log.date.trim());
+          const tagMatch = tagFilterSelections.size === 0 || tagFilterSelections.has(log.tag.trim());
+          return typeMatch && dateMatch && tagMatch;
+        }).length;
+
+        countSpan.dataset.count = count;
+        countSpan.textContent = count;
+
+        if (count === 0) {
+          item.classList.add('opacity-50');
+          item.querySelector('input').disabled = true;
+        } else {
+          item.classList.remove('opacity-50');
+          item.querySelector('input').disabled = false;
+        }
+      });
+
+      // 更新全选按钮的数量统计（选中项的总日志数）
+      const allSelectItem = document.querySelector('#type-filter-items .filter-all-item');
+      const allCountSpan = allSelectItem.querySelector('.filter-count');
+
+      // 计算所有选中Type的日志总数（考虑当前Tag筛选条件）
+      let totalCount = 0;
+      tempTypeSelections.forEach(type => {
+        const typeCount = logData.filter(log => {
+          const typeMatch = log.type.trim() === type;
+          const dateMatch = dateFilterSelections.size === 0 || dateFilterSelections.has(log.date.trim());
+          const tagMatch = tagFilterSelections.size === 0 || tagFilterSelections.has(log.tag.trim());
+          return typeMatch && dateMatch && tagMatch;
+        }).length;
+        totalCount += typeCount;
+      });
+
+      allCountSpan.dataset.count = totalCount;
+      allCountSpan.textContent = totalCount;
+    }
+
+    // 更新Tag筛选菜单中所有选项的数量统计（包含全选按钮）
+    function updateTagFilterCounts() {
+      console.log("test001", "203")
+      // 1. 更新普通选项数量
+      document.querySelectorAll('#tag-filter-items .filter-item[data-tag]').forEach(item => {
+        const tag = item.dataset.tag;
+        const countSpan = item.querySelector('.filter-count');
+
+        const count = logData.filter(log => {
+          const tagMatch = log.tag.trim() === tag;
+          const dateMatch = dateFilterSelections.size === 0 || dateFilterSelections.has(log.date.trim());
+          const typeMatch = typeFilterSelections.size === 0 || typeFilterSelections.has(log.type.trim());
+          return tagMatch && dateMatch && typeMatch;
+        }).length;
+
+        countSpan.dataset.count = count;
+        countSpan.textContent = count;
+
+        if (count === 0) {
+          item.classList.add('opacity-50');
+          item.querySelector('input').disabled = true;
+        } else {
+          item.classList.remove('opacity-50');
+          item.querySelector('input').disabled = false;
+        }
+      });
+
+      // 更新全选按钮的数量统计（选中项的总日志数）
+      const allSelectItem = document.querySelector('#tag-filter-items .filter-all-item');
+      const allCountSpan = allSelectItem.querySelector('.filter-count');
+
+      // 计算所有选中Tag的日志总数（考虑当前Type筛选条件）
+      let totalCount = 0;
+      tempTagSelections.forEach(tag => {
+        const tagCount = logData.filter(log => {
+          const tagMatch = log.tag.trim() === tag;
+          const dateMatch = dateFilterSelections.size === 0 || dateFilterSelections.has(log.date.trim());
+          const typeMatch = typeFilterSelections.size === 0 || typeFilterSelections.has(log.type.trim());
+          return tagMatch && dateMatch && typeMatch;
+        }).length;
+        totalCount += tagCount;
+      });
+
+      allCountSpan.dataset.count = totalCount;
+      allCountSpan.textContent = totalCount;
+    }
+
+    // 更新筛选激活状态指示器
+    function updateFilterActiveIndicator() {
+      console.log("test001", "700")
+
+      const isDateFilterActive = dateFilterSelections.size > 0 && dateFilterSelections.size < allDates.size;
+      dateFilterActive.classList.toggle('hidden', !isDateFilterActive);
+      dateFilterHeader.classList.toggle('filter-header-active', isDateFilterActive);
+
+      const isTypeFilterActive = typeFilterSelections.size > 0 && typeFilterSelections.size < allTypes.size;
+      typeFilterActive.classList.toggle('hidden', !isTypeFilterActive);
+      typeFilterHeader.classList.toggle('filter-header-active', isTypeFilterActive);
+
+      const isTagFilterActive = tagFilterSelections.size > 0 && tagFilterSelections.size < allTags.size;
+      tagFilterActive.classList.toggle('hidden', !isTagFilterActive);
+      tagFilterHeader.classList.toggle('filter-header-active', isTagFilterActive);
+    }
+
+    // 核心筛选逻辑
+    function applyCombinedFilter() {
+      console.log("test001", "800")
+      filteredLogData = [];
+
+      const isDateEmpty = dateFilterSelections.size === 0;
+      const isDateFull = dateFilterSelections.size === allDates.size;
+
+      const isTypeEmpty = typeFilterSelections.size === 0;
+      const isTypeFull = typeFilterSelections.size === allTypes.size;
+
+      const isTagEmpty = tagFilterSelections.size === 0;
+      const isTagFull = tagFilterSelections.size === allTags.size;
+
+      console.log("test001", "801 isDateEmpty = " + isDateEmpty + " isTypeEmpty = " + isTypeEmpty + " isTagEmpty =" + isTagEmpty)
+
+      if (isDateEmpty && isTypeEmpty && isTagEmpty) {
+        console.log("test001", "802")
+        filteredLogData = [...logData];
+      } else if (isDateEmpty) {
+        console.log("test001", "803")
+        filteredLogData = logData.filter(log =>
+          isTypeFull ? true : typeFilterSelections.has(log.type.trim()) && isTagFull ? true : tagFilterSelections.has(log.tag.trim())
+        );
+
+      } else if (isTypeEmpty) {
+        console.log("test001", "804")
+        filteredLogData = logData.filter(log =>
+          isDateFull ? true : dateFilterSelections.has(log.date.trim()) && tagFilterSelections.has(log.tag.trim())
+        );
+
+      } else if (isTagEmpty) {
+        console.log("test001", "805")
+        filteredLogData = logData.filter(log =>
+          isDateFull ? true : dateFilterSelections.has(log.date.trim()) && typeFilterSelections.has(log.type.trim())
+        );
+
+      } else {
+        console.log("test001", "806")
+        filteredLogData = logData.filter(log => {
+          const datePass = isDateFull ? true : dateFilterSelections.has(log.date.trim());
+          const typePass = isTypeFull ? true : typeFilterSelections.has(log.type.trim());
+          const tagPass = isTagFull ? true : tagFilterSelections.has(log.tag.trim());
+          return datePass && typePass && tagPass;
+        });
+      }
+
+      renderLogs();
+    }
+
+    // 处理文件选择
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        alert('Please select a file');
+        setDateout(() => fileInput.click(), 100);
+        return;
+      }
+
+      if (file.type !== 'text/plain' && !file.name.endsWith('.zh')) {
+        alert('Please select the correct file format (.zh)');
+        setDateout(() => fileInput.click(), 100);
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        try {
+          inputData = e.target.result
+          logData = getData();
+          collectAllFiltersData();
+          applyCombinedFilter();
+          initJsonCollapsibles();
+        } catch (error) {
+          console.error('文件处理错误:', error);
+          alert('File read failed : ' + error.message);
+          setDateout(() => fileInput.click(), 100);
+        }
+      };
+
+      reader.onerror = function () {
+        alert('文件读取错误');
+        setDateout(() => fileInput.click(), 100);
+      };
+
+      reader.readAsText(file);
+    }
+
+    function getData() {
+      const lines = inputData.split(/\r?\n/);
+      let resultData = [];
+
+      lines.forEach((line, index) => {
+        for (let i = 0; i < 20; i++) {
+          if (line.includes("---->")) {
+            line = line.replace('---->', '--->')
+          } else {
+            break
+          }
+        }
+
+        let detailed = ""
+        if (line.includes('--->')) {
+          const arr01 = line.split(' ---> ')
+
+          if (arr01.length >= 4) {
+            let data = arr01[3]
+              .replace("<BIND>  ", "")
+              .replace("<CONNECT>  ", "")
+              .replace("<DAILY>  ", "")
+              .replace("<SPORT>  ", "")
+              .replace("<BASIC>  ", "")
+              .replace("<NOTIFICATION>  ", "")
+              .replace("<DIAL>  ", "")
+              .replace("<OTA>  ", "")
+              .replace("<APGS>  ", "")
+              .replace("<SET>  ", "")
+              .replace("<AUXILIARYET>  ", "")
+
+            let isDetailed = false
+            for (let i = index + 1; i < lines.length; i++) {
+              if (lines[i] == "") {
+                isDetailed = true
+                break
+              }
+              else if (lines[i].includes("---->")) {
+                break
+              }
+              detailed += lines[i] + "\n";
+            }
+
+            if (isDetailed) {
+              let allData = data
+              if (detailed != "") {
+                allData += "\n" + detailed.trimEnd()
+              }
+
+              if (allData.includes(" = ")) {
+                const arr02 = allData.split(' = ')
+                data = arr02[0]
+                detailed = arr02[1]
+              }
+            }
+
+            const arr02 = arr01[0].split(' ')
+
+            const logEntry = {
+              id: index + 1,
+              line: index + 1,
+              date: arr01[0].split(' ')[0],
+              time: arr01[0].split(' ')[1],
+              tag: arr01[1],
+              type: arr01[2],
+              data: data,
+              detailed: detailed,
+              hasJson: detailed ? true : false
+            }
+
+            resultData.push(logEntry);
+          }
+        }
+      });
+
+      return resultData;
+    }
+
+    function createJsonToggleButton() {
+      const toggleBtn = document.createElement('span');
+      toggleBtn.className = 'json-toggle';
+      toggleBtn.textContent = 'Show';
+      return toggleBtn;
+    }
+
+    // 渲染JSON视图
+    function renderJsonView(jsonData) {
+      try {
+        const jsonStr = JSON.stringify(jsonData, null, 2);
+
+        const jsonContainer = document.createElement('div');
+        jsonContainer.className = 'json-container';
+
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.className = 'language-json json-line';
+        code.textContent = jsonStr;
+
+        pre.appendChild(code);
+        jsonContainer.appendChild(pre);
+
+        Prism.highlightElement(code);
+
+        return jsonContainer;
+      } catch (error) {
+        const errorContainer = document.createElement('div');
+        errorContainer.className = 'json-container text-warning';
+        errorContainer.innerHTML = `<pre>JSON解析失败: ${error.message}\n\n原始数据:\n${jsonData}</pre>`;
+        return errorContainer;
+      }
+    }
+
+    // 渲染日志行
+    function renderLogRow(log) {
+      const logRow = document.createElement('div');
+      const rowClasses = `grid grid-cols-[30px_95px_120px_220px_20px_1fr] items-center py-1 px-3 rounded-md log-row-hover group transition-all`;
+      logRow.className = rowClasses;
+      logRow.dataset.id = log.id;
+      logRow.dataset.line = log.line;
+
+      // 行数列
+      const lineCol = document.createElement('div');
+      lineCol.className = 'text-dark-400 pr-4';
+      lineCol.textContent = log.line;
+
+      // 日期列
+      const dateCol = document.createElement('div');
+      dateCol.className = 'text-dark-300 pr-4';
+      dateCol.textContent = log.date;
+
+      // 时间列
+      const timeCol = document.createElement('div');
+      timeCol.className = 'text-dark-300 pr-4';
+      timeCol.textContent = log.time;
+
+      // 类型列
+      const typeCol = document.createElement('div');
+      typeCol.className = 'text-dark-300 pr-4';
+      typeCol.textContent = log.type;
+
+      // 标记列 
+      const tagCol = document.createElement('div');
+      tagCol.className = 'text-dark-100 pr-4 px-2 py-1 font-medium rounded';
+      tagCol.textContent = log.tag;
+
+      // 数据列
+      const dataCol = document.createElement('div');
+      dataCol.className = 'break-all pl-4';
+
+      // 根据tag值设置颜色
+      switch (log.tag) {
+        case 'I':
+          tagCol.classList.add('bg-blue-500/20', 'text-blue-400', 'border', 'border-blue-500/30');
+          dataCol.classList.add('text-blue-400');
+          break;
+        case 'W':
+          tagCol.classList.add('bg-orange-500/20', 'text-orange-400', 'border', 'border-orange-500/30');
+          dataCol.classList.add('text-orange-400');
+          break;
+        case 'E':
+          tagCol.classList.add('bg-red-500/20', 'text-red-400', 'border', 'border-red-500/30');
+          dataCol.classList.add('text-red-400');
+          break;
+        case 'D':
+          tagCol.classList.add('bg-gray-400', 'text-gray-300', 'border', 'border-gray-200');
+          dataCol.classList.add('text-gray-300');
+          break;
+        case 'V':
+          tagCol.classList.add('bg-purple-500/20', 'text-purple-400', 'border', 'border-purple-500/30');
+          dataCol.classList.add('text-purple-400');
+          break;
+        default:
+          tagCol.classList.add('bg-gray-500/20', 'text-gray-400', 'border', 'border-gray-500/30');
+          dataCol.classList.add('text-gray-400');
+      }
+
+      // 添加主数据
+      const mainData = document.createElement('div');
+      mainData.className = 'whitespace-pre-wrap';
+      mainData.textContent = log.data;
+      dataCol.appendChild(mainData);
+
+      // 如果有JSON数据，添加折叠/展开功能
+      if (log.hasJson && log.detailed) {
+        const toggleBtn = createJsonToggleButton();
+        const jsonContent = renderJsonView(protoTextToJson(log.detailed));
+        jsonContent.classList.add('json-collapsible');
+
+        const toggleContainer = document.createElement('div');
+        toggleContainer.className = 'mt-1';
+        toggleContainer.appendChild(toggleBtn);
+        dataCol.appendChild(toggleContainer);
+        dataCol.appendChild(jsonContent);
+
+        toggleBtn.addEventListener('click', () => {
+          jsonContent.classList.toggle('expanded');
+          toggleBtn.textContent = jsonContent.classList.contains('expanded') ? 'Hide' : 'Show';
+        });
+      }
+
+      // 组装日志行
+      logRow.appendChild(lineCol);
+      logRow.appendChild(dateCol);
+      logRow.appendChild(timeCol);
+      logRow.appendChild(typeCol);
+      logRow.appendChild(tagCol);
+      logRow.appendChild(dataCol);
+
+      // 点击整行展开/折叠JSON
+      logRow.addEventListener('click', (e) => {
+        if (!e.target.closest('.json-toggle')) {
+          const jsonCollapsible = logRow.querySelector('.json-collapsible');
+          const toggleBtn = logRow.querySelector('.json-toggle');
+          if (jsonCollapsible && toggleBtn) {
+            jsonCollapsible.classList.toggle('expanded');
+            toggleBtn.textContent = jsonCollapsible.classList.contains('expanded') ? 'Hide' : 'Show';
+          }
+        }
+      });
+
+      return logRow;
+    }
+
+    // 初始化所有JSON折叠功能
+    function initJsonCollapsibles() {
+      document.querySelectorAll('code.language-json').forEach(block => {
+        Prism.highlightElement(block);
+      });
+    }
+
+    function protoTextToJson(protoText) {
+      const lines = protoText.trim().split('\n').map(line => line.trim());
+      const stack = [{}];
+      let currentObj = stack[0];
+
+      for (const line of lines) {
+        if (!line) continue;
+
+        if (line.endsWith('{')) {
+          const key = line.replace(/\s*{$/, '').trim();
+          const childObj = {};
+          currentObj[key] = childObj;
+          stack.push(childObj);
+          currentObj = childObj;
+        } else if (line === '}') {
+          stack.pop();
+          currentObj = stack[stack.length - 1];
+        } else {
+          const match = line.match(/^([^:]+):\s*(.*)$/);
+          if (match) {
+            const key = match[1].trim();
+            let value = match[2].trim();
+
+            if (value.startsWith('"') && value.endsWith('"')) {
+              value = value.slice(1, -1);
+            } else if (!isNaN(Number(value))) {
+              value = Number(value);
+            }
+
+            currentObj[key] = value;
+          }
+        }
+      }
+
+      return stack[0];
+    }
+
+    // 渲染日志列表
+    function renderLogs() {
+      console.log("test001", "400")
+      logContainer.innerHTML = '';
+
+      if (filteredLogData.length === 0) {
+        const filterInfo = [];
+        if (dateFilterSelections.size > 0 && dateFilterSelections.size < allDates.size) {
+          filterInfo.push(`Date: ${Array.from(dateFilterSelections).join(', ')}`);
+        }
+        if (typeFilterSelections.size > 0 && typeFilterSelections.size < allTypes.size) {
+          filterInfo.push(`Type: ${Array.from(typeFilterSelections).join(', ')}`);
+        }
+        if (tagFilterSelections.size > 0 && tagFilterSelections.size < allTags.size) {
+          filterInfo.push(`Tag: ${Array.from(tagFilterSelections).join(', ')}`);
+        }
+
+        const emptyState = document.createElement('div');
+        emptyState.className = 'flex flex-col items-center justify-center h-full text-dark-400 p-4 text-center';
+        emptyState.innerHTML = `
+            <div class="mb-2">没有匹配的日志数据</div>
+            ${filterInfo.length > 0 ? `<div class="text-sm text-dark-500">当前筛选条件: ${filterInfo.join(' + ')}</div>` : ''}
+          `;
+        logContainer.appendChild(emptyState);
+        return;
+      }
+
+      filteredLogData.forEach(log => {
+        const logRow = renderLogRow(log);
+        logContainer.appendChild(logRow);
+      });
+    }
+
+    // 初始化页面
+    initFileSelection();
+    initDateFilter();
+    initTypeFilter();
+    initTagFilter();
+  </script>
+
+</body>
+
+</html>
