@@ -1,0 +1,436 @@
+// Wear.proto
+
+syntax = "proto2";
+import "nanopb.proto";
+import "Common.proto";
+import "BindAccount.proto";
+import "Device.proto";
+import "Fitness.proto";
+import "LargeFile.proto";
+import "MicroFunction.proto";
+import "SettingMenu.proto";
+import "Music.proto";
+import "Notification.proto";
+import "Sporting.proto";
+import "SystemTime.proto";
+import "UserSettings.proto";
+import "WatchFace.proto";
+import "Weather.proto";
+import "Factory.proto";
+import "Alexa.proto";
+
+option java_package = "com.zh.ble.wear.protobuf";
+option java_outer_classname = "WearProtos";
+
+message SEWear {
+  enum SEFunctionId {
+    //----------------------------------------------change_mtu----------------------------------------------
+    MTU_REQUEST_CHANGE = 0x0000; //MTU交换
+    //----------------------------------------------change_mtu----------------------------------------------
+
+    //----------------------------------------------Bind_Account----------------------------------------------
+    INQUIRY_BINDING_STATUS = 0x0010; //绑定连接：询问绑定(app->设备)
+    BINDING_CHECK = 0x0011; //绑定连接：绑定校验(app->设备)
+    BINDING_RESULT = 0x0012; //绑定连接：绑定回复(app->设备)
+    VERIFY_USER_NUMBER = 0x0013; //账号校验
+    INQUIRY_PAIRING_STATUS = 0x0014; //获取当前的配对状态
+    REQUEST_PAIRING = 0x0015; //发起配对
+    REQUEST_PAIRING_RESULT = 0x0016; //配对回调结果下发
+    UNBIND_REQUEST = 0x0017; //解绑请求
+    DEVICE_RESTART = 0x0018; //重启请求(app->设备)
+    INQUIRY_CLASSIC_BLUETOOTH_CONNECT_STATUS = 0x0019; //获取经典蓝牙的连接状态
+    DEVICE_SHUTDOWN = 0x001A; //关机指令请求(app->设备)
+    REQUEST_CLASSIC_BLUETOOTH_CONNECT_STATUS = 0x001B; //设备上报经典蓝牙的连接状态
+    UNBIND_REQUEST_CONFIRM = 0x001C;//确认解绑请求
+    //----------------------------------------------Bind_Account----------------------------------------------
+
+    //----------------------------------------------Device----------------------------------------------
+    GET_DEVICE_INFO = 0x0020; //获取设备信息
+    GET_DEVICE_BATTERY_STATUS = 0x0021; //获取设备电量信息
+    GET_DEVICE_DISCONNECT_REASON = 0x0022; //获取设备断开原因
+    GET_MPT_POWER_LOG = 0x0023; //获取设备电量使用情况
+    GET_MPT_POWER_LOG_LIST = 0x0024; //获取设备电量使用情况list
+	  DEVICE_BATTERY_VALUE_REQUEST = 0x0025; //设备主动上报电量状态(戒指项目)
+    GET_CHARGING_CASE_STATUS = 0x0026; //获取设备充电仓信息
+    //----------------------------------------------Device----------------------------------------------
+
+    //----------------------------------------------SystemTime----------------------------------------------
+    SET_SYSTEM_TIME = 0x0030; //设置系统时间
+    SET_12_24_TIME_TYPE = 0x0031; //设置12/24小时制
+    GET_WORLD_CLOCK_INFO = 0x0032; //获取世界时钟数据
+    SET_WORLD_CLOCK_INFO = 0x0033; //设置世界时钟数据
+    REQUEST_WORLD_CLOCK_INFO = 0x0034; //请求世界时钟数据
+    //----------------------------------------------SystemTime----------------------------------------------
+
+    //----------------------------------------------User_Settings----------------------------------------------
+    SET_LANGUAGE_ID = 0x0040; //设置语言
+    GET_LANGUAGE_DETAILED = 0x0041; //请求语言列表
+    SET_UNIT_TYPE = 0x0042; //设置单位类型（公英制）
+    SET_TEMPERATURE_TYPE = 0x0043; //设置单位类型（摄氏度/华氏度）
+    SET_USER_PROFILE = 0x0044; //设置用户基本信息
+    SET_USER_INFORMATION = 0x0045; //设置用户信息（同步调用）
+    GET_USER_PROFILE = 0x0046; //向手环获取用户基本信息
+	  SET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0047; //设置Gomore全天睡眠开关(戒指项目)
+	  GET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0048; //获取Gomore全天睡眠开关(戒指项目)
+	  SET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0049; //设置Gomore自动活动检测开关(戒指项目)
+	  GET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0140; //获取Gomore自动活动检测开关(戒指项目)
+    //----------------------------------------------User_Settings----------------------------------------------
+
+    //----------------------------------------------WatchFace----------------------------------------------
+    GET_WATCH_FACE_LIST = 0x0050; //获取表盘的列表数据
+    SET_WATCH_FACE = 0x0051; //设置表盘
+    REMOVE_WATCH_FACE = 0x0052; //删除表盘
+    PREPARE_INSTALL_WATCH_FACE = 0x0053; //准备安装表盘
+    REPORT_INSTALL_WATCH_FACE_RESULT = 0x0054; //表盘安装结果回复
+
+    REQUEST_DEVICE_WATCH_FACE_CONFIG = 0x0055; //询问设备当前DIY的设置 //DIY
+    SET_DEVICE_WATCH_FACE_CONFIG = 0x0056; //设置设备当前DIY的设置 //DIY
+    //----------------------------------------------WatchFace----------------------------------------------
+
+    //----------------------------------------------Sporting----------------------------------------------
+    GET_SPORT_STATUS = 0x0060; //获取运动状态
+    SPORT_REQUEST = 0x0061; //运动请求
+    PHONE_SPORT_DATA = 0x0062; //手机运动数据
+    WEAR_SPORT_DATA = 0x0063; //手表运动数据
+    ECG_COMMAND_SET = 0x0064; //ECG命令设置
+    ECG_RESPOND = 0x0065; //ECG命令回应
+    ECG_DATA_SEND = 0x0066; //ECG数据发送
+    GET_ECG_CALIBRATION_DATA = 0x0067; //获取ECG校准数据
+    SET_ECG_CALIBRATION_DATA = 0x0068; //设置ECG校准数据
+
+    SECONDARY_SCREEN_SPORT_REQUEST = 0x0160; //发起副屏运动
+    SECONDARY_SCREEN_PHONE_SPORT_DATA = 0x0161; //副屏运动手机运动数据
+    SECONDARY_SCREEN_WEAR_SPORT_DATA = 0x0162; //副屏运动手表运动数据
+	
+    SET_RING_SPORT_STATUS = 0x0163; //设置戒指运动状态 ref:ring_Sport_Param_Data
+	  GET_RING_SPORT_STATUS = 0x0164; //获取戒指运动状态 ref:ring_Sport_Param_Data
+	  REQUSET_RING_SPORT_STATUS = 0x0165; //请求获取戒指运动状态 ref:ring_Sport_Param_Data 
+    RING_WEAR_SPORT_DATA = 0x016B; //请求获取RING 手表数据
+    //----------------------------------------------Message----------------------------------------------
+    MESSAGE_START_MESSAGE = 0x0069; //开始测量心率/血氧/体温/压力
+    MESSAGE_SEND_WEAR_STATUS = 0X006A;  //发送佩戴状态(开始测量的第几s后)
+    MESSAGE_SEND_MESSAGE_VALUE = 0X006B;  //实时发送测量值
+    MESSAGE_SEND_MESSAGE_RESULT = 0x006C; //发送测量结果
+    MESSAGE_STOP_MESSAGE = 0X006D;  //手动结束测量
+	
+    GET_AUTO_SPORT_DATA_LIST = 0x006E;  //获取自动运动数据列表    ref:auto_sport_data_list
+	  REQUSET_GET_AUTO_SPORT_DATA_LIST = 0x006F;  //戒指请求APP获取自动运动数据列表    ref:auto_sport_data_list
+
+    WEAR_START_MESSAGE = 0x0166;  //开始测量心率/血氧/体温/压力
+    WEAR_SEND_WEAR_STATUS = 0X0167; //发送佩戴状态(开始测量的第几s后)
+    WEAR_SEND_MESSAGE_VALUE = 0X0168; //实时发送测量值
+    WEAR_SEND_MESSAGE_RESULT = 0x0169;  //发送测量结果
+    WEAR_STOP_MESSAGE = 0X016A; //手动结束测量
+    //----------------------------------------------Sporting----------------------------------------------
+
+    //----------------------------------------------Fitness----------------------------------------------
+    GET_FITNESS_TYPE_ID_LIST = 0x0070; //获取日常数据ID列表-多个
+    REQUEST_FITNESS_TYPE_ID = 0x0071; //请求日常数据ID-单个
+    REQUEST_FITNESS_TYPE_ID_LIST = 0x0072; //请求日常数据ID列表-多个-暂不支持
+    CONFIRM_FITNESS_TYPE_ID = 0x0073; //确认删除日常数据ID-单个
+    CONFIRM_FITNESS_TYPE_ID_LIST = 0x0074; //确认删除日常数据ID列表-多个-暂不支持
+    GET_FITNESS_SPORT_ID_LIST = 0x0075; //获取运动数据ID列表-多个
+    REQUEST_FITNESS_SPORT_ID = 0x0076; //请求运动数据ID-单个
+    REQUEST_FITNESS_SPORT_ID_LIST = 0x0077; //请求运动数据ID列表-暂不支持
+    CONFIRM_FITNESS_SPORT_ID = 0x0078; //确认删除运动数据ID
+    CONFIRM_FITNESS_SPORT_ID_LIST = 0x0079; //确认删除运动数据ID列表-暂不支持
+    GET_FITNESS_NO_SLEEP_TYPE_ID_LIST = 0x007A;//获取日常数据ID列表-多个（没有睡眠）
+    FITNESS_DATA_RECEPTION_STATUS = 0x007B;//APP确认收到戒指同步上来的数据（戒指使用）
+    //----------------------------------------------Fitness----------------------------------------------
+
+    //----------------------------------------------Weather----------------------------------------------
+    HOURLY_WEATHER = 0x0080; //小时天气
+    FORECAST_WEATHER = 0x0081; //预测天气（以天为单位）
+    REQUEST_WEATHER = 0x0082; //请求天气
+    SET_PRESSURE = 0x0083; //设置气压
+    REQUEST_PRESSURE = 0x0084; //请求气压
+    //----------------------------------------------Weather----------------------------------------------
+
+    //----------------------------------------------Large_File----------------------------------------------
+    PREPARE_OTA = 0x0090; //准备OTA
+    REQUEST_ONLINE = 0x0091; //请求升级AGPS（用这个）
+    REQUEST_OFFLINE = 0x0092;//请求升级AGPS（先弃用）
+    REQUEST_AGPS_STATE = 0x0093;//请求AGPS状态（是否已过期）
+    REQUEST_BREAKPOINT_CONTINUATION_STATE = 0x0094;//请求断点续传状态
+	  PREPARE_SOUND = 0x0095; //准备sound升级
+	  SOUND_INSTALL_RESULT = 0x0096;//sound升级后回调
+    //----------------------------------------------Large_File----------------------------------------------
+
+    //----------------------------------------------Micro_Function----------------------------------------------
+    WEAR_SEND_FIND_PHONE = 0x00A0; //设备发送找手机
+    FIND_WEAR = 0x00A1; //找手环
+    PHONE_SEND_PHOTOGRAGH_MODE = 0x00A2; //开始或结束摇一摇拍照
+    WEAR_SEND_PHOTOGRAGH_MODE = 0x00A3; //设备请求摇一摇拍照
+    PHONE_SEND_BASIC_DATA_REPORT = 0x00A4; //请求数据时上传的开始或结束
+    REPORT_BASIC_DATA = 0x00A5; //上传相关的数据
+    SET_WIDGET_LIST = 0x00A6; //设置直达卡片列表
+    GET_WIDGET_LIST = 0x00A7; //获取直达卡片列表
+    SET_APPLICATION_LIST = 0x00A8; //设置应用列表
+    GET_APPLICATION_LIST = 0x00A9; //获取应用列表
+    PHONE_SEND_FIND_PHONE = 0x00AA; //手机发送找手机
+    SET_QUICK_WIDGET_LIST = 0x00AB; //设置小部件功能列表（传音项目使用）
+    GET_QUICK_WIDGET_LIST = 0x00AC; //获取小部件功能列表（传音项目使用）
+    SET_SPORTS_ICON_LIST = 0x00AD; //设置运动带图标功能列表（传音项目使用）
+    GET_SPORTS_ICON_LIST = 0x00AE; //获取运动带图标功能列表（传音项目使用）
+
+    SET_SPORTS_OTHER_LIST = 0x00AF; //设置运动只有文字功能列表（传音项目使用）
+    GET_SPORTS_OTHER_LIST = 0x01A0; //获取运动只有文字功能列表（传音项目使用）
+
+    SET_SPORTS_ICON_INFOWEAR_LIST = 0x01A1; //设置运动带图标功能列表（INFOWEAR使用）
+    GET_SPORTS_ICON_INFOWEAR_LIST = 0x01A2; //获取运动带图标功能列表（INFOWEAR使用）
+    //----------------------------------------------Micro_Function----------------------------------------------
+
+    //----------------------------------------------Notification----------------------------------------------
+    SET_IOS_NOTIFICATION_LIST = 0x00B0; //发送APP通知列表-ios
+    GET_IOS_NOTIFICATION_LIST = 0x00B1; //发送APP通知列表-ios
+
+    SEND_SYSTEM_NOTIFICATION = 0x00B2; //发送系统通知-android
+    SEND_APP_NOTIFICATION = 0x00B3; //发送APP通知-android
+
+    SEND_CALL_STATE = 0x00B4; //通话状态-android
+    GET_QUICK_REPLY_LIST = 0x00B5; //获取快速回复列表-android
+    SET_QUICK_REPLY_LIST = 0x00B6; //设置快速回复列表-android
+    SEND_QUICK_REPLY_MESSAGE = 0x00B7; //发送快速回复内容-android
+
+    GET_CONTACTS_LIST = 0x00B8; //获取联系人信息列表（传音项目使用）
+    SET_CONTACTS_LIST = 0x00B9; //设置联系人信息列表（传音项目使用）
+
+    GET_COLLECTION_CONTACTS_LIST = 0x00BA; //获取收藏联系人信息列表（传音项目使用）
+    SET_COLLECTION_CONTACTS_LIST = 0x00BB; //设置收藏联系人信息列表（传音项目使用）
+
+    GET_SOS_CONTACTS = 0x00BC; //获取SOS紧急联系人信息列表（传音项目使用）
+    SET_SOS_CONTACTS = 0x00BD; //设置SOS紧急联系人信息列表（传音项目使用）
+
+    GET_CONTACTS_CY_2_LIST = 0x00BE; //获取联系人信息列表_NEW（传音项目使用）
+    SET_CONTACTS_CY_2_LIST = 0x00BF; //设置联系人信息列表_NEW（传音项目使用）
+
+    REQUEST_GET_SOS_CONTACTS = 0x01B0; //请求获取SOS紧急联系人信息列表（传音项目使用）
+    REQUEST_SOS_CONTACTS_MESSAGE_SEND = 0x01B1; //请求SOS紧急联系人发送短信
+
+    GET_CONTACTS_AVATAR_DATA = 0x01B2; //获取头像联系人数据列表
+    SET_CONTACTS_AVATAR_DATA = 0x01B3; //设置头像联系人数据列表
+
+    GET_DONT_HAVE_AVATAR_LIST = 0x01B4; //缺少的图片文件列表返回
+
+    GET_GLOD_FRIEND_CONTACTS = 0x01B5;//获取联系人
+    SET_GLOD_FRIEND_CONTACTS = 0x01B6;//设置联系人
+    REQUEST_GLOD_FRIEND_EMOJI = 0x01B7;//申请联系人emoji信息
+    SEND_GLOD_FRIEND_EMOJI = 0x01B8;//发送联系人emoji信息
+    SEND_GLOD_FRIEND_EMOJI_REQUEST = 0x01B9;//发送联系人emoji信息回复
+    //----------------------------------------------Notification----------------------------------------------
+
+    //----------------------------------------------MUSIC----------------------------------------------
+    REQUEST_MUSIC_STATE = 0x00C0; //手表进入音乐界面-请求播放状态
+    SEND_MUSIC_CMD = 0x00C1; //发送音乐控制指令
+    QUIT_MUSIC = 0x00C2; //手表退出音乐界面-APP停止给设备发送音乐信息
+    SYNC_MUSIC_INFO = 0x00C3; //同步音乐信息
+    //----------------------------------------------MUSIC----------------------------------------------
+
+    //----------------------------------------------SettingMenu----------------------------------------------
+    GET_WRIST_SCREEN = 0x00D0; //获取抬腕亮屏参数
+    SET_WRIST_SCREEN = 0x00D1; //设置抬腕亮屏参数
+    REQUEST_GET_WRIST_SCREEN = 0x00D2; //请求获取抬腕亮屏参数
+    GET_EVENT_INFO_LIST = 0x00D3; //获取事件提醒列表
+    SET_EVENT_INFO_LIST = 0x00D4; //设置事件提醒列表
+    REQUEST_GET_EVENT_INFO_LIST = 0x00D5; //请求事件提醒列表
+    GET_HEART_RATE_MONITOR = 0x00D6; //获取心率监测参数
+    SET_HEART_RATE_MONITOR = 0x00D7; //设置心率监测参数
+    REQUEST_GET_HEART_RATE_MONITOR = 0x00D8; //请求获取心率监测参数
+    GET_SEDENTARY_REMINDER = 0x00D9; //获取久坐提醒设置参数
+    SET_SEDENTARY_REMINDER = 0x00DA; //设置久坐提醒设置参数
+    REQUEST_GET_SEDENTARY_REMINDER = 0x00DB; //请求获取久坐提醒设置参数
+    GET_CLOCK_LIST = 0x00DC; //获取闹钟提醒设置参数
+    SET_CLOCK_LIST = 0x00DD; //设置闹钟提醒设置参数
+    REQUEST_GET_CLOCK_LIST = 0x00DE; //请求获取闹钟提醒设置参数
+    GET_MEDICATION_REMINDER = 0x00DF; //获取吃药提醒设置参数
+    SET_MEDICATION_REMINDER = 0x00E0; //设置吃药提醒设置参数
+    REQUEST_GET_MEDICATION_REMINDER = 0x00E1; //请求获取吃药提醒设置参数
+    GET_DRINK_WATER_REMINDER = 0x00E2; //获取喝水提醒设置参数
+    SET_DRINK_WATER_REMINDER = 0x00E3; //设置喝水提醒设置参数
+    REQUEST_GET_DRINK_WATER_REMINDER = 0x00E4; //请求获取喝水提醒设置参数
+    GET_DO_NOT_DISTURB_MODE = 0x00E5; //获取勿扰模式设置参数
+    SET_DO_NOT_DISTURB_MODE = 0x00E6; //设置勿扰模式设置参数
+    REQUEST_GET_DO_NOT_DISTURB_MODE = 0x00E7; //请求获取勿扰模式设置参数
+    GET_VIBRATION_INTENSITY = 0x00E8; //获取震动强度设置参数
+    SET_VIBRATION_INTENSITY = 0x00E9; //设置震动强度设置参数
+    REQUEST_GET_VIBRATION_INTENSITY = 0x00EA; //请求获取震动强度设置参数
+    GET_POWER_SAVING = 0x00EB; //获取省电设置
+    SET_POWER_SAVING = 0x00EC; //设置省电设置
+    REQUEST_POWER_SAVING = 0x00ED; //请求省电设置
+
+    GET_OVERLAY_SCREEN = 0X00EE; //获取覆盖息屏
+    SET_OVERLAY_SCREEN = 0X00EF; //设置覆盖息屏
+    REQUEST_OVERLAY_SCREEN = 0X00F0; //请求覆盖息屏
+
+    GET_INFORMATION_SCREEN_DISPLAY = 0X00F1; //获取息屏设置(屏保设置)
+    SET_INFORMATION_SCREEN_DISPLAY = 0X00F2; //设置息屏设置(屏保设置)
+    REQUEST_INFORMATION_SCREEN_DISPLAY = 0X00F3; //请求息屏设置(屏保设置)
+
+    GET_PHYSIOLOGICAL_CYCLE = 0X00F4; //获取生理周期
+    SET_PHYSIOLOGICAL_CYCLE = 0X00F5; //设置生理周期
+    REQUEST_PHYSIOLOGICAL_CYCLE = 0X00F6; //请求生理周期
+
+    GET_SCREEN_SETTING = 0X00F7; //获取屏幕设置
+    SET_SCREEN_SETTING = 0X00F8; //设置屏幕设置
+    REQUEST_SCREEN_SETTING = 0X00F9; //请求屏幕设置
+
+    GET_SIMPLE_SETTING_SUMMARY = 0X00FA; //获取简单设置汇总
+
+    GET_RAPID_EYE_MOVEMENT_SETTING = 0X00FB; //获取快速眼动开关设置
+    SET_RAPID_EYE_MOVEMENT_SETTING = 0X00FC; //设置快速眼动开关设置
+    REQUEST_RAPID_EYE_MOVEMENT_SETTING = 0X00FD; //请求快速眼动开关设置
+
+    GET_AUTOMATIC_MOTION_RECOGNITION_SETTING = 0X00FE; //获取运动自动识别设置
+    SET_AUTOMATIC_MOTION_RECOGNITION_SETTING = 0X00FF; //设置运动自动识别设置
+    REQUEST_AUTOMATIC_MOTION_RECOGNITION_SETTING = 0X01D0; //请求运动自动识别设置
+
+    SYNC_STOCK_INFO = 0X01D1;//同步单条股票消息
+    SYNC_STOCK_INFO_LIST = 0X01D2;//同步多条股票消息
+    DELETE_STOCK = 0X01D3;//删除股票消息
+    SET_STOCK_LIST = 0X01D4;//设置股票消息
+    GET_STOCK_LIST = 0X01D5;//获取股票消息
+    WEAR_REQUEST = 0X01D6;//手表请求更新股票消息
+
+    GET_HAVE_MEALS_REMINDER = 0X01D7; //获取吃饭提醒设置参数
+    SET_HAVE_MEALS_REMINDER = 0X01D8; //设置吃饭提醒设置参数
+    REQUEST_GET_HAVE_MEALS_REMINDER = 0X01D9; //请求获取吃饭提醒设置参数
+
+    GET_WASH_HAND_REMINDER = 0X01DA; //获取洗手提醒设置参数
+    SET_WASH_HAND_REMINDER = 0X01DB; //设置洗手提醒设置参数
+    REQUEST_GET_WASH_HAND_REMINDER = 0X01DC; //请求获取洗手提醒设置参数
+
+    GET_CONTINUOUS_BODY_TEMPERATURE = 0X01DD; //获取连续体温设置参数
+    SET_CONTINUOUS_BODY_TEMPERATURE = 0X01DE; //设置连续体温设置参数
+    REQUEST_GET_CONTINUOUS_BODY_TEMPERATURE = 0X01DF; //请求获取连续体温设置参数
+
+    GET_CLASSIC_BLUETOOTH_STATE = 0X01E0; //获取蓝牙的设置参数
+    SET_CLASSIC_BLUETOOTH_STATE = 0X01E1; //设置蓝牙的设置参数
+    REQUEST_GET_CLASSIC_BLUETOOTH_STATE = 0X01E2; //请求获取蓝牙的设置参数
+
+    GET_SCHOOL_MODE = 0X01E3; //获取学校模式的设置参数
+    SET_SCHOOL_MODE = 0X01E4; //设置学校模式的设置参数
+    REQUEST_GET_SCHOOL_MODE = 0X01E5; //请求获取学校模式的设置参数
+
+    GET_SCHEDULE_REMINDER = 0X01E6; //获取调度器的设置参数
+    SET_SCHEDULE_REMINDER = 0X01E7; //设置调度器的设置参数
+    REQUEST_GET_SCHEDULE_REMINDER = 0X01E8; //请求获取调度器的设置参数
+
+    GET_SLEEP_MODE = 0X01E9; //获取睡眠模式的设置参数
+    SET_SLEEP_MODE = 0X01EA; //设置睡眠模式的设置参数
+    REQUEST_GET_SLEEP_MODE = 0X01EB; //请求获取睡眠模式的设置参数
+
+    GET_PRESSURE_MODE = 0X01EC; //获取压力模式的设置参数
+    SET_PRESSURE_MODE = 0X01ED; //设置压力模式的设置参数
+    REQUEST_GET_PRESSURE_MODE = 0X01EE; //请求获取压力模式的设置参数
+
+    GET_NOTIFICATION_SETTINGS = 0X01EF; //获取通知设置的设置参数
+    SET_NOTIFICATION_SETTINGS = 0X01F0; //设置通知设置的设置参数
+    REQUEST_GET_NOTIFICATION_SETTINGS = 0X01F1; //请求获取通知设置的设置参数
+
+    GET_CONTINUOUS_BLOOD_OXYGEN_SETTINGS = 0X01F2; //获取连续血氧设置的设置参数
+    SET_CONTINUOUS_BLOOD_OXYGEN_SETTINGS = 0X01F3; //设置连续血氧设置的设置参数
+    REQUEST_GET_CONTINUOUS_BLOOD_OXYGEN_SETTINGS = 0X01F4; //请求获取连续血氧设置的设置参数
+
+    GET_FIND_WEAR_SETTINGS = 0X01F5; //获取找手环设置的设置参数
+    SET_FIND_WEAR_SETTINGS = 0X01F6; //设置找手环设置的设置参数
+    REQUEST_GET_FIND_WEAR_SETTINGS = 0X01F7; //请求获取找手环设置的设置参数
+
+    GET_EXAM_DATA_SETTINGS = 0X01F8; //获取考试模式设置的设置参数
+    SET_EXAM_DATA_SETTINGS = 0X01F9; //设置考试模式设置的设置参数
+    REQUEST_GET_EXAM_DATA_SETTINGS = 0X01FA; //请求获取考试模式设置的设置参数
+
+    GET_CALL_REMINDER_SETTINGS = 0X01FB; //获取来电提醒设置模式的设置参数
+    SET_CALL_REMINDER_SETTINGS = 0X01FC; //设置来电提醒设置模式的设置参数
+    REQUEST_GET_CALL_REMINDER_SETTINGS = 0X01FD; //请求获取来电提醒设置模式的设置参数
+
+    GET_SLEEP_REMINDER_SETTINGS = 0X01FE; //获取睡觉提醒的设置参数
+    SET_SLEEP_REMINDER_SETTINGS = 0X01FF; //设置睡觉提醒的设置参数
+    REQUEST_GET_SLEEP_REMINDER_SETTINGS = 0X02D0; //请求获取睡觉提醒的设置参数
+	
+	  GET_SOUND_LIST_SETTINGS = 0X02D1; //获取铃声数据的列表数据的设置参数
+    SET_SOUND_LIST_SETTINGS = 0X02D2; //设置铃声数据的列表数据的设置参数
+    REQUEST_GET_SOUND_LIST_SETTINGS = 0X02D3; //请求获取铃声数据的列表数据的设置参数
+	
+	  GET_CUSTOMIZE_SETTING = 0X02D4; //获取自定义左键功能定义的设置参数
+    SET_CUSTOMIZE_SETTING = 0X02D5; //设置自定义左键功能定义的设置参数
+    REQUEST_GET_CUSTOMIZE_SETTING = 0X02D6; //请求获取自定义左键功能定义的设置参数
+	
+	  GET_VIBRATION_INTENSITY_TIME = 0X02D7; //获取震动时长参数
+    SET_VIBRATION_INTENSITY_TIME = 0X02D8; //设置震动时长参数
+    REQUEST_GET_VIBRATION_INTENSITY_TIME = 0X02D9; //请求获取震动时长参数
+
+    GET_REAL_TIME_HEART_RATE_SETTINGS = 0X02DA; //获取实时心率配置参数
+    SET_REAL_TIME_HEART_RATE_SETTINGS = 0X02DB; //设置实时心率配置参数
+    REQUEST_GET_REAL_TIME_HEART_RATE_SETTINGS = 0X02DC; //请求获取时心率配置参数
+    REPORT_REAL_TIME_HEART_RATE_DATA = 0x02DD; //获取实时心率数据
+
+    GET_BREATHING_LIGHT_SETTINGS = 0X02DE; //获取呼吸灯设置
+    SET_BREATHING_LIGHT_SETTINGS = 0X02DF; //设置呼吸灯设置
+    REQUEST_GET_BREATHING_LIGHT_SETTINGS = 0X02E0; //请求获取呼吸灯设置
+
+    GET_QR_CODE_SETTINGS = 0X02E1; //获取二维码设置
+    SET_QR_CODE_SETTINGS = 0X02E2; //设置二维码设置
+    REQUEST_GET_QR_CODE_SETTINGS = 0X02E3; //请求获取二维码设置
+
+    GET_ESIM_EID_SETTINGS = 0X02E4; //请求获取手表端esim的EID设置
+    SET_ESIM_BIGDATA_SETTINGS = 0X02E5; //设置手表端esim超大数据设置
+
+    GET_ESIM_COMMON_DATA_SETTINGS = 0X02E6; //获取esim的普通设置
+    SET_ESIM_COMMON_DATA_SETTINGS = 0X02E7; //设置esim的普通设置
+
+    DELETE_ESIM_SETTINGS = 0x2E8;//删除esim的卡的ID
+    SEND_ESIM_HTTP_DATA = 0x2E9;//发送esimhttp数据给到APP
+
+    REQUEST_GET_EV_DATA_INFO = 0x2EA;
+    GET_EV_DATA_INFO = 0x2EB;
+    SET_EV_DATA_INFO = 0x2EC;
+    GET_EV_REMIND_STATUS = 0x2ED;
+    SET_EV_REMIND_STATUS = 0x2EE;
+    
+    SET_RING_AIRPLANEMODE = 0x2EF;   // 戒指开启飞行模式
+    //----------------------------------------------SettingMenu----------------------------------------------
+
+    //----------------------------------------------Factory----------------------------------------------
+    FILE_INFO_UPDATE = 0x1001;//文件数据上传
+    PHONE_SEND_HEART_RATE_SWITCH = 0x1002;//手机下发心率血氧灰卡漏光数据开始的开关
+    HEART_RATE_LEAKAGE_UPDATE = 0x1003;//心率血氧灰卡漏光数据上传
+    HEART_RATE_LEAKAGE_RAW_DATE_UPDATE = 0x1004;//心率血氧灰卡漏光原始数据上传
+    PHONE_REQUEST_LOG_UPDATE = 0x1005; //APP申请log数据上传
+    WEAR_SEND_LOG_STATE = 0x1006; //手表上传log状态
+    PHONE_SEND_BLUETOOTH_NAME_SETTING = 0x1007;//手机发送蓝牙名
+    PHONE_GET_BLUETOOTH_NAME_SETTING = 0x1008;//手机获取蓝牙名
+    PHONE_SEND_GSENSOR_GEOMAGNETIC_SWITCH = 0x1009;//手机下发gsensor/地磁原始数据开始的开关
+    GSENSOR_GEOMAGNETIC_RAW_DATE_UPDATE = 0x100A;//gsensor/地磁原始数据上传
+    PHONE_SEND_TRIAXIAL_SWITCH = 0x100B;//手机下发三轴数据开始的开关
+    TRIAXIAL_RAW_DATE_UPDATE = 0x100C;//三轴数据上传
+    PHONE_REQUEST_FILE_INFO_UPDATE = 0x100D; //APP申请文件数据上传(LOG打印使用)
+    PHONE_REQUEST_UPLOAD_BURIED_FILES = 0x100E; //APP申请埋点文件数据上传
+    //----------------------------------------------Factory----------------------------------------------
+
+    //----------------------------------------------ALEAX----------------------------------------------
+    SYNC_INSTRUCTION = 0x1101;//同步aleax指令
+    //----------------------------------------------ALEAX----------------------------------------------
+  }
+  required uint32 id = 1 [(nanopb).int_size = IS_16];
+  oneof payload {
+    uint32 change_mtu = 2 [(nanopb).int_size = IS_16]; //MTU
+    SEBindAccount bind_account = 3; //绑定相关的数据
+    SEDevice device = 4; //设备信息数据
+    SESystemTime system_time = 5; //时间相关的数据
+    SEUserSettings user_settings = 6; //用户相关设置
+    SEWatchFace watch_face = 7; //表盘相关的数据
+    SESporting sporting = 8; //运动相关数据
+    SEFitness fitness = 9; //IDS相关运动数据
+    SEWeather weasether = 10; //天气相关数据
+    SELargeFile large_file = 11; //ota准备升级
+    SEMicroFunction micro_function = 12; //小功能块
+    SENotification notification = 13; //通知
+    SEMusic music = 14; //音乐
+    SESettingMenu setting_menu = 15; //设置相关数据
+    SEFactory factory = 16;//debug调试和工厂模式
+    SEAleax aleax = 17;//aleax
+
+    SEBLEConnectParameterConfig ble_connect_parmeter_config = 99; //蓝牙连接配置参数
+    SEErrorCode error_code = 100; //错误码
+  }
+}
