@@ -178,6 +178,10 @@ message SEWear {
 
     SET_SPORTS_ICON_INFOWEAR_LIST = 0x01A1; //设置运动带图标功能列表（INFOWEAR使用）
     GET_SPORTS_ICON_INFOWEAR_LIST = 0x01A2; //获取运动带图标功能列表（INFOWEAR使用）
+
+    REQUEST_NFC_SLEEP_ERR = 0x01A3; //戒指项目 APP获取NFC睡眠状态
+    GET_RING_WEAR_STATUS = 0x01A4; //戒指项目 APP获取戒指佩戴状态
+    REQUEST_DEVICE_WEAR_STATUS = 0x01A5; //戒指项目 设备主动上报佩戴状态
     //----------------------------------------------Micro_Function----------------------------------------------
 
     //----------------------------------------------Notification----------------------------------------------
@@ -405,6 +409,8 @@ message SEWear {
     TRIAXIAL_RAW_DATE_UPDATE = 0x100C;//三轴数据上传
     PHONE_REQUEST_FILE_INFO_UPDATE = 0x100D; //APP申请文件数据上传(LOG打印使用)
     PHONE_REQUEST_UPLOAD_BURIED_FILES = 0x100E; //APP申请埋点文件数据上传
+    PHONE_SEND_DEVELOPER_DATA_CMD = 0x100F; //手机下发开发者采集数据指令
+    WEAR_SEND_DEVELOPER_DATA = 0x1010; //设备上报开发者采集数据
     //----------------------------------------------Factory----------------------------------------------
 
     //----------------------------------------------ALEAX----------------------------------------------
