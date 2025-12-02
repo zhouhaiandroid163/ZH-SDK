@@ -336,6 +336,7 @@
     <string name="input_low_warning_value">低心率预警值:</string>
     <string name="input_super_notice_context">内容(英文逗号分隔)格式(%s):</string>
     <string name="input_activation_code">激活码:</string>
+    <string name="input_bg_mode">多背景切换模式:</string>
 
     <!--扫描相关 Scan-related-->
     <string name="title_scan_device">扫描设备</string>

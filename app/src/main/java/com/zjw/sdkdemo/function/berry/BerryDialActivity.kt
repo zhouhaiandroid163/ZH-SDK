@@ -35,6 +35,7 @@ import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.AcitivityBerryDialBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
+import com.zjw.sdkdemo.function.MainActivity.GlobalData.deviceInfo
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.File
 import kotlin.math.abs
@@ -52,6 +53,7 @@ class BerryDialActivity : BaseActivity() {
 
     private val bgFilePath = PathUtils.getExternalAppCachePath() + "/berry_bg_img"
     private lateinit var bgFile: File
+    private lateinit var bgFiles: MutableList<File>
 
     private var watchFaceList: MutableList<WatchFaceListBean> = mutableListOf()
 
@@ -62,7 +64,15 @@ class BerryDialActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_dial_berry)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.tvLog, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.tvLog,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallBack()
@@ -138,7 +148,7 @@ class BerryDialActivity : BaseActivity() {
 
         clickCheckConnect(binding.layoutBerryDialPhoto.layoutSelectDialFile.btnSelectFile) {
             addLogI("layoutSelectDialFile.btnSelectFile")
-            DialogUtils.showSelectFileDialog(this, ordinaryFilePath, ".bin") { selectedFile ->
+            DialogUtils.showSelectFileDialog(this, photoFilePath, ".bin") { selectedFile ->
                 photoFile = selectedFile
                 binding.layoutBerryDialPhoto.layoutSelectDialFile.tvFileName.text = selectedFile.name
             }
@@ -146,9 +156,20 @@ class BerryDialActivity : BaseActivity() {
 
         clickCheckConnect(binding.layoutBerryDialPhoto.layoutSelectBgFile.btnSelectFile) {
             addLogI("layoutSelectBgFile.btnSelectFile")
-            DialogUtils.showSelectImgDialog(this, bgFilePath) { selectedFile ->
-                bgFile = selectedFile
-                binding.layoutBerryDialPhoto.layoutSelectBgFile.tvFileName.text = selectedFile.name
+            if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_0) {
+                DialogUtils.showSelectImgDialog(this, bgFilePath) { selectedFile ->
+                    bgFile = selectedFile
+                    binding.layoutBerryDialPhoto.layoutSelectBgFile.tvFileName.text = selectedFile.name
+                }
+            } else if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_1) {
+                DialogUtils.showSelectImgDialog(this, bgFilePath) { selectedFile ->
+                    if (!::bgFiles.isInitialized) {
+                        bgFiles = mutableListOf<File>()
+                    }
+                    bgFiles.add(selectedFile)
+                    binding.layoutBerryDialPhoto.layoutSelectBgFile.tvFileName.text =
+                        binding.layoutBerryDialPhoto.layoutSelectBgFile.tvFileName.text.toString() + "," + selectedFile.name
+                }
             }
         }
 
@@ -159,7 +180,7 @@ class BerryDialActivity : BaseActivity() {
                 return@clickCheckConnect
             }
             if (watchFaceList.isEmpty()) {
-                addLogI(getString(R.string.select_file_tip))
+                addLogI(getString(R.string.get_data_tip1))
                 return@clickCheckConnect
             }
             val isPhoto = true
@@ -178,14 +199,6 @@ class BerryDialActivity : BaseActivity() {
                 addLogI(getString(R.string.get_data_err1))
                 return@clickCheckConnect
             }
-
-            val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
-            var bgBitmap: Bitmap? = null
-            if (::bgFile.isInitialized) {
-                bgBitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(bgData), dialWidth, dailHeight)
-                bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
-            }
-
             var isNeedGetState = true
             for (item in watchFaceList) {
                 if (TextUtils.equals(item.id, dialId)) {
@@ -196,34 +209,39 @@ class BerryDialActivity : BaseActivity() {
             //未安装 - 需查询状态后再发送
             if (isNeedGetState) {
                 isSendPhoto = true
-                addLogI("getWatchFaceStatusByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
-                ControlBleTools.getInstance().getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, bgBitmap, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("getWatchFaceStatusByBerry state=$state")
+                if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_0) {
+                    var bgBitmap: Bitmap? = null
+                    if (::bgFile.isInitialized) {
+                        val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
+                        bgBitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(bgData), dialWidth, dailHeight)
+                        bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
                     }
-                })
+                    addLogI("getWatchFaceStatusByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
+                    ControlBleTools.getInstance().getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, bgBitmap, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("getWatchFaceStatusByBerry state=$state")
+                        }
+                    })
+                } else if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_1) {
+                    val bgBitmaps = mutableListOf<Bitmap>()
+                    if (::bgFiles.isInitialized) {
+                        for (file in bgFiles) {
+                            val bitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(FileIOUtils.readFile2BytesByStream(file)), dialWidth, dailHeight)
+                            //处理圆角
+                            bgBitmaps.add(ImageUtils.toRoundCorner(bitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f))
+                        }
+                    }
+                    addLogI("getWatchFaceStatusMultiImgByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
+                    ControlBleTools.getInstance().getWatchFaceStatusMultiImgByBerry(dialId, dialStyle, dialData.size, bgBitmaps, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("getWatchFaceStatusMultiImgByBerry state=$state")
+                        }
+                    })
+                }
             }
             //已安装，直接发送
             else {
-                val albumRequest = BerryAlbumWatchFaceEditRequestBean()
-                albumRequest.id = dialId
-                albumRequest.isSetCurrent = true
-                albumRequest.style = dialStyle
-                addLogBean("startUploadDialBigDataByBerry isPhoto=$isPhoto dialData=${dialData.size}", albumRequest)
-                ControlBleTools.getInstance().startUploadDialBigDataByBerry(isPhoto, dialData, bgBitmap, albumRequest, object : BerryDialUploadListener {
-                    override fun onSuccess(code: Int) {
-                        addLogI("startUploadDialBigDataByBerry onSuccess code=$code")
-                    }
-
-                    override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
-                        val percentage = (curPiece * 100 / dataPackTotalPieceLength)
-                        addLogI("startUploadDialBigDataByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
-                    }
-
-                    override fun onTimeout(msg: String?) {
-                        addLogE("startUploadDialBigDataByBerry onTimeout msg=$msg")
-                    }
-                })
+                sendPhotoFile()
             }
         }
     }
@@ -263,8 +281,21 @@ class BerryDialActivity : BaseActivity() {
         CallBackUtils.watchFaceInstallCallBack = WatchFaceInstallCallBack { bean ->
             addLogBean("watchFaceInstallCallBack", bean)
 
-            if (bean.code == WatchFaceInstallCallBack.WatchFaceInstallCode.INSTALL_SUCCESS.state) {
-                binding.layoutBerryDialManage.btnGet.callOnClick()
+            if (bean != null) {
+                when (bean?.code) {
+                    WatchFaceInstallCallBack.WatchFaceInstallCode.INSTALL_SUCCESS.state -> {
+                        //安装成功 Installation Successful
+                        binding.layoutBerryDialManage.btnGet.callOnClick()
+                    }
+
+                    WatchFaceInstallCallBack.WatchFaceInstallCode.INSTALL_FAILED.state -> {
+                        //安装失败 Installation failed
+                    }
+                    WatchFaceInstallCallBack.WatchFaceInstallCode.VERIFY_FAILED.state,
+                    WatchFaceInstallCallBack.WatchFaceInstallCode.INSTALL_USED.state -> {
+                        //验证失败 Authentication failed
+                    }
+                }
             }
         }
     }
@@ -320,6 +351,7 @@ class BerryDialActivity : BaseActivity() {
         val dialStyle = binding.layoutBerryDialPhoto.etStyle.text.toString()
         val dialWidth = binding.layoutBerryDialPhoto.etWidth.text.toString().toInt()
         val dailHeight = binding.layoutBerryDialPhoto.etHeight.text.toString().toInt()
+        val imageSwitchStyle = binding.layoutBerryDialPhoto.etBgStyle.text.toString().toInt()
 
         if (dialWidth <= 0 || dailHeight <= 0) {
             addLogI(getString(R.string.get_data_err1))
@@ -332,35 +364,70 @@ class BerryDialActivity : BaseActivity() {
                 addLogI("getDeviceLargeFileStateByBerry onSuccess statusValue=$statusValue statusName=$statusName")
 
                 if (statusValue == DeviceLargeFileStatusListener.PrepareStatus.READY.state) {
-                    val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
-                    var bgBitmap: Bitmap? = null
-                    if (::bgFile.isInitialized) {
-                        bgBitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(bgData), dialWidth, dailHeight)
-                        bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
+
+                    if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_0) {
+                        val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
+                        var bgBitmap: Bitmap? = null
+                        if (::bgFile.isInitialized) {
+                            bgBitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(bgData), dialWidth, dailHeight)
+                            bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
+                        }
+                        val albumRequest = BerryAlbumWatchFaceEditRequestBean()
+                        albumRequest.id = dialId
+                        albumRequest.isSetCurrent = true
+                        albumRequest.style = dialStyle
+
+                        val background = bgBitmap
+                        val requestBean = albumRequest
+                        addLogI("startUploadDialBigDataByBerry isPhoto=$isPhoto dialData=${dialData.size} background=$background requestBean=$requestBean deviceVer=$deviceVer")
+                        ControlBleTools.getInstance().startUploadDialBigDataByBerry(isPhoto, dialData, background, requestBean, object : BerryDialUploadListener {
+                            override fun onSuccess(code: Int) {
+                                addLogI("startUploadDialBigDataByBerry onSuccess code=$code")
+                            }
+
+                            override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                                val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                                addLogI("startUploadDialBigDataByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                            }
+
+                            override fun onTimeout(msg: String?) {
+                                addLogE("startUploadDialBigDataByBerry onTimeout msg=$msg")
+                            }
+                        })
+
+                    } else if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_1) {
+                        val bgBitmaps: MutableList<Bitmap> = mutableListOf()
+                        if (::bgFiles.isInitialized) {
+                            for (file in bgFiles) {
+                                val bitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(FileIOUtils.readFile2BytesByStream(file)), dialWidth, dailHeight)
+                                //处理圆角
+                                bgBitmaps.add(ImageUtils.toRoundCorner(bitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f))
+                            }
+                        }
+                        val albumRequest = BerryAlbumWatchFaceEditRequestBean()
+                        albumRequest.id = dialId
+                        albumRequest.isSetCurrent = true
+                        albumRequest.style = dialStyle
+                        //----
+                        albumRequest.imageSwitchStyle = imageSwitchStyle
+                        addLogI("startUploadDialBigDataByBerry isPhoto=$isPhoto dialData=${dialData.size} background=$bgBitmaps requestBean=$albumRequest deviceVer=$deviceVer")
+                        ControlBleTools.getInstance().startUploadDialMultiImgBigDataByBerry(isPhoto, dialData, bgBitmaps, albumRequest, object : BerryDialUploadListener {
+                            override fun onSuccess(code: Int) {
+                                addLogI("startUploadDialBigDataByBerry onSuccess code=$code")
+                            }
+
+                            override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                                val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                                addLogI("startUploadDialBigDataByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                            }
+
+                            override fun onTimeout(msg: String?) {
+                                addLogE("startUploadDialBigDataByBerry onTimeout msg=$msg")
+                            }
+                        })
                     }
-                    val albumRequest = BerryAlbumWatchFaceEditRequestBean()
-                    albumRequest.id = dialId
-                    albumRequest.isSetCurrent = true
-                    albumRequest.style = dialStyle
-
-                    val background = bgBitmap
-                    val requestBean = albumRequest
-                    addLogI("startUploadDialBigDataByBerry isPhoto=$isPhoto dialData=${dialData.size} background=$background requestBean=$requestBean deviceVer=$deviceVer")
-                    ControlBleTools.getInstance().startUploadDialBigDataByBerry(isPhoto, dialData, background, requestBean, object : BerryDialUploadListener {
-                        override fun onSuccess(code: Int) {
-                            addLogI("startUploadDialBigDataByBerry onSuccess code=$code")
-                        }
-
-                        override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
-                            val percentage = (curPiece * 100 / dataPackTotalPieceLength)
-                            addLogI("startUploadDialBigDataByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
-                        }
-
-                        override fun onTimeout(msg: String?) {
-                            addLogE("startUploadDialBigDataByBerry onTimeout msg=$msg")
-                        }
-                    })
                 }
+
             }
 
             override fun timeOut() {

@@ -21,11 +21,23 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llBottom"
         style="@style/public_lin01"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <include
             android:id="@+id/layoutSelectDialFile"
             layout="@layout/public_select_file" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_id" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etId"
+                style="@style/public_edit_str" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
 
@@ -67,13 +79,15 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/public_textview01"
-                android:text="@string/input_id" />
+                android:text="@string/input_bg_mode" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etId"
+                android:id="@+id/etBgStyle"
                 style="@style/public_edit_str" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
         <include
             android:id="@+id/layoutSelectBgFile"

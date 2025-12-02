@@ -2,9 +2,11 @@ package com.zjw.sdkdemo.livedata
 
 import android.util.Log
 import com.zhapp.ble.ControlBleTools
+import com.zhapp.ble.bean.EmergencyContactBean
 import com.zhapp.ble.bean.WidgetBean
 import com.zhapp.ble.callback.BerryDevReqContactCallBack
 import com.zhapp.ble.callback.CallBackUtils
+import com.zhapp.ble.callback.EmergencyContactSosCallBack
 import com.zhapp.ble.callback.MicroCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
@@ -24,7 +26,7 @@ object MyMicroCallBack {
 
     // 戒指NFC睡眠错误信息
     val onNfcSleepErr = UnFlawedLiveData<Int>()
-    
+
     // 戒指佩戴状态
     val onRingWearingStatus = UnFlawedLiveData<Int>()
 
@@ -77,6 +79,17 @@ object MyMicroCallBack {
                 }
             })
         }
+
+        CallBackUtils.emergencyContactSosCallBack = object : EmergencyContactSosCallBack {
+            override fun onSosMessageNeedSent(bean: EmergencyContactBean?) {
+                Log.i(tag, "onSosMessageNeedSent bean=$bean")
+            }
+
+            override fun onSosCallNeedSent(bean: EmergencyContactBean?) {
+                Log.i(tag, "onSosCallNeedSent bean=$bean")
+            }
+        }
+
 
     }
 

@@ -244,7 +244,7 @@
     <string name="start_time">Average speed that day:</string>
     <string name="end_time">Total driving time that day:</string>
     <string name="start_date">EV reminder:</string>
-    <string name="input_style">How many days in advance should I be reminded:</string>
+    <string name="input_style">Style:</string>
     <string name="input_vibration_time">Total cycle length in days:</string>
     <string name="input_music_name">Period length in days:</string>
     <string name="input_play_state">Data recording start time:</string>
@@ -336,6 +336,7 @@
     <string name="input_low_warning_value">Low heart rate warning value:</string>
     <string name="input_super_notice_context">Content (comma-separated) format (%s):</string>
     <string name="input_activation_code">Activation code:</string>
+    <string name="input_bg_mode">Multi Img switching mode:</string>
 
     <!--扫描相关 Scan-related-->
     <string name="title_scan_device">Scan device</string>

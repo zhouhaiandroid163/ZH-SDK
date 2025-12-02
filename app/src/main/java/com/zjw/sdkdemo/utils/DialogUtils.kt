@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.ScreenUtils
@@ -110,7 +111,7 @@ object DialogUtils {
                     onFileSelected(file)
                     dialog.dismiss()
                 }
-                dialog.findViewById<LinearLayout>(R.id.listLayout)?.addView(view)
+                dialog.findViewById<LinearLayoutCompat>(R.id.listLayout)?.addView(view)
             }
         }
         dialog.show()
@@ -135,7 +136,7 @@ object DialogUtils {
                     onFileSelected(file)
                     dialog.dismiss()
                 }
-                dialog.findViewById<LinearLayout>(R.id.listLayout)?.addView(view)
+                dialog.findViewById<LinearLayoutCompat>(R.id.listLayout)?.addView(view)
             }
         }
         dialog.show()

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
@@ -215,7 +216,7 @@ class ESimActivity : BaseActivity() {
             val errorCode: Int = data.getIntExtra(ScanUtil.RESULT_CODE, ScanUtil.SUCCESS)
             if (errorCode == ScanUtil.SUCCESS) {
                 val obj: Any? = data.getParcelableExtra(ScanUtil.RESULT)
-                addLogI("onActivityResult obj=$obj")
+                addLogI("onActivityResult obj=${GsonUtils.toJson(obj)}")
                 if (obj != null) {
                     binding.etActivationCode.setText(obj.toString())
                     binding.etActivationCode.setSelection(obj.toString().length)
