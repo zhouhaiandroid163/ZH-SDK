@@ -110,6 +110,10 @@
     <string name="fun_pressure_mode">Continuous pressure detection</string>
     <string name="fun_rem">REM Switch </string>
     <string name="fun_sleep_mode">Sleep Mode</string>
+    <string name="fun_sw_spo2_monitor">Screenless wristband blood oxygen warning settings</string>
+    <string name="fun_sw_hr_monitor">Screenless wristband heart rate warning settings</string>
+    <string name="fun_sw_hrv_monitor">Screenless wristband heart rate variability warning settings</string>
+    <string name="fun_sw_br_monitor">Screenless wristband breathing relaxation warning settings</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">scheduler</string>
     <string name="child_school_mode">School Model</string>
@@ -365,8 +369,8 @@
     <string name="disconnect_device">Disconnected</string>
     <!--日志相关 Log-related-->
     <string name="log_info">Log related</string>
-    <string name="log_dialog_title">设置LogUserId</string>
-    <string name="log_id_null">请输入LogUserId</string>
+    <string name="log_dialog_title">Set Lark user ID</string>
+    <string name="log_id_null">Please enter your Lark user ID.</string>
     <!--功能相关 Function-related-->
     <string name="fun_info">Function related</string>
     <string name="bind_device">Bind device</string>
@@ -527,5 +531,14 @@
     <string name="device_log_quit">Long press the button to exit the page</string>
     <string name="user_set_user_profile">Set user information</string>
     <string name="user_set_user_profile_sync">Set up user information synchronization</string>
-
+    <string name="sw_spo2_monitor_warning_switch">Blood oxygen warning switch</string>
+    <string name="sw_spo2_monitor_warning_value">Blood oxygen warning value</string>
+    <string name="sw_hr_low_switch">Low heart rate warning switch</string>
+    <string name="sw_hr_low_value">Low heart rate warning value</string>
+    <string name="sw_hr_high_switch">High heart rate warning switch</string>
+    <string name="sw_hr_high_value">High heart rate warning value</string>
+    <string name="sw_hrv_monitor_warning_switch">Heart rate variability warning switch</string>
+    <string name="sw_hrv_monitor_warning_value">Heart rate variability warning value</string>
+    <string name="sw_br_monitor_warning_switch">Breathing relaxation warning switch</string>
+    <string name="sw_br_monitor_warning_value">Breathing relaxation warning value</string>
 </resources>

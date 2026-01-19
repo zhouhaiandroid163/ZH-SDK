@@ -12,6 +12,10 @@ import com.zhapp.ble.bean.HeartRateMonitorBean
 import com.zhapp.ble.bean.MusicInfoBean
 import com.zhapp.ble.bean.PressureModeBean
 import com.zhapp.ble.bean.RealTimeHeartRateConfigBean
+import com.zhapp.ble.bean.SWBRMonitorBean
+import com.zhapp.ble.bean.SWHRMonitorBean
+import com.zhapp.ble.bean.SWHRVMonitorBean
+import com.zhapp.ble.bean.SWSPO2MonitorBean
 import com.zhapp.ble.bean.SleepModeBean
 import com.zhapp.ble.bean.StockInfoBean
 import com.zhapp.ble.bean.StockSymbolBean
@@ -45,7 +49,15 @@ class SetFunActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_set_fun)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.tvLog, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallback()
@@ -78,6 +90,10 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutContinuousTemperature.cbTop, binding.layoutContinuousTemperature.llBottom, binding.layoutContinuousTemperature.ivHelp)
         setMyCheckBox(binding.layoutPressureMode.cbTop, binding.layoutPressureMode.llBottom, binding.layoutPressureMode.ivHelp)
         setMyCheckBox(binding.layoutSleepMode.cbTop, binding.layoutSleepMode.llBottom, binding.layoutSleepMode.ivHelp)
+        setMyCheckBox(binding.layoutSWSPO2Monitor.cbTop, binding.layoutSWSPO2Monitor.llBottom, binding.layoutSWSPO2Monitor.ivHelp)
+        setMyCheckBox(binding.layoutSWHRMonitor.cbTop, binding.layoutSWHRMonitor.llBottom, binding.layoutSWHRMonitor.ivHelp)
+        setMyCheckBox(binding.layoutSWHRVMonitor.cbTop, binding.layoutSWHRVMonitor.llBottom, binding.layoutSWHRVMonitor.ivHelp)
+        setMyCheckBox(binding.layoutSWBRMonitor.cbTop, binding.layoutSWBRMonitor.llBottom, binding.layoutSWBRMonitor.ivHelp)
 
         selectSettingTime(binding.layoutContinuousSpo2.tvStartTime)
         selectSettingTime(binding.layoutContinuousSpo2.tvEndTime)
@@ -256,7 +272,8 @@ class SetFunActivity : BaseActivity() {
         clickCheckConnect(binding.layoutContinuousSpo2.btnSet) {
             addLogI("layoutContinuousSpo2.btnSet")
             val bean = ContinuousBloodOxygenSettingsBean()
-            bean.mode = if (binding.layoutContinuousSpo2.cbSwitch.isChecked) SettingMenuCallBack.ContinuousBloodOxygenMode.AUTO.mode else SettingMenuCallBack.ContinuousBloodOxygenMode.OFF.mode
+            bean.mode =
+                if (binding.layoutContinuousSpo2.cbSwitch.isChecked) SettingMenuCallBack.ContinuousBloodOxygenMode.AUTO.mode else SettingMenuCallBack.ContinuousBloodOxygenMode.OFF.mode
             bean.frequency = binding.layoutContinuousSpo2.etInterval.text.toString().trim().toInt()
             bean.startTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousSpo2.tvStartTime)
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousSpo2.tvEndTime)
@@ -281,7 +298,8 @@ class SetFunActivity : BaseActivity() {
         clickCheckConnect(binding.layoutContinuousTemperature.btnSet) {
             addLogI("layoutContinuousTemperature.btnSet")
             val bean = BodyTemperatureSettingBean()
-            bean.mode = if (binding.layoutContinuousTemperature.cbSwitch.isChecked) SettingMenuCallBack.BodyTemperatureMode.AUTO.mode else SettingMenuCallBack.BodyTemperatureMode.OFF.mode
+            bean.mode =
+                if (binding.layoutContinuousTemperature.cbSwitch.isChecked) SettingMenuCallBack.BodyTemperatureMode.AUTO.mode else SettingMenuCallBack.BodyTemperatureMode.OFF.mode
             bean.frequency = binding.layoutContinuousTemperature.etInterval.text.toString().trim().toInt()
             bean.startTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousTemperature.tvStartTime)
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousTemperature.tvEndTime)
@@ -373,6 +391,101 @@ class SetFunActivity : BaseActivity() {
                 }
             })
         }
+
+        clickCheckConnect(binding.layoutSWSPO2Monitor.btnGet) {
+            addLogI("layoutSWSPO2Monitor.btnGet")
+            addLogI("getSWSPO2Monitor")
+            ControlBleTools.getInstance().getSWSPO2Monitor(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSWSPO2Monitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWSPO2Monitor.btnSet) {
+            addLogI("layoutSWSPO2Monitor.btnSet")
+            val bean = SWSPO2MonitorBean()
+            bean.isWarning = binding.layoutSWSPO2Monitor.cbSpo2WarningSwitch.isChecked
+            bean.warningValue = binding.layoutSWSPO2Monitor.etSpo2WarningValue.text.toString().trim().toInt()
+            addLogBean("setSWSPO2Monitor", bean)
+            ControlBleTools.getInstance().setSWSPO2Monitor(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWSPO2Monitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWHRMonitor.btnGet) {
+            addLogI("layoutSWHRMonitor.btnGet")
+            addLogI("getSWHRMonitor")
+            ControlBleTools.getInstance().getSWHRMonitor(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSWHRMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWHRMonitor.btnSet) {
+            addLogI("layoutSWHRMonitor.btnSet")
+            val bean = SWHRMonitorBean()
+            bean.isLowWarning = binding.layoutSWHRMonitor.cbHrLowWarningSwitch.isChecked
+            bean.lowWarningValue = binding.layoutSWHRMonitor.etHrLowWarningValue.text.toString().trim().toInt()
+            bean.isHeightWarning = binding.layoutSWHRMonitor.cbHrHeightWarningSwitch.isChecked
+            bean.heightWarningValue = binding.layoutSWHRMonitor.etHrHeightWarningValue.text.toString().trim().toInt()
+            addLogBean("setSWHRMonitor", bean)
+            ControlBleTools.getInstance().setSWHRMonitor(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWHRMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWHRVMonitor.btnGet){
+            addLogI("layoutSWHRVMonitor.btnGet")
+            addLogI("getSWHRVMonitor")
+            ControlBleTools.getInstance().getSWHRVMonitor(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSWHRVMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWHRVMonitor.btnSet){
+            addLogI("layoutSWHRVMonitor.btnSet")
+            val bean = SWHRVMonitorBean()
+            bean.isWarning = binding.layoutSWHRVMonitor.cbHrvWarningSwitch.isChecked
+            bean.warningValue = binding.layoutSWHRVMonitor.etHrvWarningValue.text.toString().trim().toInt()
+            addLogBean("setSWHRVMonitor", bean)
+            ControlBleTools.getInstance().setSWHRVMonitor(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWHRVMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWBRMonitor.btnGet){
+            addLogI("layoutSWBRMonitor.btnGet")
+            addLogI("getSWBRMonitor")
+            ControlBleTools.getInstance().getSWBRMonitor(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSWBRMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWBRMonitor.btnSet){
+            addLogI("layoutSWBRMonitor.btnSet")
+            val bean = SWBRMonitorBean()
+            bean.isWarning = binding.layoutSWBRMonitor.cbBrWarningSwitch.isChecked
+            bean.warningValue = binding.layoutSWBRMonitor.etBrWarningValue.text.toString().trim().toInt()
+            addLogBean("setSWBRMonitor", bean)
+            ControlBleTools.getInstance().setSWBRMonitor(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWBRMonitor state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallback() {
@@ -402,6 +515,26 @@ class SetFunActivity : BaseActivity() {
 
         MySettingMenuCallBack.onSleepModeResult.observe(this, Observer { value ->
             addLogI("MySettingMenuCallBack.rapidEyeMovement value=$value")
+        })
+
+        MySettingMenuCallBack.onSWSPO2Monitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWSPO2Monitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onSWHRMonitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWHRMonitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onSWBRMonitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWBRMonitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onSWSPO2Monitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWSPO2Monitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onSWHRVMonitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWHRVMonitor", bean!!)
         })
 
         CallBackUtils.musicCallBack = object : MusicCallBack {

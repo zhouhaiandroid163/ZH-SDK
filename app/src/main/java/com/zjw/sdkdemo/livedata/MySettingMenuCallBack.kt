@@ -13,6 +13,10 @@ import com.zhapp.ble.bean.FindWearSettingsBean
 import com.zhapp.ble.bean.HeartRateMonitorBean
 import com.zhapp.ble.bean.NotificationSettingsBean
 import com.zhapp.ble.bean.PressureModeBean
+import com.zhapp.ble.bean.SWBRMonitorBean
+import com.zhapp.ble.bean.SWHRMonitorBean
+import com.zhapp.ble.bean.SWHRVMonitorBean
+import com.zhapp.ble.bean.SWSPO2MonitorBean
 import com.zhapp.ble.bean.SchedulerBean
 import com.zhapp.ble.bean.SchoolBean
 import com.zhapp.ble.bean.ScreenDisplayBean
@@ -128,6 +132,19 @@ object MySettingMenuCallBack {
 
     // 运动自动识别
     val onMotionRecognitionResult = UnFlawedLiveData<Pair<Boolean, Boolean>>()
+
+    // 无屏手环血氧检测提醒设置
+    val onSWSPO2Monitor = UnFlawedLiveData<SWSPO2MonitorBean>()
+
+    // 无屏手环心率变异性检测提醒设置
+    val onSWHRVMonitor = UnFlawedLiveData<SWHRVMonitorBean>()
+
+    // 无屏手环血氧检测提醒设置
+    val onSWBRMonitor = UnFlawedLiveData<SWBRMonitorBean>()
+
+    // 无屏手环心率检测提醒设置
+    val onSWHRMonitor = UnFlawedLiveData<SWHRMonitorBean>()
+
 
     fun initMySettingMenuCallBack() {
         // 设备设置相关
@@ -267,6 +284,24 @@ object MySettingMenuCallBack {
             override fun onCustomizeLeftClickSettings(setType: Int) {
                 onCustomizeLeftClickSettings.postValue(setType)
             }
+
+            override fun onSWSPO2Monitor(bean: SWSPO2MonitorBean) {
+                onSWSPO2Monitor.postValue(bean)
+            }
+
+            override fun onSWHRVMonitor(bean: SWHRVMonitorBean) {
+                onSWHRVMonitor.postValue(bean)
+            }
+
+            override fun onSWBRMonitor(bean: SWBRMonitorBean) {
+                onSWBRMonitor.postValue(bean)
+            }
+
+            override fun onSWHRMonitor(bean: SWHRMonitorBean) {
+                onSWHRMonitor.postValue(bean)
+
+            }
+
         }
     }
 }

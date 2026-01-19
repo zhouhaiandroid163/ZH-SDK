@@ -68,7 +68,7 @@ class BerryDialActivity : BaseActivity() {
             tag,
             binding.layoutLog.llLog,
             binding.layoutLog.cxLog,
-            binding.layoutLog.tvLog,
+            binding.layoutLog.llLogContent,
             binding.layoutLog.btnClear,
             binding.layoutLog.btnSet,
             binding.layoutLog.btnSendLog

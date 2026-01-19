@@ -27,7 +27,9 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="50dip">
+        android:layout_height="50dip"
+        android:layout_marginBottom="20.dp"
+        >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnStart"

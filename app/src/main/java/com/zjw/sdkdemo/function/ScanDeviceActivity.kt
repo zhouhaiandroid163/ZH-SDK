@@ -17,6 +17,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.blankj.utilcode.util.ClickUtils
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.ScanDeviceBean
 import com.zhapp.ble.callback.ScanDeviceCallBack
@@ -123,10 +124,10 @@ class ScanDeviceActivity : BaseActivity() {
     }
 
     private fun initListener() {
-        clickCheckConnect(binding.btnStart) {
+        ClickUtils.applySingleDebouncing(binding.btnStart) {
             startScanLeDevice()
         }
-        clickCheckConnect(binding.btnStop) {
+        ClickUtils.applySingleDebouncing(binding.btnStop) {
             stopSCan()
         }
     }

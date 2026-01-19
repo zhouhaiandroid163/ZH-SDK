@@ -110,6 +110,10 @@
     <string name="fun_pressure_mode">连续压力检测</string>
     <string name="fun_rem">快速眼动开关</string>
     <string name="fun_sleep_mode">睡眠模式</string>
+    <string name="fun_sw_spo2_monitor">无屏手环血氧预警设置</string>
+    <string name="fun_sw_hr_monitor">无屏手环心率预警设置</string>
+    <string name="fun_sw_hrv_monitor">无屏手环心率变异性预警设置</string>
+    <string name="fun_sw_br_monitor">无屏手环呼吸放松预警设置</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">调度器</string>
     <string name="child_school_mode">学校模式</string>
@@ -365,6 +369,8 @@
     <string name="disconnect_device">断开</string>
     <!--日志相关 Log-related-->
     <string name="log_info">日志相关</string>
+    <string name="log_dialog_title">设置飞书用户 ID</string>
+    <string name="log_id_null">请输入飞书用户 ID</string>
     <!--功能相关 Function-related-->
     <string name="fun_info">功能相关</string>
     <string name="bind_device">绑定设备</string>
@@ -525,4 +531,14 @@
     <string name="device_log_quit">长按按钮退出页面</string>
     <string name="user_set_user_profile">设置用户信息</string>
     <string name="user_set_user_profile_sync">设置用户信息同步</string>
+    <string name="sw_spo2_monitor_warning_switch">血氧预警开关</string>
+    <string name="sw_spo2_monitor_warning_value">血氧预警值</string>
+    <string name="sw_hr_low_switch">心率低预警开关</string>
+    <string name="sw_hr_low_value">心率低预警值</string>
+    <string name="sw_hr_high_switch">心率高预警开关</string>
+    <string name="sw_hr_high_value">心率高预警值</string>
+    <string name="sw_hrv_monitor_warning_switch">心率变异性预警开关</string>
+    <string name="sw_hrv_monitor_warning_value">心率变异性预警值</string>
+    <string name="sw_br_monitor_warning_switch">呼吸放松预警开关</string>
+    <string name="sw_br_monitor_warning_value">呼吸放松预警值</string>
 </resources>

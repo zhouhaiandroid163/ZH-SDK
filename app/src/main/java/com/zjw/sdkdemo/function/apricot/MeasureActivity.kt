@@ -35,7 +35,7 @@ class MeasureActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_measure)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.tvLog, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
         initData()
         initListener()
         initCallback()

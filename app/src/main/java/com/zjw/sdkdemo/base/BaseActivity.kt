@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -126,10 +127,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     lateinit var logTag: String
-    lateinit var logTextView: AppCompatTextView
+    lateinit var logTextView: LinearLayoutCompat
     var logArr = JSONArray()
 
-    fun initLogSet(tag: String, logView: LinearLayoutCompat, logCheckBox: CheckBox, textView: AppCompatTextView, clearButton: AppCompatButton, setButton: AppCompatButton, sendButton: AppCompatButton) {
+    fun initLogSet(tag: String, logView: LinearLayoutCompat, logCheckBox: CheckBox, textView: LinearLayoutCompat, clearButton: AppCompatButton, setButton: AppCompatButton, sendButton: AppCompatButton) {
         this.logTag = tag
         this.logTextView = textView
         logArr = JSONArray()
@@ -143,7 +144,7 @@ open class BaseActivity : AppCompatActivity() {
         setMyCheckBox(logCheckBox, logView)
 
         clearButton.setOnClickListener {
-            textView.text = ""
+            textView.removeAllViews()
             logArr = JSONArray()
         }
 
@@ -159,7 +160,10 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         sendButton.setOnClickListener {
-            if(SpUtils.getLogUserID().isEmpty()) return@setOnClickListener
+            if(SpUtils.getLogUserID().isEmpty()){
+                ToastUtils.showToast(getString(R.string.log_id_null))
+                return@setOnClickListener
+            }
             LogSendUtil.sendLogDataFile( logTag, logArr)
         }
     }
@@ -167,7 +171,10 @@ open class BaseActivity : AppCompatActivity() {
     fun addLogI(str: String) {
         ThreadUtils.runOnUiThread {
             Log.i(logTag, str)
-            logTextView.text = str + "\n\n" + logTextView.text
+            logTextView.addView(AppCompatTextView(this).apply {
+                text = str
+                textSize = 11.0f
+            },0)
             logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
         }
     }
@@ -176,8 +183,10 @@ open class BaseActivity : AppCompatActivity() {
         ThreadUtils.runOnUiThread {
             val dataStr1 = "$str data=${formatObject(data)}"
             Log.i(logTag, dataStr1)
-            logTextView.text = dataStr1 + "\n" + logTextView.text
-
+            logTextView.addView(AppCompatTextView(this).apply {
+                text = dataStr1
+                textSize = 11.0f
+            },0)
             val contentStr = "$str data=${GsonUtils.toJson(data)}"
             logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", contentStr))
         }
@@ -186,7 +195,10 @@ open class BaseActivity : AppCompatActivity() {
     fun addLogE(str: String) {
         ThreadUtils.runOnUiThread {
             Log.e(logTag, str)
-            logTextView.text = str + "\n\n" + logTextView.text
+            logTextView.addView(AppCompatTextView(this).apply {
+                text = str
+                textSize = 11.0f
+            },0)
             logArr.put(JSONObject().put("time", MyFormatUtils.getTime()).put("content", str))
         }
     }

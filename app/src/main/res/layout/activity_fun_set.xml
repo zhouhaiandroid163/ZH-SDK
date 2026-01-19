@@ -57,6 +57,22 @@
                 android:id="@+id/layoutSleepMode"
                 layout="@layout/item_fun_sleep_mode" />
 
+            <include
+                android:id="@+id/layoutSWSPO2Monitor"
+                layout="@layout/item_fun_sw_spo2_monitor" />
+
+            <include
+                android:id="@+id/layoutSWHRMonitor"
+                layout="@layout/item_fun_sw_hr_monitor" />
+
+            <include
+                android:id="@+id/layoutSWHRVMonitor"
+                layout="@layout/item_fun_sw_hrv_monitor" />
+
+            <include
+                android:id="@+id/layoutSWBRMonitor"
+                layout="@layout/item_fun_sw_br_monitor" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

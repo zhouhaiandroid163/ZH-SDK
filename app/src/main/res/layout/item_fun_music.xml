@@ -21,7 +21,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llBottom"
         style="@style/public_lin01"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
 

@@ -13,8 +13,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         multiDexEnabled true
-        versionCode 228
-        versionName "2.2.8"
+        versionCode 229
+        versionName "2.2.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -93,7 +93,7 @@ dependencies {
     implementation project(':imagepick')
 //    implementation project(path: ':ZhAppBle')
     implementation project(path: ':libopus')
-    implementation files('libs/ZH_SDK_20251211_V2.2.8.aar')
+    implementation files('libs/ZH_SDK_20260120_V2.2.9.aar')
 
 
     implementation 'com.google.protobuf:protobuf-java:3.20.1'

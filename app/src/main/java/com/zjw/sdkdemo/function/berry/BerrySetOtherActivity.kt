@@ -23,7 +23,7 @@ class BerrySetOtherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_set_other_berry)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.tvLog, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
         initView()
         initListener()
         initCallBack()
