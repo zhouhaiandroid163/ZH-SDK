@@ -134,11 +134,11 @@ open class BaseActivity : AppCompatActivity() {
         this.logTag = tag
         this.logTextView = textView
         logArr = JSONArray()
-        //设置logView高度为屏幕高度的1/4
+        //设置logView高度为屏幕高度的1/3
         val displayMetrics = resources.displayMetrics
         val screenHeight = displayMetrics.heightPixels
         val layoutParams = logView.layoutParams
-        layoutParams.height = screenHeight / 4
+        layoutParams.height = screenHeight / 3
         logView.layoutParams = layoutParams
 
         setMyCheckBox(logCheckBox, logView)
