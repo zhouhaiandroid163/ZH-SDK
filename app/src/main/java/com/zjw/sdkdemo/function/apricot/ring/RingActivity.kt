@@ -70,7 +70,7 @@ class RingActivity : BaseActivity() {
 
         clickCheckConnect(binding.btnRingMeasure) {
             addLogI("btnRingMeasure")
-            startActivity(Intent(this, MeasureTypeActivity::class.java).apply { putExtra(MeasureActivity.DEVICE_TYPE_TAG, "0") })
+            startActivity(Intent(this, MeasureTypeActivity::class.java).apply { putExtra(MeasureActivity.DEVICE_TYPE_TAG, 0) })
         }
 
         clickCheckConnect(binding.btnRingGetAutoSport) {

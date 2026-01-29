@@ -169,7 +169,9 @@ class MainActivity : BaseActivity() {
                             R.string.ch_weather_id_test_berry -> startActivity(Intent(this, BerryWeatherTestActivity::class.java))
                             R.string.ch_sport_auxiliary -> startActivity(Intent(this, SportAuxiliaryActivity::class.java))
                             R.string.ch_sport_screen -> startActivity(Intent(this, SportScreenActivity::class.java))
-                            R.string.ch_measure -> startActivity(Intent(this, MeasureTypeActivity::class.java).apply { putExtra(MeasureActivity.DEVICE_TYPE_TAG, "1") })
+                            R.string.ch_measure -> startActivity(Intent(this, MeasureTypeActivity::class.java).apply {
+                                putExtra(MeasureActivity.DEVICE_TYPE_TAG, 1)
+                            })
                             R.string.ch_ev -> startActivity(Intent(this, EvActivity::class.java))
                             R.string.ch_emoji -> startActivity(Intent(this, EmojiActivity::class.java))
                             R.string.ch_esim -> startActivity(Intent(this, ESimActivity::class.java))

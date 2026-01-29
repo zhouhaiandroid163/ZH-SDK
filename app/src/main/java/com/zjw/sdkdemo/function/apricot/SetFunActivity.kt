@@ -529,10 +529,6 @@ class SetFunActivity : BaseActivity() {
             addLogBean("MySettingMenuCallBack.onSWBRMonitor", bean!!)
         })
 
-        MySettingMenuCallBack.onSWSPO2Monitor.observe(this, Observer { bean ->
-            addLogBean("MySettingMenuCallBack.onSWSPO2Monitor", bean!!)
-        })
-
         MySettingMenuCallBack.onSWHRVMonitor.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onSWHRVMonitor", bean!!)
         })

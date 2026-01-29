@@ -177,7 +177,6 @@ class MeasureActivity : BaseActivity() {
                         binding.btnStart.isEnabled = true
                         binding.btnStop.isEnabled = false
                     }
-
                 }
             })
         } else {
