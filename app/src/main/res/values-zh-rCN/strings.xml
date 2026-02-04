@@ -157,6 +157,9 @@
     <string name="ring_auto_activity_switch">自动活动检测(戒指)</string>
     <string name="ring_auto_motion_recognize">运动自动识别(戒指)</string>
     <string name="ring_get_wearing_status">获取戒指佩戴状态(戒指)</string>
+    <string name="ring_get_sleep_invalid_reason">获取戒指无效睡眠原因(戒指)</string>
+    <string name="ring_start_sar_calibration">开始戒指sar校准(戒指)</string>
+    <string name="ring_get_sar_calibration">获取戒指sar校准结果(戒指)</string>
     <!--Sifli-->
     <string name="sifil_ota">OTA(Sifli)</string>
     <string name="sifil_dial">表盘(Sifli)</string>

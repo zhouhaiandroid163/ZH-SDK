@@ -52,6 +52,21 @@
                 style="@style/public_button"
                 android:text="@string/ring_get_wearing_status" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetSleepInvalidReason"
+                style="@style/public_button"
+                android:text="@string/ring_get_sleep_invalid_reason" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingStartSarCalibration"
+                style="@style/public_button"
+                android:text="@string/ring_start_sar_calibration" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRingGetSarCalibration"
+                style="@style/public_button"
+                android:text="@string/ring_get_sar_calibration" />
+
             <include
                 android:id="@+id/layoutAllSleepSwitch"
                 layout="@layout/item_ring_all_sleep_switch" />

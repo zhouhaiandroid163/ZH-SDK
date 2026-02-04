@@ -157,6 +157,9 @@
     <string name="ring_auto_activity_switch">Automatic Activity Detection(Ring)</string>
     <string name="ring_auto_motion_recognize">Automatic Motion Recognition(Ring)</string>
     <string name="ring_get_wearing_status">Get ring wearing status(Ring)</string>
+    <string name="ring_get_sleep_invalid_reason">Reasons for ineffective sleep when trying to obtain the ring (ring)</string>
+    <string name="ring_start_sar_calibration">Start ring SAR calibration (ring)</string>
+    <string name="ring_get_sar_calibration">Obtain SAR calibration results for the ring (ring)</string>
     <!--Sifli-->
     <string name="sifil_ota">OTA(Sifli)</string>
     <string name="sifil_dial">Dial(Sifli)</string>

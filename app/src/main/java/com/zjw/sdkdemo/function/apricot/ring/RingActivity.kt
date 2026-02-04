@@ -30,16 +30,24 @@ class RingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_ring)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet,binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallback()
     }
 
     private fun initView() {
-        setMyCheckBox(binding.layoutAllSleepSwitch.cbTop, binding.layoutAllSleepSwitch.llBottom,binding.layoutAllSleepSwitch.ivHelp)
-        setMyCheckBox(binding.layoutAutoActivityDetection.cbTop, binding.layoutAutoActivityDetection.llBottom,binding.layoutAutoActivityDetection.ivHelp)
-        setMyCheckBox(binding.layoutAutoMotionRecognize.cbTop, binding.layoutAutoMotionRecognize.llBottom,binding.layoutAutoMotionRecognize.ivHelp)
+        setMyCheckBox(binding.layoutAllSleepSwitch.cbTop, binding.layoutAllSleepSwitch.llBottom, binding.layoutAllSleepSwitch.ivHelp)
+        setMyCheckBox(binding.layoutAutoActivityDetection.cbTop, binding.layoutAutoActivityDetection.llBottom, binding.layoutAutoActivityDetection.ivHelp)
+        setMyCheckBox(binding.layoutAutoMotionRecognize.cbTop, binding.layoutAutoMotionRecognize.llBottom, binding.layoutAutoMotionRecognize.ivHelp)
     }
 
     fun initListener() {
@@ -93,12 +101,42 @@ class RingActivity : BaseActivity() {
             })
         }
 
-        clickCheckConnect(binding.btnRingGetWearingStatus){
+        clickCheckConnect(binding.btnRingGetWearingStatus) {
             addLogI("btnRingGetWearingStatus")
             addLogI("getRingWearingStatus")
             ControlBleTools.getInstance().getRingWearingStatus(object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("getRingWearingStatus state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.btnRingGetSleepInvalidReason) {
+            addLogI("btnRingGetSleepInvalidReason")
+            addLogI("getRingSleepInvalidReason")
+            ControlBleTools.getInstance().getRingSleepInvalidReason(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getRingSleepInvalidReason state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.btnRingStartSarCalibration) {
+            addLogI("btnRingStartSarCalibration")
+            addLogI("startRingSarCalibration")
+            ControlBleTools.getInstance().startRingSarCalibration(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("startRingSarCalibration state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.btnRingGetSarCalibration) {
+            addLogI("btnRingGetSarCalibration")
+            addLogI("getRingSarCalibrationResult")
+            ControlBleTools.getInstance().getRingSarCalibrationResult(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getRingSarCalibration state=$state")
                 }
             })
         }
@@ -122,7 +160,7 @@ class RingActivity : BaseActivity() {
             val isTrue = binding.layoutAllSleepSwitch.btnSet.tag == 1
             addLogI("layoutAllSleepSwitch.btnSet isTrue=$isTrue")
             val bean = RingSleepConfigBean(isTrue)
-            addLogBean("setRingAllDaySleepConfig",bean)
+            addLogBean("setRingAllDaySleepConfig", bean)
             ControlBleTools.getInstance().setRingAllDaySleepConfig(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("setRingAllDaySleepConfig state=$state")
@@ -146,7 +184,7 @@ class RingActivity : BaseActivity() {
             val timeValue: Int = binding.layoutAutoActivityDetection.etTime.text.toString().trim().toInt()
             val bean = RingAutoActiveSportConfigBean(isTrue)
             bean.autoActiveSportActivetime = timeValue
-            addLogBean("setRingAutoActiveSportConfig",bean)
+            addLogBean("setRingAutoActiveSportConfig", bean)
             ControlBleTools.getInstance().setRingAutoActiveSportConfig(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("setRingAutoActiveSportConfig state=$state")
@@ -184,9 +222,17 @@ class RingActivity : BaseActivity() {
             }
         })
 
+        MyMicroCallBack.ringSleepInvalidReason.observe(this, Observer { bean ->
+            addLogBean("MyMicroCallBack.ringSleepInvalidReason", bean!!)
+        })
+
+        MyMicroCallBack.ringSarCalibration.observe(this, Observer { bean ->
+            addLogBean("MyMicroCallBack.ringSarCalibration", bean!!)
+        })
+
         MyMicroCallBack.onRingWearingStatus.observe(this, object : Observer<Int?> {
             override fun onChanged(value: Int?) {
-                addLogI("onRingWearingStatus value=$value")
+                addLogI("MyMicroCallBack.onRingWearingStatus value=$value")
             }
         })
 
@@ -195,23 +241,23 @@ class RingActivity : BaseActivity() {
         })
 
         CallBackUtils.ringChargingCaseInfoCallBack = RingChargingCaseInfoCallBack { bean ->
-            addLogBean( "ringChargingCaseInfoCallBack",bean)
+            addLogBean("ringChargingCaseInfoCallBack", bean)
         }
 
         CallBackUtils.autoSportDataCallBack = AutoSportDataCallBack { bean ->
-            addLogBean( "autoSportDataCallBack",bean)
+            addLogBean("autoSportDataCallBack", bean)
         }
 
         CallBackUtils.ringAllDaySleepConfigCallBack = RingAllDaySleepConfigCallBack { bean ->
-            addLogBean( "ringAllDaySleepConfigCallBack",bean)
+            addLogBean("ringAllDaySleepConfigCallBack", bean)
         }
 
         CallBackUtils.ringAutoActiveSportConfigCallBack = RingAutoActiveSportConfigCallBack { bean ->
-            addLogBean( "ringAutoActiveSportConfigCallBack",bean)
+            addLogBean("ringAutoActiveSportConfigCallBack", bean)
         }
 
         CallBackUtils.deviceBatteryReportingCallBack = DeviceBatteryReportingCallBack { bean ->
-            addLogBean( "deviceBatteryReportingCallBack",bean)
+            addLogBean("deviceBatteryReportingCallBack", bean)
         }
     }
 }

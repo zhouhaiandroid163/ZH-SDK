@@ -3,11 +3,15 @@ package com.zjw.sdkdemo.livedata
 import android.util.Log
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.EmergencyContactBean
+import com.zhapp.ble.bean.RingSarCalibrationResultBean
+import com.zhapp.ble.bean.RingSleepInvalidReasonBean
 import com.zhapp.ble.bean.WidgetBean
 import com.zhapp.ble.callback.BerryDevReqContactCallBack
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.EmergencyContactSosCallBack
 import com.zhapp.ble.callback.MicroCallBack
+import com.zhapp.ble.callback.RingSarCalibrationResultCallBack
+import com.zhapp.ble.callback.RingSleepInvalidReasonCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.utils.FindPhoneUtils
@@ -29,6 +33,12 @@ object MyMicroCallBack {
 
     // 戒指佩戴状态
     val onRingWearingStatus = UnFlawedLiveData<Int>()
+
+    // 戒指睡眠无效原因
+    val ringSleepInvalidReason = UnFlawedLiveData<RingSleepInvalidReasonBean>()
+
+    // 戒指SAR校准结果
+    val ringSarCalibration = UnFlawedLiveData<RingSarCalibrationResultBean>()
 
     fun initMyMicroCallBack() {
         CallBackUtils.microCallBack = object : MicroCallBack {
@@ -90,7 +100,17 @@ object MyMicroCallBack {
             }
         }
 
+        CallBackUtils.ringSleepInvalidReasonCallBack = object : RingSleepInvalidReasonCallBack {
+            override fun onInvalidReason(bean: RingSleepInvalidReasonBean?) {
+                ringSleepInvalidReason.postValue(bean)
+            }
+        }
 
+        CallBackUtils.ringSarCalibrationResultCallBack = object : RingSarCalibrationResultCallBack {
+            override fun onResult(bean: RingSarCalibrationResultBean?) {
+                ringSarCalibration.postValue(bean)
+            }
+        }
     }
 
 }
