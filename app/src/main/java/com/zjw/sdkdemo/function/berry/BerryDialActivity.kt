@@ -366,9 +366,9 @@ class BerryDialActivity : BaseActivity() {
                 if (statusValue == DeviceLargeFileStatusListener.PrepareStatus.READY.state) {
 
                     if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_0) {
-                        val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
                         var bgBitmap: Bitmap? = null
                         if (::bgFile.isInitialized) {
+                            val bgData = FileIOUtils.readFile2BytesByStream(bgFile)
                             bgBitmap = ImageUtils.scale(ConvertUtils.bytes2Bitmap(bgData), dialWidth, dailHeight)
                             bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
                         }

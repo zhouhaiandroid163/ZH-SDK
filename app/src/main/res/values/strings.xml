@@ -30,6 +30,9 @@
     <string name="data_get_battery_use_list">Get the list of power consumption</string>
     <string name="data_real_switch">Real-time data switch </string>
     <string name="data_get_fitness">Get daily data </string>
+    <string name="data_get_fitness_mode1">Get daily data (transmission today)</string>
+    <string name="data_get_fitness_mode2">Get daily data (transmission history)</string>
+    <string name="data_get_fitness_mode3">Get daily data (transmission all)</string>
     <string name="data_get_sport">Get motion data</string>
     <string name="data_get_device_history_log">Retrieve device historical log files</string>
     <string name="data_get_device_history_log_berry">Retrieve device historical log files(Berry)</string>

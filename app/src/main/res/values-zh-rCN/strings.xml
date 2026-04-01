@@ -30,6 +30,9 @@
     <string name="data_get_battery_use_list">获取电量使用情况列表</string>
     <string name="data_real_switch">实时数据开关</string>
     <string name="data_get_fitness">获取日常数据</string>
+    <string name="data_get_fitness_mode1">获取日常数据(传输当天)</string>
+    <string name="data_get_fitness_mode2">获取日常数据(传输历史)</string>
+    <string name="data_get_fitness_mode3">获取日常数据(传输所有)</string>
     <string name="data_get_sport">获取运动数据</string>
     <string name="data_get_device_history_log">获取设备历史日志文件</string>
     <string name="data_get_device_history_log_berry">获取设备历史日志文件(Berry)</string>

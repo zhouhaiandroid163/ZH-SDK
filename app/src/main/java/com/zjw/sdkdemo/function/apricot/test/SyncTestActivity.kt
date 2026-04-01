@@ -11,7 +11,9 @@ import com.zhapp.ble.bean.ActivityDurationBean
 import com.zhapp.ble.bean.AutoActiveSportBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenBean
 import com.zhapp.ble.bean.ContinuousHeartRateBean
+import com.zhapp.ble.bean.ContinuousHeartRateSportFiveMinAfterBean
 import com.zhapp.ble.bean.ContinuousPressureBean
+import com.zhapp.ble.bean.ContinuousRRIDBean
 import com.zhapp.ble.bean.ContinuousTemperatureBean
 import com.zhapp.ble.bean.DailyBean
 import com.zhapp.ble.bean.DeviceInfoBean
@@ -31,6 +33,8 @@ import com.zhapp.ble.bean.RingSleepNapBean
 import com.zhapp.ble.bean.RingSleepResultBean
 import com.zhapp.ble.bean.RingStressDetectionBean
 import com.zhapp.ble.bean.SleepBean
+import com.zhapp.ble.bean.SleepHRVBean
+import com.zhapp.ble.bean.SleepRRIBean
 import com.zhapp.ble.bean.TodayActiveTypeData
 import com.zhapp.ble.bean.TodayRespiratoryRateData
 import com.zhapp.ble.bean.UserInfo
@@ -287,6 +291,26 @@ class SyncTestActivity : BaseActivity() {
             override fun onDrinkWaterData(bean: DrinkWaterBean?) {
                 Log.e(tag, "DrinkWaterBean : " + GsonUtils.toJson(bean))
                 dailyResult.append("\n\nDrinkWaterBean : ${GsonUtils.toJson(bean)}")
+            }
+
+            override fun onSleepRRIData(p0: SleepRRIBean?) {
+                Log.e(tag, "SleepRRIBean : " + GsonUtils.toJson(p0))
+                dailyResult.append("\n\nSleepRRIBean : ${p0}")
+            }
+
+            override fun onSleepHRVData(p0: SleepHRVBean?) {
+                Log.e(tag, "SleepHRVBean : " + GsonUtils.toJson(p0))
+                dailyResult.append("\n\nSleepHRVBean : ${p0}")
+            }
+
+            override fun onContinuousHeartRateSportFiveMinAfter(p0: ContinuousHeartRateSportFiveMinAfterBean?) {
+                Log.e(tag, "ContinuousHeartRateSportFiveMinAfterBean : " + GsonUtils.toJson(p0))
+                dailyResult.append("\n\nContinuousHeartRateSportFiveMinAfterBean : ${GsonUtils.toJson(p0)}")
+            }
+
+            override fun onContinuousRRIData(p0: ContinuousRRIDBean?) {
+                Log.e(tag, "ContinuousRRIDBean : " + GsonUtils.toJson(p0))
+                dailyResult.append("\n\nContinuousRRIDBean : ${GsonUtils.toJson(p0)}")
             }
 
             override fun onRingSleepNAP(list: List<RingSleepNapBean>) {

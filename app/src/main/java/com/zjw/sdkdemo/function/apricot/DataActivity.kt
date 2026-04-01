@@ -9,7 +9,9 @@ import com.zhapp.ble.bean.ActivityDurationBean
 import com.zhapp.ble.bean.AutoActiveSportBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenBean
 import com.zhapp.ble.bean.ContinuousHeartRateBean
+import com.zhapp.ble.bean.ContinuousHeartRateSportFiveMinAfterBean
 import com.zhapp.ble.bean.ContinuousPressureBean
+import com.zhapp.ble.bean.ContinuousRRIDBean
 import com.zhapp.ble.bean.ContinuousTemperatureBean
 import com.zhapp.ble.bean.DailyBean
 import com.zhapp.ble.bean.DeviceInfoBean
@@ -30,6 +32,8 @@ import com.zhapp.ble.bean.RingSleepNapBean
 import com.zhapp.ble.bean.RingSleepResultBean
 import com.zhapp.ble.bean.RingStressDetectionBean
 import com.zhapp.ble.bean.SleepBean
+import com.zhapp.ble.bean.SleepHRVBean
+import com.zhapp.ble.bean.SleepRRIBean
 import com.zhapp.ble.bean.TodayActiveTypeData
 import com.zhapp.ble.bean.TodayRespiratoryRateData
 import com.zhapp.ble.bean.berry.DrinkWaterBean
@@ -125,6 +129,33 @@ class DataActivity : BaseActivity() {
             ControlBleTools.getInstance().getDailyHistoryData(object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
                     addLogI("getDailyHistoryData state=$state")
+                }
+            })
+        }
+        clickCheckConnect(binding.btnGetFitnessMode1) {
+            addLogI("btnGetFitnessMode1")
+            addLogI("getDailyHistoryData")
+            ControlBleTools.getInstance().getDailyHistoryData(1,object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("getFitnessSportData state=$state")
+                }
+            })
+        }
+        clickCheckConnect(binding.btnGetFitnessMode2) {
+            addLogI("btnGetFitnessMode2")
+            addLogI("getDailyHistoryData")
+            ControlBleTools.getInstance().getDailyHistoryData(2,object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("getFitnessSportData state=$state")
+                }
+            })
+        }
+        clickCheckConnect(binding.btnGetFitnessMode3) {
+            addLogI("btnGetFitnessMode3")
+            addLogI("getDailyHistoryData")
+            ControlBleTools.getInstance().getDailyHistoryData(3,object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("getFitnessSportData state=$state")
                 }
             })
         }
@@ -271,6 +302,22 @@ class DataActivity : BaseActivity() {
 
             override fun onDrinkWaterData(bean: DrinkWaterBean) {
                 addLogBean("fitnessDataCallBack onDrinkWaterData", bean)
+            }
+
+            override fun onSleepRRIData(bean: SleepRRIBean) {
+                addLogI("fitnessDataCallBack onSleepRRIData : $bean")
+            }
+
+            override fun onSleepHRVData(bean: SleepHRVBean) {
+                addLogI("fitnessDataCallBack onSleepHRVData : $bean")
+            }
+
+            override fun onContinuousHeartRateSportFiveMinAfter(bean: ContinuousHeartRateSportFiveMinAfterBean) {
+                addLogBean("fitnessDataCallBack onContinuousHeartRateSportFiveMinAfter", bean)
+            }
+
+            override fun onContinuousRRIData(bean: ContinuousRRIDBean) {
+                addLogBean("fitnessDataCallBack onContinuousRRIData", bean)
             }
 
             override fun onRingSleepNAP(list: MutableList<RingSleepNapBean>) {

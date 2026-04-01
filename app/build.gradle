@@ -13,8 +13,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         multiDexEnabled true
-        versionCode 230
-        versionName "2.3.0"
+        versionCode 231
+        versionName "2.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -87,16 +87,19 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //-------------------------ZH SDK---------------------------
     //gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.gson:gson:2.13.1'
+    //protobuf
+    implementation 'com.google.protobuf:protobuf-java:4.34.1'
+    //SDK
+    implementation files('libs/ZH_SDK_20260331_V2.3.1.aar')
+    //----------------------------------------------------------
 
     implementation project(':imagepick')
-//    implementation project(path: ':ZhAppBle')
     implementation project(path: ':libopus')
-    implementation files('libs/ZH_SDK_20260204_V2.3.0.aar')
-
-
-    implementation 'com.google.protobuf:protobuf-java:3.20.1'
+//    implementation project(path: ':ZhAppBle')
     //图形
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     //颜色选择

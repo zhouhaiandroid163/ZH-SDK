@@ -45,6 +45,15 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/public_textview01"
+                    android:text="@string/input_content" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSendAiError"
                 style="@style/public_button"

@@ -34,7 +34,15 @@ class BerryAiVoiceActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_ai_voice_berry)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet,binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallBack()
@@ -105,7 +113,7 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.footer = footer
                 this.actionTime = DialogUtils.getTimeBean(binding.tvViewUiTime)
             }
-            addLogBean("sendAiViewUi",bean)
+            addLogBean("sendAiViewUi", bean)
             ControlBleTools.getInstance().sendAiViewUi(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("sendAiViewUi state=$state")
@@ -155,7 +163,7 @@ class BerryAiVoiceActivity : BaseActivity() {
                     }
                 }
             }
-            addLogBean("sendAiHistoryUi",bean)
+            addLogBean("sendAiHistoryUi", bean)
             ControlBleTools.getInstance().sendAiHistoryUi(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("sendAiHistoryUi state=$state")
@@ -180,7 +188,7 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.day = ydmCalender.get(Calendar.DAY_OF_MONTH)
                 this.actionTime = DialogUtils.getTimeBean(binding.tvAiActionTime)
             }
-            addLogBean("sendAiAction",bean)
+            addLogBean("sendAiAction", bean)
             ControlBleTools.getInstance().sendAiAction(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("sendAiAction state=$state")
@@ -197,7 +205,7 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.isToggleStatus = isOpen
                 this.actionTime = DialogUtils.getTimeBean(binding.tvAiToggleTime)
             }
-            addLogBean("sendAiToggle",bean)
+            addLogBean("sendAiToggle", bean)
             ControlBleTools.getInstance().sendAiToggle(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("sendAiToggle state=$state")
@@ -236,7 +244,7 @@ class BerryAiVoiceActivity : BaseActivity() {
                     })
                 }
             }
-            addLogBean("sendAiOpenFunction",bean)
+            addLogBean("sendAiOpenFunction", bean)
             ControlBleTools.getInstance().sendAiOpenFunction(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("sendAiOpenFunction state=$state")
@@ -248,7 +256,7 @@ class BerryAiVoiceActivity : BaseActivity() {
     private fun initCallBack() {
         CallBackUtils.aiFunctionCallBack = object : AiFunctionCallBack {
             override fun onDevAiVoiceCmd(bean: AiVoiceCmdBean) {
-                addLogBean("aiFunctionCallBack onDevAiVoiceCmd",bean)
+                addLogBean("aiFunctionCallBack onDevAiVoiceCmd", bean)
 
                 when (bean.voiceState) {
                     1 -> {

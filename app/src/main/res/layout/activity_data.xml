@@ -48,6 +48,21 @@
                 android:text="@string/data_get_fitness" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetFitnessMode1"
+                style="@style/public_button"
+                android:text="@string/data_get_fitness_mode1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetFitnessMode2"
+                style="@style/public_button"
+                android:text="@string/data_get_fitness_mode2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetFitnessMode3"
+                style="@style/public_button"
+                android:text="@string/data_get_fitness_mode3" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnGetSport"
                 style="@style/public_button"
                 android:text="@string/data_get_sport" />

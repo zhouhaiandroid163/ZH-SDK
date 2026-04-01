@@ -12,7 +12,9 @@ import com.zhapp.ble.bean.ActivityDurationBean
 import com.zhapp.ble.bean.AutoActiveSportBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenBean
 import com.zhapp.ble.bean.ContinuousHeartRateBean
+import com.zhapp.ble.bean.ContinuousHeartRateSportFiveMinAfterBean
 import com.zhapp.ble.bean.ContinuousPressureBean
+import com.zhapp.ble.bean.ContinuousRRIDBean
 import com.zhapp.ble.bean.ContinuousTemperatureBean
 import com.zhapp.ble.bean.DailyBean
 import com.zhapp.ble.bean.EffectiveStandingBean
@@ -30,6 +32,8 @@ import com.zhapp.ble.bean.RingSleepNapBean
 import com.zhapp.ble.bean.RingSleepResultBean
 import com.zhapp.ble.bean.RingStressDetectionBean
 import com.zhapp.ble.bean.SleepBean
+import com.zhapp.ble.bean.SleepHRVBean
+import com.zhapp.ble.bean.SleepRRIBean
 import com.zhapp.ble.bean.TodayActiveTypeData
 import com.zhapp.ble.bean.TodayRespiratoryRateData
 import com.zhapp.ble.bean.berry.DrinkWaterBean
@@ -237,6 +241,19 @@ class LoopFitnessActivity : BaseActivity() {
 
             override fun onDrinkWaterData(bean: DrinkWaterBean?) {
 
+            }
+
+            override fun onSleepRRIData(bean: SleepRRIBean?) {
+
+            }
+
+            override fun onSleepHRVData(bean: SleepHRVBean?) {
+            }
+
+            override fun onContinuousHeartRateSportFiveMinAfter(bean: ContinuousHeartRateSportFiveMinAfterBean?) {
+            }
+
+            override fun onContinuousRRIData(bean: ContinuousRRIDBean?) {
             }
 
             override fun onRingSleepNAP(list: MutableList<RingSleepNapBean>?) {
