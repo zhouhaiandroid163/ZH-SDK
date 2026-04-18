@@ -60,6 +60,7 @@ class RingSportScreenActivity : BaseActivity() {
 
         clickCheckConnect(binding.btnStart) {
             addLogI("btnStart")
+            updateSportState(sportRequestStart)
             sendSportState(sportRequestStart)
         }
 
@@ -118,7 +119,6 @@ class RingSportScreenActivity : BaseActivity() {
                 }
 
                 updateSportState(bean.sportStatus)
-
             }
 
             //运动中数据  Data in Sporting
@@ -141,7 +141,9 @@ class RingSportScreenActivity : BaseActivity() {
                 ControlBleTools.getInstance().sendRingSportStatus(bean, object : SendCmdStateListener() {
                     override fun onState(state: SendCmdState?) {
                         addLogI("sendRingSportStatus state=$state")
-                        updateSportState(sportRequestStart)
+                        if(state != SendCmdState.SUCCEED){
+                            updateSportState(sportInit)
+                        }
                     }
                 })
             }

@@ -7,8 +7,10 @@ import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.RingAutoActiveSportConfigBean
 import com.zhapp.ble.bean.RingSleepConfigBean
 import com.zhapp.ble.callback.AutoSportDataCallBack
+import com.zhapp.ble.callback.BreathingRelaxationReminderCallBack
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.DeviceBatteryReportingCallBack
+import com.zhapp.ble.callback.DeviceReminderEventCallBack
 import com.zhapp.ble.callback.RingAllDaySleepConfigCallBack
 import com.zhapp.ble.callback.RingAutoActiveSportConfigCallBack
 import com.zhapp.ble.callback.RingChargingCaseInfoCallBack
@@ -258,6 +260,14 @@ class RingActivity : BaseActivity() {
 
         CallBackUtils.deviceBatteryReportingCallBack = DeviceBatteryReportingCallBack { bean ->
             addLogBean("deviceBatteryReportingCallBack", bean)
+        }
+
+        CallBackUtils.breathingRelaxationReminderCallBack = BreathingRelaxationReminderCallBack {
+            addLogI("BreathingRelaxationReminderCallBack")
+        }
+
+        CallBackUtils.deviceReminderEventCallBack = DeviceReminderEventCallBack { event ->
+            addLogI("CallBackUtils.deviceReminderEventCallBack event = $event")
         }
     }
 }

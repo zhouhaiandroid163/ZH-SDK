@@ -137,7 +137,7 @@ class DataActivity : BaseActivity() {
             addLogI("getDailyHistoryData")
             ControlBleTools.getInstance().getDailyHistoryData(1,object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
-                    addLogI("getFitnessSportData state=$state")
+                    addLogI("getDailyHistoryData state=$state")
                 }
             })
         }
@@ -146,7 +146,7 @@ class DataActivity : BaseActivity() {
             addLogI("getDailyHistoryData")
             ControlBleTools.getInstance().getDailyHistoryData(2,object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
-                    addLogI("getFitnessSportData state=$state")
+                    addLogI("getDailyHistoryData state=$state")
                 }
             })
         }
@@ -155,7 +155,7 @@ class DataActivity : BaseActivity() {
             addLogI("getDailyHistoryData")
             ControlBleTools.getInstance().getDailyHistoryData(3,object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
-                    addLogI("getFitnessSportData state=$state")
+                    addLogI("getDailyHistoryData state=$state")
                 }
             })
         }
