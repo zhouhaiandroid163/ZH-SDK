@@ -13,8 +13,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         multiDexEnabled true
-        versionCode 233
-        versionName "2.3.3"
+        versionCode 234
+        versionName "2.3.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
