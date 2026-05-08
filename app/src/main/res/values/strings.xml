@@ -523,6 +523,8 @@
     <string name="automatic_motion_pause">Exercise auto-pause on/off</string>
     <string name="product_test_restart">Restart production test</string>
     <string name="product_test_reset">Reset production test</string>
+    <string name="product_test_soft_reset">Soft reset production test</string>
+    <string name="product_test_hard_reset">Hard reset production test</string>
     <string name="heart_light_leak_test">Heart rate light leakage test</string>
     <string name="get_device_log">Get device log files</string>
     <string name="get_tracking_log">Get embedded point log data</string>

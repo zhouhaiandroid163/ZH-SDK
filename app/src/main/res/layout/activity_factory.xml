@@ -28,9 +28,21 @@
                 android:text="@string/product_test_reset" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btSoftReset"
+                style="@style/public_button"
+                android:text="@string/product_test_soft_reset" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btHardReset"
+                style="@style/public_button"
+                android:text="@string/product_test_hard_reset" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btHeartLightLeakTest"
                 style="@style/public_button"
                 android:text="@string/heart_light_leak_test" />
+
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -94,7 +94,7 @@ dependencies {
     //protobuf
     implementation 'com.google.protobuf:protobuf-java:4.34.1'
     //SDK
-    implementation files('libs/ZH_SDK_20260505_V2.3.3.aar')
+    implementation files('libs/ZH_SDK_20260508_V2.3.4.aar')
     //----------------------------------------------------------
 
     implementation project(':imagepick')

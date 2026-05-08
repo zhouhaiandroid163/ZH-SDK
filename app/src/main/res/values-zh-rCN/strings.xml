@@ -523,6 +523,8 @@
     <string name="automatic_motion_pause">运动自动暂停开关</string>
     <string name="product_test_restart">产测重启</string>
     <string name="product_test_reset">产测重置</string>
+    <string name="product_test_soft_reset">产测软重置</string>
+    <string name="product_test_hard_reset">产测硬重置</string>
     <string name="heart_light_leak_test">心率漏光测试</string>
     <string name="get_device_log">获取设备日志文件</string>
     <string name="get_tracking_log">获取埋点日志数据</string>
