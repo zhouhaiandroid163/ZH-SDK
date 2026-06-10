@@ -60,7 +60,15 @@ class DataActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_data)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet,binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initListener()
         initCallback()
     }
@@ -135,7 +143,7 @@ class DataActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetFitnessMode1) {
             addLogI("btnGetFitnessMode1")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(1,object : SendCmdStateListener() {
+            ControlBleTools.getInstance().getDailyHistoryData(1, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
                     addLogI("getDailyHistoryData state=$state")
                 }
@@ -144,7 +152,7 @@ class DataActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetFitnessMode2) {
             addLogI("btnGetFitnessMode2")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(2,object : SendCmdStateListener() {
+            ControlBleTools.getInstance().getDailyHistoryData(2, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
                     addLogI("getDailyHistoryData state=$state")
                 }
@@ -153,7 +161,7 @@ class DataActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetFitnessMode3) {
             addLogI("btnGetFitnessMode3")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(3,object : SendCmdStateListener() {
+            ControlBleTools.getInstance().getDailyHistoryData(3, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
                     addLogI("getDailyHistoryData state=$state")
                 }
@@ -220,6 +228,7 @@ class DataActivity : BaseActivity() {
             override fun onProgress(progress: Int, total: Int) {
                 addLogI("fitnessDataCallBack onProgress progress=$progress total=$total")
             }
+
             override fun onDailyData(bean: DailyBean) {
                 addLogBean("fitnessDataCallBack onDailyData", bean)
             }
@@ -293,7 +302,7 @@ class DataActivity : BaseActivity() {
             }
 
             override fun onRingSleepResult(bean: RingSleepResultBean) {
-                addLogBean("fitnessDataCallBack onRingSleepResult", bean)
+                addLogI("fitnessDataCallBack onRingSleepResult ：" + bean)
             }
 
             override fun onRingBatteryData(bean: RingBatteryBean) {
@@ -321,7 +330,10 @@ class DataActivity : BaseActivity() {
             }
 
             override fun onRingSleepNAP(list: MutableList<RingSleepNapBean>) {
-                addLogBean("fitnessDataCallBack onRingSleepNAP", list)
+                for (item in list) {
+                    addLogI("fitnessDataCallBack onRingSleepNAP ：" + item)
+                }
+//                addLogBean("fitnessDataCallBack onRingSleepNAP", list)
             }
 
             override fun onRingAutoActiveSportData(bean: AutoActiveSportBean) {

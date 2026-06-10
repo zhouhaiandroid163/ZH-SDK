@@ -268,10 +268,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
             }
 
             override fun onLogProgress(curSize: Int, allSize: Int) {
-                val logStr = "berryFirmwareLogCallBack onLogProgress curSize=$curSize allSize=$allSize"
-                addLogI(logStr)
-                isEnd = false
-                binding.tvProgress.text = logStr
+                ThreadUtils.runOnUiThread {
+                    val logStr = "berryFirmwareLogCallBack onLogProgress curSize=$curSize allSize=$allSize"
+                    addLogI(logStr)
+                    isEnd = false
+                    binding.tvProgress.text = logStr
+                }
             }
 
             override fun onLogFileUploadStatus(bean: DeviceFileUploadStatusBean) {

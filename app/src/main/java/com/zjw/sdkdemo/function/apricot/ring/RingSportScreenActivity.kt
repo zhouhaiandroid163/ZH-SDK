@@ -1,8 +1,11 @@
 package com.zjw.sdkdemo.function.apricot.ring
 
 import android.os.Bundle
+import android.util.Log
+import com.blankj.utilcode.util.ThreadUtils
 import com.zhapp.ble.BleCommonAttributes
 import com.zhapp.ble.ControlBleTools
+import com.zhapp.ble.bean.PhoneSportDataBean
 import com.zhapp.ble.bean.RingSportDataBean
 import com.zhapp.ble.bean.RingSportStatusBean
 import com.zhapp.ble.bean.SendRingSportStatusBean
@@ -15,6 +18,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityRingSportScreenBinding
 import com.zjw.sdkdemo.livedata.BleConnectState
 import com.zjw.sdkdemo.utils.DescriptionUtils
+import java.util.Random
 
 class RingSportScreenActivity : BaseActivity() {
     private val binding by lazy { ActivityRingSportScreenBinding.inflate(layoutInflater) }
@@ -222,6 +226,7 @@ class RingSportScreenActivity : BaseActivity() {
                 binding.btnPause.isEnabled = true
                 binding.btnResume.isEnabled = false
                 binding.btnEnd.isEnabled = false
+                startLocation()
             }
             //运动暂停
             sportPause -> {
@@ -230,6 +235,7 @@ class RingSportScreenActivity : BaseActivity() {
                 binding.btnPause.isEnabled = false
                 binding.btnResume.isEnabled = true
                 binding.btnEnd.isEnabled = true
+                stopLocation()
             }
             //运动继续
             sportResume -> {
@@ -238,6 +244,7 @@ class RingSportScreenActivity : BaseActivity() {
                 binding.btnPause.isEnabled = true
                 binding.btnResume.isEnabled = false
                 binding.btnEnd.isEnabled = false
+                startLocation()
             }
             //运动结束
             sportEnd -> {
@@ -250,7 +257,105 @@ class RingSportScreenActivity : BaseActivity() {
                 binding.btnPause.isEnabled = false
                 binding.btnResume.isEnabled = false
                 binding.btnEnd.isEnabled = false
+                stopLocation()
             }
         }
     }
+
+    //region TODO 定位
+    //定位经纬度
+    private var mLatitude = 0.0
+    private var mLongitude = 0.0
+    //上次发送辅助定位数据的时间戳,经纬度
+    private var mLastTime = 0L
+    //上次发送的定位经纬度
+    private var mLastLat = 0.0
+    private var mLastLon = 0.0
+
+    private var testLocationThread: Thread? = null
+    private val TEST_LAT_DATA = doubleArrayOf(
+        22.631818, 22.631812, 22.631823, 22.631834, 22.631845,
+        22.631856, 22.631867, 22.631878, 22.631889, 22.631890, 22.631818
+    )
+    private val TEST_LONG_DATA = doubleArrayOf(
+        113.833136, 113.833112, 113.833123, 113.833134, 113.833145,
+        113.833156, 113.833167, 113.833178, 113.833189, 113.833190, 113.833136
+    )
+
+    /**
+     * 开始定位 TODO 换真实定位数据
+     */
+    private fun startLocation() {
+        if (testLocationThread == null) {
+            val random = Random()
+            testLocationThread = Thread(object : Runnable {
+                override fun run() {
+                    try {
+                        while (true) {
+                            Thread.sleep(1000)
+
+                            mLatitude = TEST_LAT_DATA[random.nextInt(TEST_LAT_DATA.size - 1)]
+                            mLongitude = TEST_LONG_DATA[random.nextInt(TEST_LONG_DATA.size - 1)]
+                            ThreadUtils.runOnUiThread(object : Runnable {
+                                override fun run() {
+                                    sendPhoneLocationData()
+                                }
+                            })
+                        }
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+            testLocationThread!!.start()
+        }
+    }
+
+    /**
+     * 结束定位 TODO 结束定位
+     */
+    private fun stopLocation() {
+        if (testLocationThread != null) {
+            testLocationThread!!.interrupt()
+            testLocationThread = null
+        }
+    }
+
+    /**
+     * 发送手机定位数据
+     */
+    private fun sendPhoneLocationData() {
+        if (mLatitude == 0.0 || mLongitude == 0.0) return
+        var phoneSportDataBean: PhoneSportDataBean? = null
+        if (mLastTime == 0L || mLastLat == 0.0 || mLastLon == 0.0) {
+            //初次定位发送
+            phoneSportDataBean = PhoneSportDataBean()
+            phoneSportDataBean.gpsAccuracy = 1
+            phoneSportDataBean.timestamp = (System.currentTimeMillis() / 1000).toInt()
+            phoneSportDataBean.latitude = mLatitude
+            phoneSportDataBean.longitude = mLongitude
+        } else {
+            //5s | 定位有变化
+            if (System.currentTimeMillis() - mLastTime >= 5000 ||
+                (mLatitude != mLastLat || mLongitude != mLastLon)
+            ) {
+                phoneSportDataBean = PhoneSportDataBean()
+                phoneSportDataBean.gpsAccuracy = 1
+                phoneSportDataBean.timestamp = (System.currentTimeMillis() / 1000).toInt()
+                phoneSportDataBean.latitude = mLatitude
+                phoneSportDataBean.longitude = mLongitude
+            }
+        }
+        if (phoneSportDataBean != null) {
+            mLastTime = System.currentTimeMillis()
+            mLastLat = mLatitude
+            mLastLon = mLongitude
+            ControlBleTools.getInstance().sendPhoneSportData(phoneSportDataBean, object : SendCmdStateListener(null) {
+                override fun onState(state: SendCmdState) {
+                    addLogI("sendPhoneSportData state=$state")
+                }
+            })
+        }
+    }
+
 }
