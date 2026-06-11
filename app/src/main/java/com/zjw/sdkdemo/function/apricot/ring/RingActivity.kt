@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.zhapp.ble.ControlBleTools
+import com.zhapp.ble.bean.ReplyAutoSportStateBean
 import com.zhapp.ble.bean.RingAutoActiveSportConfigBean
 import com.zhapp.ble.bean.RingSleepConfigBean
 import com.zhapp.ble.callback.AutoSportDataCallBack
+import com.zhapp.ble.callback.BandReportAutoSportCallBack
 import com.zhapp.ble.callback.BreathingRelaxationReminderCallBack
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.DeviceBatteryReportingCallBack
@@ -215,6 +217,18 @@ class RingActivity : BaseActivity() {
                 }
             })
         }
+
+        clickCheckConnect(binding.layoutAutoMotionRecognize.btnReplyAutoSport) {
+            addLogI("layoutAutoMotionRecognize.btnReplyAutoSport")
+            val isAllow =  binding.layoutAutoMotionRecognize.cbAutoSportStopAllow.isChecked
+            val sportType =  binding.layoutAutoMotionRecognize.etAutoSportStopType.text.toString().trim().toInt()
+            addLogI("replyAutoSportStop value=$isAllow sportType=$sportType")
+            ControlBleTools.getInstance().replyAutoSportState(ReplyAutoSportStateBean(isAllow,sportType),  object : SendCmdStateListener() {
+                override fun onState(p0: SendCmdState?) {
+                    addLogI("replyAutoSportStop state=$p0")
+                }
+            })
+        }
     }
 
     fun initCallback() {
@@ -267,7 +281,17 @@ class RingActivity : BaseActivity() {
         }
 
         CallBackUtils.deviceReminderEventCallBack = DeviceReminderEventCallBack { event ->
-            addLogI("CallBackUtils.deviceReminderEventCallBack event = $event")
+            addLogI("DeviceReminderEventCallBack event = $event")
+        }
+
+        CallBackUtils.bandReportAutoSportCallBack = BandReportAutoSportCallBack { bean ->
+            addLogBean("DeviceReminderEventCallBack", bean)
+            if(bean != null){
+                binding.layoutAutoMotionRecognize.etAutoSportStopType.setText(""+bean.sportType)
+                binding.layoutAutoMotionRecognize.etAutoSportStopType.setSelection(
+                    binding.layoutAutoMotionRecognize.etAutoSportStopType.text.length
+                )
+            }
         }
     }
 }

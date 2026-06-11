@@ -220,6 +220,8 @@
     <string name="btn_share">分享</string>
     <string name="btn_switch">开关</string>
     <string name="btn_clear">清除</string>
+    <string name="btn_allow">是否允许</string>
+    <string name="btn_reply">回复</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">点击输入数据</string>
     <string name="target_price_step">步数目标单价:</string>
@@ -521,6 +523,7 @@
     <string name="vault_id_get">根据ID获取详细信息</string>
     <string name="vault_id_delete">根据ID删除保险库信息</string>
     <string name="automatic_motion_pause">运动自动暂停开关</string>
+    <string name="auto_sport_reply">回复手环运动自动上报</string>
     <string name="product_test_restart">产测重启</string>
     <string name="product_test_reset">产测重置</string>
     <string name="product_test_soft_reset">产测软重置</string>

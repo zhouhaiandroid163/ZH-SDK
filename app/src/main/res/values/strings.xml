@@ -220,6 +220,8 @@
     <string name="btn_share">Share</string>
     <string name="btn_switch">Switch</string>
     <string name="btn_clear">Clear</string>
+    <string name="btn_allow">Is allow</string>
+    <string name="btn_reply">Reply</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">Click to enter data</string>
     <string name="target_price_step">Step target unit price:</string>
@@ -521,6 +523,7 @@
     <string name="vault_id_get">Get details by ID</string>
     <string name="vault_id_delete">Delete a vault by ID</string>
     <string name="automatic_motion_pause">Exercise auto-pause on/off</string>
+    <string name="auto_sport_reply">Reply to automatic reporting</string>
     <string name="product_test_restart">Restart production test</string>
     <string name="product_test_reset">Reset production test</string>
     <string name="product_test_soft_reset">Soft reset production test</string>

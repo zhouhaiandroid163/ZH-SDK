@@ -21,7 +21,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llBottom"
         style="@style/public_lin01"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <CheckBox
             android:id="@+id/cbSwitch"
@@ -42,6 +42,34 @@
             android:id="@+id/btnSet"
             style="@style/public_button"
             android:text="@string/btn_set" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+        
+        <TextView
+            style="@style/public_textview01"
+            android:text="@string/auto_sport_reply"
+            android:layout_marginTop="20dp"
+            />
+
+        <CheckBox
+            android:id="@+id/cbAutoSportStopAllow"
+            style="@style/public_checkbox"
+            android:text="@string/btn_allow" />
+        
+        <EditText
+            android:id="@+id/etAutoSportStopType"
+            style="@style/public_edit_number"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReplyAutoSport"
+            style="@style/public_button"
+            android:text="@string/btn_reply" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
