@@ -302,7 +302,7 @@ class BerryDialActivity : BaseActivity() {
 
     private fun sendOrdinaryFile() {
         val isPhoto = false
-        val dialData = FileIOUtils.readFile2BytesByStream(photoFile)
+        val dialData = FileIOUtils.readFile2BytesByStream(ordinaryFile)
         val fileType = BleCommonAttributes.UPLOAD_BIG_DATA_WATCH
         val deviceNum = GlobalData.deviceInfo!!.equipmentNumber
         val deviceVer = GlobalData.deviceInfo!!.firmwareVersion
