@@ -11,6 +11,7 @@ import com.zhapp.ble.bean.EvDataInfoBean
 import com.zhapp.ble.bean.EventInfoBean
 import com.zhapp.ble.bean.FindWearSettingsBean
 import com.zhapp.ble.bean.HeartRateMonitorBean
+import com.zhapp.ble.bean.LowPowerReminderConfigBean
 import com.zhapp.ble.bean.NotificationSettingsBean
 import com.zhapp.ble.bean.PressureModeBean
 import com.zhapp.ble.bean.SWBRMonitorBean
@@ -145,6 +146,8 @@ object MySettingMenuCallBack {
     // 无屏手环心率检测提醒设置
     val onSWHRMonitor = UnFlawedLiveData<SWHRMonitorBean>()
 
+    // 无屏手环低电量提醒设置
+    val onLowPowerReminderConfig = UnFlawedLiveData<LowPowerReminderConfigBean>()
 
     fun initMySettingMenuCallBack() {
         // 设备设置相关
@@ -300,6 +303,10 @@ object MySettingMenuCallBack {
             override fun onSWHRMonitor(bean: SWHRMonitorBean) {
                 onSWHRMonitor.postValue(bean)
 
+            }
+
+            override fun onLowPowerReminderConfig(bean: LowPowerReminderConfigBean?) {
+                onLowPowerReminderConfig.postValue(bean)
             }
 
         }

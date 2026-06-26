@@ -180,6 +180,7 @@ class HelpActivity : BaseActivity() {
             getString(R.string.fun_sw_hr_monitor) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#BnoudYWZCorgyDx6hcvczGt3nRc",
             getString(R.string.fun_sw_hrv_monitor) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#KHrhdpigmowwuFx0dvUchklYnsf",
             getString(R.string.fun_sw_br_monitor) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#OLv3dYkPSoFcoJxY9nucJ6isn7b",
+            getString(R.string.fun_sw_lp_reminder) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-LVMvdAegNoCfQbxVR5ics3x9n8b",
             //儿童设置
             getString(R.string.child_schedule) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-TeYbdstT9oqkMSxVOKkcDQSyn9b",
             getString(R.string.child_school_mode) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-OQwXdNYKwolVFwx5sSTcwMcInUf",

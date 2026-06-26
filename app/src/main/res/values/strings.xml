@@ -117,6 +117,7 @@
     <string name="fun_sw_hr_monitor">Screenless wristband heart rate warning settings</string>
     <string name="fun_sw_hrv_monitor">Screenless wristband heart rate variability warning settings</string>
     <string name="fun_sw_br_monitor">Screenless wristband breathing relaxation warning settings</string>
+    <string name="fun_sw_lp_reminder">Screenless wristband low power reminder settings</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">scheduler</string>
     <string name="child_school_mode">School Model</string>
@@ -552,4 +553,6 @@
     <string name="sw_hrv_monitor_warning_value">Heart rate variability warning value</string>
     <string name="sw_br_monitor_warning_switch">Breathing relaxation warning switch</string>
     <string name="sw_br_monitor_warning_value">Breathing relaxation warning value</string>
+    <string name="sw_lp_reminder_warning_switch">Low power reminder switch</string>
+    <string name="sw_lp_reminder_warning_value">Low power reminder value</string>
 </resources>

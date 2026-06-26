@@ -73,6 +73,10 @@
                 android:id="@+id/layoutSWBRMonitor"
                 layout="@layout/item_fun_sw_br_monitor" />
 
+            <include
+                android:id="@+id/layoutSWLPReminderConfig"
+                layout="@layout/item_fun_sw_lpm_reminder" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

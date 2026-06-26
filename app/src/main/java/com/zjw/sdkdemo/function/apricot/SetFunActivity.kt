@@ -9,6 +9,7 @@ import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.BodyTemperatureSettingBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenSettingsBean
 import com.zhapp.ble.bean.HeartRateMonitorBean
+import com.zhapp.ble.bean.LowPowerReminderConfigBean
 import com.zhapp.ble.bean.MusicInfoBean
 import com.zhapp.ble.bean.PressureModeBean
 import com.zhapp.ble.bean.RealTimeHeartRateConfigBean
@@ -94,6 +95,7 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutSWHRMonitor.cbTop, binding.layoutSWHRMonitor.llBottom, binding.layoutSWHRMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWHRVMonitor.cbTop, binding.layoutSWHRVMonitor.llBottom, binding.layoutSWHRVMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWBRMonitor.cbTop, binding.layoutSWBRMonitor.llBottom, binding.layoutSWBRMonitor.ivHelp)
+        setMyCheckBox(binding.layoutSWLPReminderConfig.cbTop, binding.layoutSWLPReminderConfig.llBottom, binding.layoutSWLPReminderConfig.ivHelp)
 
         selectSettingTime(binding.layoutContinuousSpo2.tvStartTime)
         selectSettingTime(binding.layoutContinuousSpo2.tvEndTime)
@@ -486,6 +488,29 @@ class SetFunActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.layoutSWLPReminderConfig.btnGet){
+            addLogI("layoutSWLPReminderConfig.btnGet")
+            addLogI("getLowPowerReminderConfig")
+            ControlBleTools.getInstance().getLowPowerReminderConfig(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getLowPowerReminderConfig state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWLPReminderConfig.btnSet){
+            addLogI("layoutSWLPReminderConfig.btnSet")
+            val configbean= LowPowerReminderConfigBean()
+            configbean.isEnableRemind = binding.layoutSWLPReminderConfig.cbLpWarningSwitch  .isChecked
+            configbean.remindValue = binding.layoutSWLPReminderConfig.etLpWarningValue.text.toString().trim().toInt()
+            addLogBean("setLowPowerReminderConfig", configbean)
+            ControlBleTools.getInstance().setLowPowerReminderConfig(configbean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setLowPowerReminderConfig state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallback() {
@@ -531,6 +556,10 @@ class SetFunActivity : BaseActivity() {
 
         MySettingMenuCallBack.onSWHRVMonitor.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onSWHRVMonitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onLowPowerReminderConfig.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onLowPowerReminderConfig", bean!!)
         })
 
         CallBackUtils.musicCallBack = object : MusicCallBack {

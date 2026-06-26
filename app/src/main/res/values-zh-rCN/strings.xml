@@ -117,6 +117,7 @@
     <string name="fun_sw_hr_monitor">无屏手环心率预警设置</string>
     <string name="fun_sw_hrv_monitor">无屏手环心率变异性预警设置</string>
     <string name="fun_sw_br_monitor">无屏手环呼吸放松预警设置</string>
+    <string name="fun_sw_lp_reminder">无屏手环低电量提醒设置</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">调度器</string>
     <string name="child_school_mode">学校模式</string>
@@ -552,4 +553,6 @@
     <string name="sw_hrv_monitor_warning_value">心率变异性预警值</string>
     <string name="sw_br_monitor_warning_switch">呼吸放松预警开关</string>
     <string name="sw_br_monitor_warning_value">呼吸放松预警值</string>
+    <string name="sw_lp_reminder_warning_switch">低电量提醒开关</string>
+    <string name="sw_lp_reminder_warning_value">低电量提醒值</string>
 </resources>
