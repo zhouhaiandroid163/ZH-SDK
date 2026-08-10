@@ -281,7 +281,7 @@ class RingActivity : BaseActivity() {
         }
 
         CallBackUtils.deviceReminderEventCallBack = DeviceReminderEventCallBack { event ->
-            addLogI("DeviceReminderEventCallBack event = $event")
+            addLogI("DeviceReminderEventCallBack event =  $event")
         }
 
         CallBackUtils.bandReportAutoSportCallBack = BandReportAutoSportCallBack { bean ->

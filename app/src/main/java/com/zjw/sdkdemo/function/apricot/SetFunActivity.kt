@@ -16,8 +16,8 @@ import com.zhapp.ble.bean.PressureModeBean
 import com.zhapp.ble.bean.RealTimeHeartRateConfigBean
 import com.zhapp.ble.bean.SWBRMonitorBean
 import com.zhapp.ble.bean.SWHRMonitorBean
-import com.zhapp.ble.bean.SWHRVMonitorBean
 import com.zhapp.ble.bean.SWSPO2MonitorBean
+import com.zhapp.ble.bean.SWStressMonitorBean
 import com.zhapp.ble.bean.SleepModeBean
 import com.zhapp.ble.bean.StockInfoBean
 import com.zhapp.ble.bean.StockSymbolBean
@@ -448,7 +448,7 @@ class SetFunActivity : BaseActivity() {
         clickCheckConnect(binding.layoutSWHRVMonitor.btnGet){
             addLogI("layoutSWHRVMonitor.btnGet")
             addLogI("getSWHRVMonitor")
-            ControlBleTools.getInstance().getSWHRVMonitor(object : SendCmdStateListener() {
+            ControlBleTools.getInstance().getSWStressMonitor(object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
                     addLogI("getSWHRVMonitor state=$state")
                 }
@@ -457,13 +457,13 @@ class SetFunActivity : BaseActivity() {
 
         clickCheckConnect(binding.layoutSWHRVMonitor.btnSet){
             addLogI("layoutSWHRVMonitor.btnSet")
-            val bean = SWHRVMonitorBean()
+            val bean = SWStressMonitorBean()
             bean.isWarning = binding.layoutSWHRVMonitor.cbHrvWarningSwitch.isChecked
             bean.warningValue = binding.layoutSWHRVMonitor.etHrvWarningValue.text.toString().trim().toInt()
-            addLogBean("setSWHRVMonitor", bean)
-            ControlBleTools.getInstance().setSWHRVMonitor(bean, object : SendCmdStateListener() {
+            addLogBean("setSWStressMonitor", bean)
+            ControlBleTools.getInstance().setSWStressMonitor(bean, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
-                    addLogI("setSWHRVMonitor state=$state")
+                    addLogI("setSWStressMonitor state=$state")
                 }
             })
         }
@@ -605,7 +605,7 @@ class SetFunActivity : BaseActivity() {
             addLogBean("MySettingMenuCallBack.onSWBRMonitor", bean!!)
         })
 
-        MySettingMenuCallBack.onSWHRVMonitor.observe(this, Observer { bean ->
+        MySettingMenuCallBack.onSWStressMonitor.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onSWHRVMonitor", bean!!)
         })
 

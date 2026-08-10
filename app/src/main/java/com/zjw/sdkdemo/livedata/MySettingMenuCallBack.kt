@@ -18,8 +18,8 @@ import com.zhapp.ble.bean.NotificationSettingsBean
 import com.zhapp.ble.bean.PressureModeBean
 import com.zhapp.ble.bean.SWBRMonitorBean
 import com.zhapp.ble.bean.SWHRMonitorBean
-import com.zhapp.ble.bean.SWHRVMonitorBean
 import com.zhapp.ble.bean.SWSPO2MonitorBean
+import com.zhapp.ble.bean.SWStressMonitorBean
 import com.zhapp.ble.bean.SchedulerBean
 import com.zhapp.ble.bean.SchoolBean
 import com.zhapp.ble.bean.ScreenDisplayBean
@@ -141,7 +141,7 @@ object MySettingMenuCallBack {
     val onSWSPO2Monitor = UnFlawedLiveData<SWSPO2MonitorBean>()
 
     // 无屏手环心率变异性检测提醒设置
-    val onSWHRVMonitor = UnFlawedLiveData<SWHRVMonitorBean>()
+    val onSWStressMonitor = UnFlawedLiveData<SWStressMonitorBean>()
 
     // 无屏手环血氧检测提醒设置
     val onSWBRMonitor = UnFlawedLiveData<SWBRMonitorBean>()
@@ -307,8 +307,8 @@ object MySettingMenuCallBack {
                 onSWSPO2Monitor.postValue(bean)
             }
 
-            override fun onSWHRVMonitor(bean: SWHRVMonitorBean) {
-                onSWHRVMonitor.postValue(bean)
+            override fun onSWStressMonitor(bean: SWStressMonitorBean?) {
+                onSWStressMonitor.postValue(bean)
             }
 
             override fun onSWBRMonitor(bean: SWBRMonitorBean) {
