@@ -144,7 +144,7 @@ class RemindActivity : BaseActivity() {
                 val text = binding.layoutNoticeOther.etContext.text.toString().trim()
                 val ticker = binding.layoutNoticeOther.etTicker.text.toString().trim()
                 addLogI("sendAppNotification appName=$appName appPackName=$appPackName title=$title text=$text ticker=$ticker")
-                ControlBleTools.getInstance().sendAppNotification(appName, appPackName, title, text, ticker, object : SendCmdStateListener() {
+                ControlBleTools.getInstance().sendAppNotification(appPackName,appName, appPackName, title, text, ticker, object : SendCmdStateListener() {
                     override fun onState(state: SendCmdState?) {
                         addLogI("sendAppNotification state=$state")
                     }
@@ -507,10 +507,14 @@ class RemindActivity : BaseActivity() {
             val tip = binding.layoutPhysiologicalCycle.etTip.getText().toString().trim().toInt()
             val allDay = binding.layoutPhysiologicalCycle.etAllDay.getText().toString().trim().toInt()
             val day = binding.layoutPhysiologicalCycle.etDay.getText().toString().trim().toInt()
+            val ovulation = binding.layoutPhysiologicalCycle.etOvulation.getText().toString().trim().toInt()
+            val ovulationDay = binding.layoutPhysiologicalCycle.etOvulationDay.getText().toString().trim().toInt()
             bean.remindSwitch = binding.layoutPhysiologicalCycle.cbSwitch.isChecked
             bean.advanceDay = tip
             bean.totalCycleDay = allDay
             bean.physiologicalCycleDay = day
+            bean.ovulationPeriodAdvanceDay = ovulation
+            bean.ovulationDayPeriodAdvanceDay = ovulationDay
             bean.physiologicalStartDate = DialogUtils.getDateBean(binding.layoutPhysiologicalCycle.tvStartDate)
             bean.physiologicalCycleSwitch = binding.layoutPhysiologicalCycle.cbPeriodSwitch.isChecked
             addLogBean("setPhysiologicalCycle", bean)
@@ -704,6 +708,9 @@ class RemindActivity : BaseActivity() {
             addLogI("callStateCallBack state=$state")
         }
 
+        MySettingMenuCallBack.onEventRemindStatus.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onEventRemindStatus", bean!!)
+        })
     }
 
     private fun sendSysNotice(type: Int) {
@@ -711,7 +718,7 @@ class RemindActivity : BaseActivity() {
         val content = binding.layoutNoticeSystem.etContacts.text.toString().trim()
         val msg = binding.layoutNoticeSystem.etMsg.text.toString().trim()
         addLogI("sendSystemNotification type=$type phone=$phone content=$content msg=$msg")
-        ControlBleTools.getInstance().sendSystemNotification(type, phone, content, msg, object : SendCmdStateListener() {
+        ControlBleTools.getInstance().sendSystemNotification(type, phone,phone, phone, content, msg, object : SendCmdStateListener() {
             override fun onState(state: SendCmdState) {
                 addLogI("sendSystemNotification state=$state")
             }

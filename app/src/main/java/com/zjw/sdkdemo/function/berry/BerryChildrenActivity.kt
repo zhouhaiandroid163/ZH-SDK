@@ -427,7 +427,7 @@ class BerryChildrenActivity : BaseActivity() {
     private var fcDataIndex = 0
 
     inner class MyFlashCardCheckListener : CompoundButton.OnCheckedChangeListener {
-        override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
             if (isChecked) {
                 fcDataIndex += 1
             }

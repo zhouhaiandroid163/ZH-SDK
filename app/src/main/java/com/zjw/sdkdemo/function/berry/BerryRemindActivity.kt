@@ -1,5 +1,6 @@
 package com.zjw.sdkdemo.function.berry
 
+import android.R.attr.data
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -11,10 +12,12 @@ import com.blankj.utilcode.util.PathUtils
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.SuperNotificationBean
 import com.zhapp.ble.bean.berry.AddFavoriteContactBean
+import com.zhapp.ble.bean.berry.AiVoiceCmdBean
 import com.zhapp.ble.bean.berry.FavoriteContactsBean
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.DeviceOpenNotifyAppCallBack
 import com.zhapp.ble.callback.FavoriteContactsCallBack
+import com.zhapp.ble.callback.QuickReplyVoiceCallBack
 import com.zhapp.ble.callback.UploadBigDataListener
 import com.zhapp.ble.callback.WhatsAppQuickReplyCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
@@ -24,8 +27,10 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.base.BaseApplication
 import com.zjw.sdkdemo.databinding.ActivityBerryRemindBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
+import com.zjw.sdkdemo.utils.AiVoiceUtils
 import com.zjw.sdkdemo.utils.AssetUtils.getAssetBitmap
 import com.zjw.sdkdemo.utils.DialogUtils
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 class BerryRemindActivity : BaseActivity() {
@@ -59,6 +64,7 @@ class BerryRemindActivity : BaseActivity() {
         setMyCheckBox(binding.layoutBerryRemindWhatsAppQuickReply.cbTop, binding.layoutBerryRemindWhatsAppQuickReply.llBottom, binding.layoutBerryRemindWhatsAppQuickReply.ivHelp)
         setMyCheckBox(binding.layoutBerryRemindSuperNotice.cbTop, binding.layoutBerryRemindSuperNotice.llBottom, binding.layoutBerryRemindSuperNotice.ivHelp)
         setMyCheckBox(binding.layoutBerryRemindFavoriteHeadContacts.cbTop, binding.layoutBerryRemindFavoriteHeadContacts.llBottom, binding.layoutBerryRemindFavoriteHeadContacts.ivHelp)
+        setMyCheckBox(binding.layoutBerryQuickReplyVoice.cbTop, binding.layoutBerryQuickReplyVoice.llBottom, binding.layoutBerryQuickReplyVoice.ivHelp)
 
         binding.layoutBerryRemindSyncCallSwitch.cbCallNoticeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             addLogI("setBerryIncomingCallNotificationSwitch isChecked=$isChecked")
@@ -341,7 +347,7 @@ class BerryRemindActivity : BaseActivity() {
             val supportMax = favoriteContactsBean!!.supportMax
             val equipmentNumber = GlobalData.deviceInfo!!.equipmentNumber
             addLogBean("setFavoriteContacts supportMax=$supportMax equipmentNumber=$equipmentNumber",list)
-            ControlBleTools.getInstance().setFavoriteContacts(supportMax, list, equipmentNumber, object : UploadBigDataListener {
+            ControlBleTools.getInstance().setFavoriteContacts(supportMax, list, equipmentNumber,object : UploadBigDataListener {
                 override fun onSuccess() {
                     addLogI("setFavoriteContacts onSuccess")
                     binding.layoutBerryRemindFavoriteHeadContacts.btnGet.callOnClick()
@@ -372,6 +378,39 @@ class BerryRemindActivity : BaseActivity() {
                 }
             })
         }
+
+
+
+        clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiCmd) {
+            addLogI("layoutBerryQuickReplyVoice.btnSendQRCmd")
+            val cmd = binding.layoutBerryQuickReplyVoice.etAiCmd.text.toString().trim().toInt()
+            ControlBleTools.getInstance().sendQuickReplyVoiceCmd(cmd, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("sendQuickReplyVoiceCmd state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiError) {
+            addLogI("layoutBerryQuickReplyVoice.btnSendQRError")
+            val error = binding.layoutBerryQuickReplyVoice.etAiError.text.toString().trim().toInt()
+            ControlBleTools.getInstance().sendQuickReplyVoiceErrorCode(error, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("sendQuickReplyVoiceErrorCode state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiTranslatedText) {
+            addLogI("layoutBerryQuickReplyVoice.btnSendQRTranslatedText")
+            val translatedText = binding.layoutBerryQuickReplyVoice.etAiTranslatedText.text.toString().trim()
+            ControlBleTools.getInstance().sendQuickReplyVoiceText(translatedText, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("sendQuickReplyVoiceText state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallBack() {
@@ -401,7 +440,38 @@ class BerryRemindActivity : BaseActivity() {
                 addLogI("deviceOpenNotifyAppCallBack launchIntent=null")
             }
         }
+
+        CallBackUtils.quickReplyVoiceCallBack = object : QuickReplyVoiceCallBack {
+            override fun onDevQuickReplyVoiceCmd(bean: AiVoiceCmdBean) {
+                addLogBean("onDevQuickReplyVoiceCmd", bean)
+
+                when (bean.voiceState) {
+                    1 -> {
+                        isReceivingVoiceData = true
+                        voiceDataBuffer.reset()
+                    }
+
+                    2 -> {
+                        isReceivingVoiceData = false
+                        val receivedData = voiceDataBuffer.toByteArray()
+                        AiVoiceUtils.playVoice(receivedData)
+                    }
+                }
+            }
+
+            override fun onDevQuickReplyVoiceData(voice: ByteArray) {
+                addLogI("quickReplyVoiceCallBack onDevQuickReplyVoiceData data.size=${voice.size}")
+                if (!isReceivingVoiceData) return
+                voiceDataBuffer.write(voice)
+            }
+        }
     }
+
+    //region 快捷回复语音
+    private var isReceivingVoiceData = false
+    private var voiceDataBuffer = ByteArrayOutputStream()
+    //endregion
+
 
     private fun getDeviceInfo() {
         addLogI("getDeviceInfo")

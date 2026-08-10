@@ -95,7 +95,7 @@ class BerryFileActivity : BaseActivity() {
 
                     if (statusValue == DeviceLargeFileStatusListener.PrepareStatus.READY.state) {
 
-                        val type = BleCommonAttributes.UPLOAD_BIG_DATA_LTO
+                        val type = BleCommonAttributes.UPLOAD_BIG_DATA_OTA
                         addLogI("startUploadBigDataByBerry type=$type fileByte=${fileByte.size}")
                         ControlBleTools.getInstance().startUploadBigDataByBerry(type, fileByte, object : UploadBigDataListener {
                             override fun onSuccess() {

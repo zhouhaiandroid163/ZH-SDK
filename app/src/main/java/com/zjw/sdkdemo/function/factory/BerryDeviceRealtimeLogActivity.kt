@@ -248,6 +248,17 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
         CallBackUtils.berryFirmwareLogCallBack = object : BerryFirmwareLogCallBack {
             override fun onDeviceRequestAppGetLog() {
                 addLogI("berryFirmwareLogCallBack onDeviceRequestAppGetLog")
+                val type = 13
+                val optionalUserId = "10086"
+                val optionalPhoneType = DeviceUtils.getManufacturer() + " - " + DeviceUtils.getModel() + " - " + DeviceUtils.getSDKVersionCode()
+                val optionalAppVer = AppUtils.getAppVersionName()
+                val optionalDeviceType = GlobalData.deviceInfo!!.equipmentNumber
+                addLogI("requestLogFileStatusByBerry type=$type optionalUserId=$optionalUserId optionalPhoneType=$optionalPhoneType optionalAppVer=$optionalAppVer optionalDeviceType=$optionalDeviceType")
+                ControlBleTools.getInstance().requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : ParsingStateManager.SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestLogFileStatusByBerry state=$state")
+                    }
+                })
             }
 
             override fun onLogFileStatus(bean: LogFileStatusBean) {

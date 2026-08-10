@@ -205,6 +205,7 @@ class HelpActivity : BaseActivity() {
             getString(R.string.other_morning_news_berry) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-YmmudmoGkol1v5x6esscpwu7nxg",
             getString(R.string.other_vault_berry) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-YJ47dHHsSowORkxoUkmceK9Tnje",
             getString(R.string.other_recording_berry) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-WriXdtJR6ogtahx0rD5cMH9En8E",
+            getString(R.string.other_tv_berry) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-ED3Rdn46aoUSN1xfHUCcSs02nHc",
             //戒指
             getString(R.string.ring_sport_screen) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-PgMrdqF0doTZAlxh83PcBmYinre",
             getString(R.string.ring_measure) to "https://zhouhaismart.feishu.cn/docx/DuVEdRBAuoLvCPxv9njcV0B4nyf#share-Ra1ud8SZYoSl2ExDrLPc6Qs4n9c",

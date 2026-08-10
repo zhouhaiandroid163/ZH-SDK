@@ -14,7 +14,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -35,6 +34,8 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBack()
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

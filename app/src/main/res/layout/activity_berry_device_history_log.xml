@@ -66,6 +66,19 @@
                 style="@style/public_button"
                 android:text="@string/btn_get" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E5E5"
+                android:layout_margin="10dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetMLog"
+                style="@style/public_button"
+                android:text="@string/btn_get_m_log" />
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

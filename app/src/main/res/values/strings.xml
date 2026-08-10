@@ -102,6 +102,7 @@
     <string name="reminder_whats_app_quick_reply_berry">WhatsApp Quick Reply(Berry)</string>
     <string name="reminder_super_notice_berry">Super Notification(Berry)</string>
     <string name="reminder_favorite_contacts_head_berry">Collect Contacts (including avatars)(Berry)</string>
+    <string name="reminder_quick_reply_voice_berry">Quick Reply Voice(Berry)</string>
     <!--功能设置 Function Settings-->
     <string name="fun_world_clock">World Clock</string>
     <string name="fun_music">Music Control</string>
@@ -118,6 +119,8 @@
     <string name="fun_sw_hrv_monitor">Screenless wristband heart rate variability warning settings</string>
     <string name="fun_sw_br_monitor">Screenless wristband breathing relaxation warning settings</string>
     <string name="fun_sw_lp_reminder">Screenless wristband low power reminder settings</string>
+    <string name="fun_sw_measure_frequency">Screenless wristband measurement frequency settings</string>
+    <string name="fun_sw_device_temperature">Screenless wristband confirm device temperature event</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">scheduler</string>
     <string name="child_school_mode">School Model</string>
@@ -145,6 +148,8 @@
     <string name="other_morning_news_berry">Morning News(berry)</string>
     <string name="other_vault_berry">Vault(berry)</string>
     <string name="other_recording_berry">Recording(berry)</string>
+    <string name="other_tv_berry">TV(berry)</string>
+    <string name="other_password_berry">Password(berry)</string>
 
     <!--其他集合 Other Collections-->
     <string name="gr_other">Other Collections</string>
@@ -251,6 +256,8 @@
     <string name="cyc_advance">How many days in advance should I be reminded:</string>
     <string name="cyc_total_day">Total cycle length in days:</string>
     <string name="cyc_physiology_day">Period length in days:</string>
+    <string name="cyc_ovulation">advance remind of the start of ovulation:</string>
+    <string name="cyc_ovulation_day">advance remind of the day of ovulation:</string>
     <string name="record_data_start_time">Data recording start time:</string>
     <string name="record_data_end_time">Data recording end time:</string>
     <string name="record_power_value">Total distance traveled that day:</string>
@@ -261,6 +268,8 @@
     <string name="input_vibration_time">Total cycle length in days:</string>
     <string name="input_music_name">Period length in days:</string>
     <string name="input_play_state">Data recording start time:</string>
+    <string name="input_music_total_progress">Music total progress:</string>
+    <string name="input_music_current_progress">Music current progress:</string>
     <string name="is_new_permission">Data recording end time:</string>
     <string name="input_mode">Balance at the time of recording:</string>
     <string name="input_screen_level">Brightness Level:</string>
@@ -468,7 +477,7 @@
     <string name="select_color">Select Color</string>
     <string name="send_ai_cmd">Send AI Voice Commands</string>
     <string name="send_ai_error">Send AI Voice Error Code</string>
-    <string name="send_ai_translated_text">发送AI语音转文字后的文本</string>
+    <string name="send_ai_translated_text">Send AI Voice Translated Text</string>
     <string name="send_ai_answer_text">Send AI to reply text messages</string>
     <string name="send_view_ui">Send AI to display heart rate, blood oxygen, activity, and other data UI</string>
     <string name="send_history_ui">Send AI history charts</string>
@@ -530,6 +539,9 @@
     <string name="product_test_soft_reset">Soft reset production test</string>
     <string name="product_test_hard_reset">Hard reset production test</string>
     <string name="heart_light_leak_test">Heart rate light leakage test</string>
+    <string name="verify_philips_key">Verify key</string>
+    <string name="get_device_uuid">Get device UUID</string>
+    <string name="write_philips_key">Write key to device</string>
     <string name="get_device_log">Get device log files</string>
     <string name="get_tracking_log">Get embedded point log data</string>
     <string name="not_started">Not started</string>
@@ -555,4 +567,29 @@
     <string name="sw_br_monitor_warning_value">Breathing relaxation warning value</string>
     <string name="sw_lp_reminder_warning_switch">Low power reminder switch</string>
     <string name="sw_lp_reminder_warning_value">Low power reminder value</string>
+    <string name="tv_set_config">Set TV configuration to watch</string>
+    <string name="tv_device_id">TV device ID:</string>
+    <string name="tv_device_name">TV device name:</string>
+    <string name="tv_active_id">Active TV device ID:</string>
+    <string name="tv_set_list">Issue a list of controllable devices</string>
+    <string name="tv_set_error">Issue an error code</string>
+    <string name="tv_list_id_hint">Please enter the device ID. Separate multiple device IDs with commas.</string>
+    <string name="tv_list_name_hint">Please enter the device name. Separate multiple device names with commas.</string>
+    <string name="btn_get_m_log">Get multiple log files</string>
+    <string name="tv_set_password">Set password</string>
+    <string name="send_qr_voice_cmd">Send Quick Reply Voice Commands</string>
+    <string name="send_qr_voice_error">Send Quick Reply Voice Error Code</string>
+    <string name="send_qr_voice_translated_text">Send Quick Reply Voice Translated Text</string>
+    <string name="tv_set_tv_icons">Send TV Icons</string>
+    <string name="tv_tv_index">TV Icon Index:</string>
+    <string name="tv_tv_name">TV Icon Name:</string>
+    <string name="sw_hr_measure_frequency">Heart rate measurement frequency(30*N):</string>
+    <string name="sw_br_measure_frequency">Breathe measurement frequency(5*N):</string>
+    <string name="sw_temp_measure_frequency">Temperature measurement frequency(5*N):</string>
+    <string name="sw_rri_measure_frequency">RRI measurement frequency(30*N):</string>
+    <string name="sw_hrv_measure_frequency">HRV frequency(30*N):</string>
+    <string name="sw_spo2_measure_frequency">SPO2 measurement frequency(5*N):</string>
+    <string name="sw_measure_in_sleep">Measure frequency in sleep</string>
+    <string name="sw_measure_none_sleep">Measure frequency when not in sleep</string>
+
 </resources>

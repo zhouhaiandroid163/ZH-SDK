@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/help_ll">
+
+        <CheckBox
+            android:id="@+id/cbTop"
+            style="@style/help_cx"
+            android:text="@string/fun_sw_measure_frequency" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHelp"
+            style="@style/help_iv" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llBottom"
+        style="@style/public_lin01"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/sw_measure_in_sleep" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_hr_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etHrMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_br_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etBrMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_temp_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etTempMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_rri_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etRriMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_hrv_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etHrvMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_spo2_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etSpo2MeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/public_textview01"
+            android:text="@string/sw_measure_none_sleep" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_hr_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSHrMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_br_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSBrMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_temp_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSTempMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_rri_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSRriMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_hrv_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSHrvMeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/sw_spo2_measure_frequency" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNSSpo2MeasureFrequencyValue"
+                style="@style/public_edit_number"
+                android:text="30" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGet"
+            style="@style/public_button"
+            android:text="@string/btn_get" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSet"
+            style="@style/public_button"
+            android:text="@string/btn_set" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

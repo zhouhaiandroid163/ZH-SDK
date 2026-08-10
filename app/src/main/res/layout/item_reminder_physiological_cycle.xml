@@ -21,7 +21,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llBottom"
         style="@style/public_lin01"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <CheckBox
             android:id="@+id/cbSwitch"
@@ -76,6 +76,30 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etDay"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/cyc_ovulation" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etOvulation"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/cyc_ovulation_day" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etOvulationDay"
                 style="@style/public_edit_number" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

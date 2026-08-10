@@ -77,6 +77,14 @@
                 android:id="@+id/layoutSWLPReminderConfig"
                 layout="@layout/item_fun_sw_lpm_reminder" />
 
+            <include
+                android:id="@+id/layoutSWMeasureFrequency"
+                layout="@layout/item_fun_sw_measure_frequency" />
+
+            <include
+                android:id="@+id/layoutSWDeviceTemperature"
+                layout="@layout/item_fun_sw_device_temperature" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

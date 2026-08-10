@@ -42,6 +42,25 @@
                 style="@style/public_button"
                 android:text="@string/heart_light_leak_test" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btVerifyPhilipsKey"
+                style="@style/public_button"
+                android:text="@string/verify_philips_key" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btGetDeviceUUID"
+                style="@style/public_button"
+                android:text="@string/get_device_uuid" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etKey"
+                style="@style/public_edit_str"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btWritePhilipsKey"
+                style="@style/public_button"
+                android:text="@string/write_philips_key" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

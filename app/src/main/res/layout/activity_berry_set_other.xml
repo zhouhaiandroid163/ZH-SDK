@@ -29,6 +29,14 @@
                 android:id="@+id/layoutBerrySetOtherRecording"
                 layout="@layout/item_berry_set_other_recording" />
 
+            <include
+                android:id="@+id/layoutBerrySetOtherTv"
+                layout="@layout/item_berry_set_other_tv" />
+
+            <include
+                android:id="@+id/layoutBerrySetOtherPassword"
+                layout="@layout/item_berry_set_other_password" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

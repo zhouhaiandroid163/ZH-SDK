@@ -8,6 +8,7 @@ import com.zh.ble.wear.protobuf.MusicProtos
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.BodyTemperatureSettingBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenSettingsBean
+import com.zhapp.ble.bean.DataMeasureFrequencyBean
 import com.zhapp.ble.bean.HeartRateMonitorBean
 import com.zhapp.ble.bean.LowPowerReminderConfigBean
 import com.zhapp.ble.bean.MusicInfoBean
@@ -96,6 +97,8 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutSWHRVMonitor.cbTop, binding.layoutSWHRVMonitor.llBottom, binding.layoutSWHRVMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWBRMonitor.cbTop, binding.layoutSWBRMonitor.llBottom, binding.layoutSWBRMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWLPReminderConfig.cbTop, binding.layoutSWLPReminderConfig.llBottom, binding.layoutSWLPReminderConfig.ivHelp)
+        setMyCheckBox(binding.layoutSWMeasureFrequency.cbTop, binding.layoutSWMeasureFrequency.llBottom, binding.layoutSWMeasureFrequency.ivHelp)
+        setMyCheckBox(binding.layoutSWDeviceTemperature.cbTop, binding.layoutSWDeviceTemperature.llBottom, binding.layoutSWDeviceTemperature.ivHelp)
 
         selectSettingTime(binding.layoutContinuousSpo2.tvStartTime)
         selectSettingTime(binding.layoutContinuousSpo2.tvEndTime)
@@ -511,6 +514,54 @@ class SetFunActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.layoutSWMeasureFrequency.btnGet){
+            addLogI("layoutSWMeasureFrequency.btnGet")
+            addLogI("getDataMeasureFrequency")
+            ControlBleTools.getInstance().getDataMeasureFrequency(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getDataMeasureFrequency state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWMeasureFrequency.btnSet){
+            addLogI("layoutSWMeasureFrequency.btnSet")
+            val bean = DataMeasureFrequencyBean()
+            val inSleep = DataMeasureFrequencyBean.MeasureFrequency()
+            inSleep.hrFrequency = binding.layoutSWMeasureFrequency.etHrMeasureFrequencyValue.text.toString().trim().toInt()
+            inSleep.brFrequency = binding.layoutSWMeasureFrequency.etBrMeasureFrequencyValue.text.toString().trim().toInt()
+            inSleep.tempFrequency = binding.layoutSWMeasureFrequency.etTempMeasureFrequencyValue.text.toString().trim().toInt()
+            inSleep.rriFrequency = binding.layoutSWMeasureFrequency.etRriMeasureFrequencyValue.text.toString().trim().toInt()
+            inSleep.hrvFrequency = binding.layoutSWMeasureFrequency.etHrvMeasureFrequencyValue.text.toString().trim().toInt()
+            inSleep.spo2Frequency = binding.layoutSWMeasureFrequency.etSpo2MeasureFrequencyValue.text.toString().trim().toInt()
+            val noneSleep = DataMeasureFrequencyBean.MeasureFrequency()
+            noneSleep.hrFrequency = binding.layoutSWMeasureFrequency.etNSHrMeasureFrequencyValue.text.toString().trim().toInt()
+            noneSleep.brFrequency = binding.layoutSWMeasureFrequency.etNSBrMeasureFrequencyValue.text.toString().trim().toInt()
+            noneSleep.tempFrequency = binding.layoutSWMeasureFrequency.etNSTempMeasureFrequencyValue.text.toString().trim().toInt()
+            noneSleep.rriFrequency = binding.layoutSWMeasureFrequency.etNSRriMeasureFrequencyValue.text.toString().trim().toInt()
+            noneSleep.hrvFrequency = binding.layoutSWMeasureFrequency.etNSHrvMeasureFrequencyValue.text.toString().trim().toInt()
+            noneSleep.spo2Frequency = binding.layoutSWMeasureFrequency.etNSSpo2MeasureFrequencyValue.text.toString().trim().toInt()
+            bean.inSleepMeasureFrequency = inSleep
+            bean.noneSleepMeasureFrequency = noneSleep
+            addLogBean("setSWMeasureFrequency", bean)
+            ControlBleTools.getInstance().setDataMeasureFrequency(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWMeasureFrequency state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWDeviceTemperature.btnSet){
+            addLogI("layoutSWDeviceTemperature.btnSet")
+            val isConfirm = binding.layoutSWDeviceTemperature.cbIsConfirm.isChecked
+            addLogBean("confirmDeviceTemperatureEvent", isConfirm)
+            ControlBleTools.getInstance().confirmDeviceTemperatureEvent(isConfirm, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("confirmDeviceTemperatureEvent state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallback() {
@@ -560,6 +611,14 @@ class SetFunActivity : BaseActivity() {
 
         MySettingMenuCallBack.onLowPowerReminderConfig.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onLowPowerReminderConfig", bean!!)
+        })
+
+        MySettingMenuCallBack.onDataMeasureFrequency.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onDataMeasureFrequency", bean!!)
+        })
+
+        MySettingMenuCallBack.onDeviceTemperatureEvent.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onDeviceTemperatureEvent", bean!!)
         })
 
         CallBackUtils.musicCallBack = object : MusicCallBack {
@@ -637,6 +696,8 @@ class SetFunActivity : BaseActivity() {
         }
         val mMusicTitle = binding.layoutMusic.etMusicTitle.getText().toString().trim()
         val mMusicState = binding.layoutMusic.etMusicState.getText().toString().trim().toInt()
+        val mMusicTP = binding.layoutMusic.etMusicTP.getText().toString().trim().toInt()
+        val mMusicCP = binding.layoutMusic.etMusicCP.getText().toString().trim().toInt()
 
         var mCurrent = 0
         audioManager?.let { mCurrent = it.getStreamVolume(AudioManager.STREAM_MUSIC) }
@@ -646,6 +707,8 @@ class SetFunActivity : BaseActivity() {
 
         val isNewPermissionType = binding.layoutMusic.cbIsNewPermission.isChecked
         val bean = MusicInfoBean(mMusicState, mMusicTitle, mCurrent, mMaxVolume, isNewPermissionType)
+        bean.totalProgress = mMusicTP
+        bean.currentProgress = mMusicCP
         addLogBean("syncMusicInfo", bean)
         ControlBleTools.getInstance().syncMusicInfo(bean, object : SendCmdStateListener() {
             override fun onState(state: SendCmdState) {

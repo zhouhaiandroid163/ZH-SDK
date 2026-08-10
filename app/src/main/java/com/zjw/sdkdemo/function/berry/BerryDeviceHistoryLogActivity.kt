@@ -1,29 +1,47 @@
 package com.zjw.sdkdemo.function.berry
 
+import android.R.attr.type
 import android.os.Bundle
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.DeviceUtils
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.DeviceFileUploadStatusBean
 import com.zhapp.ble.bean.LogFileStatusBean
+import com.zhapp.ble.bean.berry.MultipleLogBean
 import com.zhapp.ble.callback.BerryFirmwareLogCallBack
+import com.zhapp.ble.callback.BerryMultipleLogCallBack
 import com.zhapp.ble.callback.CallBackUtils
+import com.zhapp.ble.parsing.BerryParsing.optionalAppVer
+import com.zhapp.ble.parsing.BerryParsing.optionalDeviceType
+import com.zhapp.ble.parsing.BerryParsing.optionalPhoneType
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerryDeviceHistoryLogBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
+import kotlin.collections.isNotEmpty
 
 class BerryDeviceHistoryLogActivity : BaseActivity() {
     val binding by lazy { ActivityBerryDeviceHistoryLogBinding.inflate(layoutInflater) }
     private val tag: String = BerryDeviceHistoryLogActivity::class.java.simpleName
 
+    private var multipleLogs: MutableList<MultipleLogBean> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.data_get_device_history_log_berry)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallBack()
@@ -31,8 +49,8 @@ class BerryDeviceHistoryLogActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        addLogI("disconnect")
-        ControlBleTools.getInstance().disconnect()
+//        addLogI("disconnect")
+//        ControlBleTools.getInstance().disconnect()
     }
 
     private fun initView() {
@@ -60,12 +78,23 @@ class BerryDeviceHistoryLogActivity : BaseActivity() {
             val optionalAppVer = AppUtils.getAppVersionName()
             val optionalDeviceType = GlobalData.deviceInfo!!.equipmentNumber
             addLogI("requestLogFileStatusByBerry type=$type optionalUserId=$optionalUserId optionalAppVer=$optionalAppVer optionalDeviceType=$optionalDeviceType")
-            ControlBleTools.getInstance().requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : SendCmdStateListener() {
+            ControlBleTools.getInstance().requestLogFileStatusByBerry(
+                type, optionalUserId, optionalPhoneType, optionalAppVer,
+                optionalDeviceType, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestLogFileStatusByBerry state=$state")
+                    }
+                })
+
+        }
+
+        clickCheckConnect(binding.btnGetMLog) {
+            addLogI("btnGetMLog")
+            ControlBleTools.getInstance().getBerryMultipleLogsInfo(object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
-                    addLogI("requestLogFileStatusByBerry state=$state")
+                    addLogI("getBerryMultipleLogsInfo state=$state")
                 }
             })
-
         }
     }
 
@@ -82,12 +111,22 @@ class BerryDeviceHistoryLogActivity : BaseActivity() {
                     val isStart = true
                     val type = bean.type
                     val size = bean.fileSize
-                    addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
-                    ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("requestUploadLogFileByBerry state=$state")
-                        }
-                    })
+                    if(type != BerryFirmwareLogCallBack.LogFileType.DOUBLE_LOG.type){
+                        addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
+                        ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
+                    }else{
+                        addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size fileName=$curMultipleLogName")
+                        ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, curMultipleLogName,object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
+                    }
+
                 }
             }
 
@@ -101,18 +140,58 @@ class BerryDeviceHistoryLogActivity : BaseActivity() {
                     val isStart = false
                     val type = bean.type
                     val size = bean.fileSize
-                    addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
-                    ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("requestUploadLogFileByBerry state=$state")
+                    if(type != BerryFirmwareLogCallBack.LogFileType.DOUBLE_LOG.type) {
+                        addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
+                        ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
+                    }else{
+                        addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size fileName=$curMultipleLogName")
+                        ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size,curMultipleLogName, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
+                        if (multipleLogs.isNotEmpty()) {
+                            getMultipleLogs()
+                        } else {
+                            binding.btnGetMLog.isEnabled = true
                         }
-                    })
+                    }
                 }
             }
 
             override fun onLogFilePath(type: Int, path: String?) {
                 addLogI("berryFirmwareLogCallBack onLogFilePath type=$type path=$path")
             }
+        }
+
+        CallBackUtils.berryMultipleLogCallBack = object : BerryMultipleLogCallBack {
+            override fun onMultipleLog(list: List<MultipleLogBean>) {
+                addLogBean("berryMultipleLogCallBack logs", list)
+                multipleLogs.clear()
+                multipleLogs.addAll(list)
+                getMultipleLogs()
+            }
+        }
+    }
+
+    private var curMultipleLogName = ""
+
+    private fun getMultipleLogs() {
+        if (multipleLogs.isNotEmpty()) {
+            binding.btnGetMLog.isEnabled = false
+            val item = multipleLogs.removeAt(0)
+            curMultipleLogName = item.fileName
+            ControlBleTools.getInstance().requestLogFileStatusByBerry(
+                24, curMultipleLogName, "", "",
+                "", "", object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestLogFileStatusByBerry state=$state")
+                    }
+                })
         }
     }
 }

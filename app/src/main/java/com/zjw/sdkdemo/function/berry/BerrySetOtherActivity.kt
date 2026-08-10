@@ -1,20 +1,37 @@
 package com.zjw.sdkdemo.function.berry
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.FileIOUtils
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.PathUtils
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.berry.MorningPostBean
 import com.zhapp.ble.bean.berry.RecordingCmdBean
+import com.zhapp.ble.bean.berry.TvDeviceBean
+import com.zhapp.ble.bean.berry.TvIconBean
+import com.zhapp.ble.bean.berry.TvKeyEventBean
 import com.zhapp.ble.bean.berry.VaultInfoBean
 import com.zhapp.ble.bean.berry.VaultSimpleBean
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.MorningPostCallBack
 import com.zhapp.ble.callback.RecordingCallBack
+import com.zhapp.ble.callback.TvRemoteCallBack
+import com.zhapp.ble.callback.UploadBigDataListener
 import com.zhapp.ble.callback.VaultCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerrySetOtherBinding
+import com.zjw.sdkdemo.function.MainActivity.GlobalData
+import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
+import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.ToastUtils
+import java.io.File
+import kotlin.math.min
 
 class BerrySetOtherActivity : BaseActivity() {
     private val binding by lazy { ActivityBerrySetOtherBinding.inflate(layoutInflater) }
@@ -23,7 +40,15 @@ class BerrySetOtherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setTitle(R.string.ch_set_other_berry)
-        initLogSet(tag, binding.layoutLog.llLog, binding.layoutLog.cxLog, binding.layoutLog.llLogContent, binding.layoutLog.btnClear, binding.layoutLog.btnSet, binding.layoutLog.btnSendLog)
+        initLogSet(
+            tag,
+            binding.layoutLog.llLog,
+            binding.layoutLog.cxLog,
+            binding.layoutLog.llLogContent,
+            binding.layoutLog.btnClear,
+            binding.layoutLog.btnSet,
+            binding.layoutLog.btnSendLog
+        )
         initView()
         initListener()
         initCallBack()
@@ -33,6 +58,8 @@ class BerrySetOtherActivity : BaseActivity() {
         setMyCheckBox(binding.layoutBerrySetOtherMorningNews.cbTop, binding.layoutBerrySetOtherMorningNews.llBottom, binding.layoutBerrySetOtherMorningNews.ivHelp)
         setMyCheckBox(binding.layoutBerrySetOtherVault.cbTop, binding.layoutBerrySetOtherVault.llBottom, binding.layoutBerrySetOtherVault.ivHelp)
         setMyCheckBox(binding.layoutBerrySetOtherRecording.cbTop, binding.layoutBerrySetOtherRecording.llBottom, binding.layoutBerrySetOtherRecording.ivHelp)
+        setMyCheckBox(binding.layoutBerrySetOtherTv.cbTop, binding.layoutBerrySetOtherTv.llBottom, binding.layoutBerrySetOtherTv.ivHelp)
+        setMyCheckBox(binding.layoutBerrySetOtherPassword.cbTop, binding.layoutBerrySetOtherPassword.llBottom, binding.layoutBerrySetOtherPassword.ivHelp)
     }
 
     private fun initListener() {
@@ -133,7 +160,110 @@ class BerrySetOtherActivity : BaseActivity() {
                 }
             })
         }
+
+        clickCheckConnect(binding.layoutBerrySetOtherTv.btnList) {
+            addLogI("layoutBerrySetOtherTv.btnList")
+            val activeId = binding.layoutBerrySetOtherTv.etActiveId.text.toString().trim()
+            val deviceId = binding.layoutBerrySetOtherTv.etDeviceIdList.text.toString().trim()
+            val name = binding.layoutBerrySetOtherTv.etNameList.text.toString().trim()
+            val bean = TvDeviceBean()
+            bean.deviceId = activeId
+            val list = arrayListOf<TvDeviceBean.TvDeviceInfoBean>()
+            if (deviceId.contains(",") || name.contains(",")) {
+                val idSplit = deviceId.split(",")
+                val nameSplit = name.split(",")
+                val num = min(idSplit.size, nameSplit.size)
+                for (i in 0 until num) {
+                    val item = TvDeviceBean.TvDeviceInfoBean()
+                    item.deviceId = idSplit[i]
+                    item.deviceName = nameSplit[i]
+                    list.add(item)
+                }
+            } else {
+                list.add(TvDeviceBean.TvDeviceInfoBean().apply {
+                    this.deviceId = deviceId
+                    this.deviceName = name
+                })
+            }
+            bean.deviceList = list
+            ControlBleTools.getInstance().setTvDeviceList(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("setTvDeviceList state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerrySetOtherTv.btnError) {
+            addLogI("layoutBerrySetOtherTv.btnError")
+            val error = binding.layoutBerrySetOtherTv.etError.text.toString().trim().toInt()
+            ControlBleTools.getInstance().setTvErrorStatus(error, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("setTvErrorStatus state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerrySetOtherPassword.btnPassword) {
+            addLogI("layoutBerrySetOtherPassword.btnPassword")
+            val password = binding.layoutBerrySetOtherPassword.etPassword.text.toString().trim()
+            ControlBleTools.getInstance().setBerryDevicePassword(password, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("setBerryDevicePassword state=$state")
+                }
+            })
+        }
+
+        FileUtils.createOrExistsDir(iconFilePath)
+        binding.layoutBerrySetOtherTv.iconFileSelect.tvTip.text = getString(R.string.select_file_attention, iconFilePath)
+        clickCheckConnect(binding.layoutBerrySetOtherTv.btnIcons) {
+            addLogI("layoutBerrySetOtherTv.btnIcons")
+            val index = binding.layoutBerrySetOtherTv.etTvIndex.text.toString().trim().toInt()
+            val name = binding.layoutBerrySetOtherTv.etTvName.text.toString().trim()
+            if(iconFile==null){
+                ToastUtils.showToast(R.string.select_file_tip)
+                return@clickCheckConnect
+            }
+            val icons = arrayListOf<TvIconBean>()
+            icons.add(TvIconBean().apply {
+                this.index = index
+                this.name = name+"2"
+                this.icon = iconFile
+            })
+            icons.add(TvIconBean().apply {
+                this.index = index+1
+                this.name = name+"2"
+                this.icon = iconFile
+            })
+            val equipmentNumber = GlobalData.deviceInfo!!.equipmentNumber
+            ControlBleTools.getInstance().sendTvIconList(icons,equipmentNumber,object : UploadBigDataListener {
+                override fun onSuccess() {
+                    addLogI("setTvIconList onSuccess")
+                }
+
+                override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                    val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                    addLogI("setTvIconList onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                }
+
+                override fun onTimeout(msg: String?) {
+                    addLogE("setTvIconList onTimeout msg=$msg")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerrySetOtherTv.iconFileSelect.btnSelectFile) {
+            addLogI("layoutDialOrdinary.layoutSelectFile.btnSelectFile")
+            DialogUtils.showSelectImgDialog(this, iconFilePath) { selectedFile ->
+                val bgData = FileIOUtils.readFile2BytesByStream(selectedFile)
+                iconFile = ConvertUtils.bytes2Bitmap(bgData)
+                binding.layoutBerrySetOtherTv.iconFileSelect.tvFileName.text = selectedFile.name
+            }
+        }
     }
+
+    private var iconFile: Bitmap? = null
+    private val iconFilePath = PathUtils.getExternalAppCachePath() + "/tvIcon"
+
 
     private fun initCallBack() {
         CallBackUtils.morningPostCallBack = MorningPostCallBack {
@@ -164,5 +294,20 @@ class BerrySetOtherActivity : BaseActivity() {
                 addLogI("recordingCallBack onRecordingData data.size=${data.size}")
             }
         }
+
+        CallBackUtils.tvRemoteCallBack = object : TvRemoteCallBack {
+            override fun onTvSwitchDevice(deviceId: String?) {
+                addLogI("tvRemoteCallBack onTvSwitchDevice deviceId:${deviceId}")
+            }
+
+            override fun onTVKeyEvent(event: TvKeyEventBean) {
+                addLogBean("tvRemoteCallBack onTVKeyEvent", event)
+            }
+
+        }
+
+        MySettingMenuCallBack.onBerryPasswordSync.observe(this, Observer { psw ->
+            addLogI("MySettingMenuCallBack.onBerryPasswordSync = $psw")
+        })
     }
 }

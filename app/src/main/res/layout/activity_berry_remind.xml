@@ -33,7 +33,12 @@
                 android:id="@+id/layoutBerryRemindFavoriteHeadContacts"
                 layout="@layout/item_berry_remind_favorite_head_contacts" />
 
+            <include
+                android:id="@+id/layoutBerryQuickReplyVoice"
+                layout="@layout/item_berry_quick_reply_voice" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </ScrollView>
 

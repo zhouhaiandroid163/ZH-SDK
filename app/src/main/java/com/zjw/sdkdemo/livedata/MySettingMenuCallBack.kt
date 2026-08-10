@@ -6,6 +6,8 @@ import com.zhapp.ble.bean.ClassicBluetoothStateBean
 import com.zhapp.ble.bean.ClockInfoBean
 import com.zhapp.ble.bean.CommonReminderBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenSettingsBean
+import com.zhapp.ble.bean.DataMeasureFrequencyBean
+import com.zhapp.ble.bean.DeviceTemperatureEventBean
 import com.zhapp.ble.bean.DoNotDisturbModeBean
 import com.zhapp.ble.bean.EvDataInfoBean
 import com.zhapp.ble.bean.EventInfoBean
@@ -27,6 +29,7 @@ import com.zhapp.ble.bean.SleepModeBean
 import com.zhapp.ble.bean.SleepReminder
 import com.zhapp.ble.bean.WorldClockBean
 import com.zhapp.ble.bean.WristScreenBean
+import com.zhapp.ble.bean.berry.EventRemindStatusBean
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.SettingMenuCallBack
 
@@ -148,6 +151,18 @@ object MySettingMenuCallBack {
 
     // 无屏手环低电量提醒设置
     val onLowPowerReminderConfig = UnFlawedLiveData<LowPowerReminderConfigBean>()
+
+    // 密码设置
+    val onBerryPasswordSync = UnFlawedLiveData<String>()
+
+    // 事件提醒状态
+    val onEventRemindStatus = UnFlawedLiveData<EventRemindStatusBean>()
+
+    // 数据测量频率
+    val onDataMeasureFrequency = UnFlawedLiveData<DataMeasureFrequencyBean>()
+
+    // 设备温度事件
+    val onDeviceTemperatureEvent = UnFlawedLiveData<DeviceTemperatureEventBean>()
 
     fun initMySettingMenuCallBack() {
         // 设备设置相关
@@ -307,6 +322,22 @@ object MySettingMenuCallBack {
 
             override fun onLowPowerReminderConfig(bean: LowPowerReminderConfigBean?) {
                 onLowPowerReminderConfig.postValue(bean)
+            }
+
+            override fun onBerryPasswordSync(password: String) {
+                onBerryPasswordSync.postValue(password)
+            }
+
+            override fun onEventRemindStatus(statusBean: EventRemindStatusBean) {
+                onEventRemindStatus.postValue(statusBean)
+            }
+
+            override fun onDataMeasureFrequency(measureFrequencyBean: DataMeasureFrequencyBean) {
+                onDataMeasureFrequency.postValue(measureFrequencyBean)
+            }
+
+            override fun onDeviceTemperatureEvent(temperatureEventBean: DeviceTemperatureEventBean) {
+                onDeviceTemperatureEvent.postValue(temperatureEventBean)
             }
 
         }

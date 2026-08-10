@@ -2,9 +2,12 @@ package com.zjw.sdkdemo.function.factory
 
 import android.os.Bundle
 import com.zhapp.ble.ControlBleTools
+import com.zhapp.ble.callback.CallBackUtils
+import com.zhapp.ble.callback.PhilipsKeyCallBack
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityFactoryBinding
+import com.zjw.sdkdemo.livedata.DeviceLiveData.initCallBack
 
 class FactoryActivity : BaseActivity() {
     private val binding by lazy { ActivityFactoryBinding.inflate(layoutInflater) }
@@ -24,6 +27,7 @@ class FactoryActivity : BaseActivity() {
             binding.layoutLog.btnSendLog
         )
         initListener()
+        initCallBack()
     }
 
     private fun initListener() {
@@ -46,6 +50,35 @@ class FactoryActivity : BaseActivity() {
         clickCheckConnect(binding.btHeartLightLeakTest) {
             addLogI("btHeartLightLeakTest")
             ControlBleTools.getInstance().heartLightLeakTestByProduction()
+        }
+
+        clickCheckConnect(binding.btVerifyPhilipsKey){
+            addLogI("btVerifyPhilipsKey")
+            ControlBleTools.getInstance().verifyPhilipsKeyByProduction()
+        }
+
+        clickCheckConnect(binding.btGetDeviceUUID) {
+            addLogI("btGetDeviceUUID")
+            ControlBleTools.getInstance().getDeviceUUIDByProduction()
+        }
+
+        clickCheckConnect(binding.btWritePhilipsKey){
+            addLogI("btWritePhilipsKey")
+            val key = binding.etKey.text.toString()
+            ControlBleTools.getInstance().writePhilipsKeyByProduction(key)
+        }
+    }
+
+    private fun initCallBack() {
+        CallBackUtils.philipsKeyCallBack = object : PhilipsKeyCallBack{
+            override fun onKeyValid(isValid: Boolean) {
+                addLogI("onKeyValid $isValid")
+            }
+
+            override fun onDeviceUUID(uuid: String) {
+                addLogI("onDeviceUUID $uuid")
+            }
+
         }
     }
 }

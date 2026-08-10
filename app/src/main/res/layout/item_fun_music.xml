@@ -47,6 +47,30 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_music_total_progress" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etMusicTP"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_music_current_progress" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etMusicCP"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <CheckBox
             android:id="@+id/cbIsNewPermission"
             style="@style/public_checkbox"

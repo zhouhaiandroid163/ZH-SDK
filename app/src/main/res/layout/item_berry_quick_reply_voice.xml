@@ -10,7 +10,7 @@
         <CheckBox
             android:id="@+id/cbTop"
             style="@style/help_cx"
-            android:text="@string/reminder_super_notice_berry" />
+            android:text="@string/reminder_quick_reply_voice_berry" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivHelp"
@@ -21,70 +21,62 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llBottom"
         style="@style/public_lin01"
-        tools:visibility="gone">
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/public_textview01"
+                android:text="@string/input_cmd" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAiCmd"
+                style="@style/public_edit_number" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSelectOtherAPP"
+            android:id="@+id/btnSendAiCmd"
             style="@style/public_button"
-            android:text="@string/select_other_app" />
+            android:text="@string/send_qr_voice_cmd" />
 
         <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/public_textview01"
-                android:text="@string/input_app_name" />
+                android:text="@string/input_cmd" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etAppName"
-                style="@style/public_edit_str" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/public_textview01"
-                android:text="@string/input_app_page" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etPackName"
-                style="@style/public_edit_str" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/public_textview01"
-                android:text="@string/input_type" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etType"
+                android:id="@+id/etAiError"
                 style="@style/public_edit_number" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            style="@style/public_input_lin"
-            android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSendAiError"
+            style="@style/public_button"
+            android:text="@string/send_qr_voice_error" />
+
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/public_input_lin">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvContent"
                 style="@style/public_textview01"
-                android:text="@string/input_super_notice_context" />
+                android:text="@string/input_content" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etContent"
+                android:id="@+id/etAiTranslatedText"
                 style="@style/public_edit_str" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSend"
+            android:id="@+id/btnSendAiTranslatedText"
             style="@style/public_button"
-            android:text="@string/btn_send" />
+            android:text="@string/send_qr_voice_translated_text" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
