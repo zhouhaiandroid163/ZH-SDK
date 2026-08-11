@@ -1,7 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -25,18 +23,11 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
 //            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    android.applicationVariants.configureEach { variant ->
-        //apk打包名称
-        variant.outputs.configureEach {
-            outputFileName = "DEMO_" + new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC")) + "_V${variant.versionName}" + ".apk"
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -49,11 +40,7 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes += ['assets', '**.proto']
         }
@@ -66,14 +53,32 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+    }
+}
+
+// apk打包名称（AGP 9 移除 applicationVariants，改用 androidComponents）
+def apkVersionName = android.defaultConfig.versionName ?: "1.0.0"
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        variant.outputs.forEach { output ->
+            output.outputFileName.set("DEMO_" + new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC")) + "_V" + apkVersionName + ".apk")
+        }
+    }
+}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'/*, '*.aar'*/], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3'
 
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // 显式指定 recyclerview 版本（AGP 9 后 material 仅传递 1.1.0，缺少 bindingAdapterPosition/absoluteAdapterPosition）
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
