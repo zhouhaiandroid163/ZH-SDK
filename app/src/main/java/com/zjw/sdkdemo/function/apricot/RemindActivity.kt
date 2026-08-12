@@ -354,7 +354,6 @@ class RemindActivity : BaseActivity() {
             clockInfo.id = 0
             clockInfo.data = bean
             list.add(clockInfo)
-            list.add(clockInfo)
             addLogBean("setClockInfoList", list)
             ControlBleTools.getInstance().setClockInfoList(list, object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState) {
