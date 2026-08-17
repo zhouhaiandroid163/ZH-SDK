@@ -4,6 +4,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- 移除 ActionBar 下方的内容叠加阴影，避免自定义标题栏与内容之间出现灰色条带 -->
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <declare-styleable name="PointView">

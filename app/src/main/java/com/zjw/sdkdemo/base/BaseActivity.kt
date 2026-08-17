@@ -2,18 +2,24 @@ package com.zjw.sdkdemo.base
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -30,38 +36,104 @@ import org.json.JSONObject
 
 @SuppressLint("SetTextI18n")
 open class BaseActivity : AppCompatActivity() {
+
+    private lateinit var tvToolbarTitle: AppCompatTextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Android 15/16 强制边到边显示。改用自定义标题栏（fitsSystemWindows=true 自动避开状态栏）
+        // 替代系统 ActionBar，彻底规避 AppCompat 不再自动处理 ActionBar 偏移导致内容被遮挡的问题。
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            // 状态栏透明 + 深色图标（自定义标题栏下方的浅色背景）
+            enableEdgeToEdge(
+//                statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+//                navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+            )
+        }
+        // 隐藏系统 ActionBar，改用自定义标题栏
         initBack()
     }
 
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
+    /**
+     * 隐藏系统 ActionBar（改为自定义标题栏）。
+     */
     fun initBack() {
-        supportActionBar?.apply {
-            setHomeButtonEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.hide()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
+    override fun setContentView(layoutResID: Int) {
+        val content = LayoutInflater.from(this).inflate(layoutResID, null, false)
+        super.setContentView(wrapWithToolbar(content))
+    }
 
-            R.id.action_settings -> {
-                startActivity(Intent(this, HelpActivity::class.java).apply { putExtra(HelpActivity.FUN_TAG, title) })
-                true
-            }
+    override fun setContentView(view: View?) {
+        super.setContentView(wrapWithToolbar(view))
+    }
+
+    override fun setContentView(view: View?, params: ViewGroup.LayoutParams?) {
+        super.setContentView(wrapWithToolbar(view), params)
+    }
+
+    /**
+     * 用"自定义标题栏 + 内容"包裹原始内容，解决内容被系统栏/ActionBar 遮挡的问题。
+     * 标题栏手动加 statusBars.top padding，精确避开状态栏。
+     */
+    private fun wrapWithToolbar(content: View?): View {
+        val container = LinearLayoutCompat(this)
+        container.orientation = LinearLayoutCompat.VERTICAL
+        container.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+        val toolbar = LayoutInflater.from(this)
+            .inflate(R.layout.layout_custom_toolbar, container, false)
+        tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle)
+        tvToolbarTitle.text = title
+
+        // 返回按钮：通过 onBackPressedDispatcher 触发返回逻辑（兼容子类注册的 OnBackPressedCallback）
+        toolbar.findViewById<View>(R.id.ivToolbarBack).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
-        return super.onOptionsItemSelected(item)
+        // 帮助按钮
+        toolbar.findViewById<View>(R.id.ivToolbarHelp).setOnClickListener {
+            startActivity(Intent(this, HelpActivity::class.java).apply { putExtra(HelpActivity.FUN_TAG, title) })
+        }
+        // HelpActivity 自身是帮助页，隐藏帮助按钮避免重复打开
+        if (this is HelpActivity) {
+            toolbar.findViewById<View>(R.id.ivToolbarHelp).visibility = View.INVISIBLE
+        }
+
+        container.addView(toolbar)
+
+        // 手动给标题栏加 statusBars.top padding（精确避开状态栏，不处理导航栏避免底部空白）
+        ViewCompat.setOnApplyWindowInsetsListener(toolbar) { v, insets ->
+            val statusTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            if (v.paddingTop != statusTop) {
+                v.setPadding(v.paddingLeft, statusTop, v.paddingRight, v.paddingBottom)
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(toolbar)
+
+        if (content != null) {
+            container.addView(
+                content,
+                LinearLayoutCompat.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    0,
+                    1f
+                )
+            )
+        }
+        return container
+    }
+
+    override fun onTitleChanged(title: CharSequence?, color: Int) {
+        super.onTitleChanged(title, color)
+        if (::tvToolbarTitle.isInitialized) {
+            tvToolbarTitle.text = title
+        }
     }
 
     fun clickCheckConnect(view: View, block: () -> Unit) {

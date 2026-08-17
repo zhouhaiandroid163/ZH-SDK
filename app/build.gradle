@@ -11,8 +11,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 36
         multiDexEnabled true
-        versionCode 242
-        versionName "2.4.2.0812"
+        versionCode 243
+        versionName "2.4.3.0817"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -85,6 +85,7 @@ dependencies {
     })
     implementation 'junit:junit:4.13.2'
     implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.activity:activity-ktx:1.8.1'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation "androidx.lifecycle:lifecycle-livedata:2.5.0"
     //工具

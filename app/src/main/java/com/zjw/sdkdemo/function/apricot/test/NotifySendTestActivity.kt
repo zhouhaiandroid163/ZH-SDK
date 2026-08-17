@@ -32,6 +32,8 @@ class NotifySendTestActivity : BaseActivity() {
         setTitle(R.string.ch_loop_notify)
         setContentView(binding.root)
         initViews()
+        // 注册返回回调：返回时弹确认对话框
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     private fun initViews() {
@@ -166,8 +168,11 @@ class NotifySendTestActivity : BaseActivity() {
         stopSendingNotifications()
     }
 
-    override fun onBackPressed() {
-        showExitConfirmationDialog()
+    // 返回时先弹确认对话框（使用 OnBackPressedCallback 替代已废弃的 onBackPressed）
+    private val backCallback = object : androidx.activity.OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            showExitConfirmationDialog()
+        }
     }
 
     private fun showExitConfirmationDialog() {
@@ -176,7 +181,9 @@ class NotifySendTestActivity : BaseActivity() {
             .setMessage("您确定要退出通知发送测试页面吗？当前正在进行的任务将会停止。")
             .setPositiveButton("确定") { _, _ ->
                 stopSendingNotifications()
-                super.onBackPressed()
+                // 禁用当前回调后继续执行默认返回行为
+//                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
             }
             .setNegativeButton("取消", null)
             .setCancelable(false)

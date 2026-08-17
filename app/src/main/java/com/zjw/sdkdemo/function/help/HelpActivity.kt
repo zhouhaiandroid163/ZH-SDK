@@ -26,6 +26,8 @@ class HelpActivity : BaseActivity() {
         binding.btnToSTop.setOnClickListener {
             scrollToTop()
         }
+        // 注册返回回调：优先让 WebView 后退
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     private fun initWeb() {
@@ -63,12 +65,15 @@ class HelpActivity : BaseActivity() {
         binding.webView.evaluateJavascript(jsCode, null)
     }
 
-    // 处理返回键，使WebView可以后退
-    override fun onBackPressed() {
-        if (binding.webView.canGoBack()) {
-            binding.webView.goBack()
-        } else {
-            super.onBackPressed()
+    // 处理返回键，使WebView可以后退（使用 OnBackPressedCallback 替代已废弃的 onBackPressed）
+    private val backCallback = object : androidx.activity.OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (binding.webView.canGoBack()) {
+                binding.webView.goBack()
+            } else {
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 

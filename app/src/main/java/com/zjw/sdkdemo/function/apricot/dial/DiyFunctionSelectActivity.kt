@@ -40,6 +40,8 @@ class DiyFunctionSelectActivity : BaseActivity() {
         setContentView(binding.root)
         setTitle(R.string.diy_function_select)
         initData()
+        // 注册返回回调：返回时回传选择结果
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     private fun initData() {
@@ -93,14 +95,26 @@ class DiyFunctionSelectActivity : BaseActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            val intent = intent
-            functionsConfig.functionsConfigTypes?.removeAt(0)
-            intent.putExtra(RESULT_DATA_TEXT, GsonUtils.toJson(functionsConfig))
-            setResult(RESULT_OK, intent)
-            finish()
+            backWithResult()
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    // 返回时把结果回传（自定义标题栏返回按钮与系统返回键统一走这里）
+    private fun backWithResult() {
+        val intent = intent
+        functionsConfig.functionsConfigTypes?.removeAt(0)
+        intent.putExtra(RESULT_DATA_TEXT, GsonUtils.toJson(functionsConfig))
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    // 返回时把结果回传（使用 OnBackPressedCallback 替代已废弃的 onBackPressed）
+    private val backCallback = object : androidx.activity.OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            backWithResult()
+        }
     }
 
 

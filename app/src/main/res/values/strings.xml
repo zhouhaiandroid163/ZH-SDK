@@ -42,6 +42,7 @@
     <!--文件传输(Berry) File Transfer(Berry)-->
     <string name="file_ota_berry">Ota(Berry)</string>
     <string name="file_agps_berry">AGPS(Berry)</string>
+    <string name="file_loda_agps_berry">Loda AGPS(Berry)</string>
     <!--表盘 Dail-->
     <string name="clock_dial_manage">Dial Management </string>
     <string name="clock_dial_ordinary">Ordinary Dial</string>

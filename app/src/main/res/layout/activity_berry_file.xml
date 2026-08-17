@@ -25,6 +25,10 @@
                 android:id="@+id/layoutBerryFileAGPS"
                 layout="@layout/item_berry_file_agps" />
 
+            <include
+                android:id="@+id/layoutBerryFileLodaAGPS"
+                layout="@layout/item_berry_file_loda_agps" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

@@ -17,6 +17,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerryFileBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.ToastUtils
 import java.io.File
 
 class BerryFileActivity : BaseActivity() {
@@ -29,6 +30,12 @@ class BerryFileActivity : BaseActivity() {
 
     private lateinit var agpsFile: File
     private val agpsFilePath = PathUtils.getExternalAppCachePath() + "/berry_agps"
+
+    private var agpsGR3File:File?=null
+    private var agpsGALFile:File?=null
+    private var agpsBDSFile:File?=null
+    private var isLodaAgps = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +61,16 @@ class BerryFileActivity : BaseActivity() {
 
         FileUtils.createOrExistsDir(agpsFilePath)
         binding.layoutBerryFileAGPS.layoutSelectFile.tvTip.text = getString(R.string.select_file_attention, agpsFilePath)
+        binding.layoutBerryFileLodaAGPS.layoutSelectFile1.tvTip.text = "ELPO_GR3_1\n" + getString(R.string.select_file_attention, agpsFilePath)
+        binding.layoutBerryFileLodaAGPS.layoutSelectFile2.tvTip.text = "ELPO_GAL_3\n" +getString(R.string.select_file_attention, agpsFilePath)
+        binding.layoutBerryFileLodaAGPS.layoutSelectFile3.tvTip.text = "ELPO_BDS_3\n" +getString(R.string.select_file_attention, agpsFilePath)
 
     }
 
     private fun initView() {
         setMyCheckBox(binding.layoutBerryFileOta.cbTop, binding.layoutBerryFileOta.llBottom, binding.layoutBerryFileOta.ivHelp)
         setMyCheckBox(binding.layoutBerryFileAGPS.cbTop, binding.layoutBerryFileAGPS.llBottom, binding.layoutBerryFileAGPS.ivHelp)
+        setMyCheckBox(binding.layoutBerryFileLodaAGPS.cbTop, binding.layoutBerryFileLodaAGPS.llBottom, binding.layoutBerryFileLodaAGPS.ivHelp)
     }
 
     private fun initListener() {
@@ -124,7 +135,7 @@ class BerryFileActivity : BaseActivity() {
 
         clickCheckConnect(binding.layoutBerryFileAGPS.layoutSelectFile.btnSelectFile) {
             addLogI("layoutSelectFile.btnSelectFile")
-            DialogUtils.showSelectFileDialog(this, otaFilePath, "brm") { selectedFile ->
+            DialogUtils.showSelectFileDialog(this, agpsFilePath, "brm") { selectedFile ->
                 agpsFile = selectedFile
                 binding.layoutBerryFileAGPS.layoutSelectFile.tvFileName.text = otaFile.name
             }
@@ -133,6 +144,42 @@ class BerryFileActivity : BaseActivity() {
         clickCheckConnect(binding.layoutBerryFileAGPS.btnSend) {
             addLogI("layoutBerryFileAGPS.btnSend")
             addLogI("requestAgpsState")
+            isLodaAgps = false
+            ControlBleTools.getInstance().requestAgpsState(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("requestAgpsState state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutBerryFileLodaAGPS.layoutSelectFile1.btnSelectFile) {
+            addLogI("layoutBerryFileLodaAGPS.btnSelectFile")
+            DialogUtils.showSelectFileDialog(this, agpsFilePath, "") { selectedFile ->
+                agpsGR3File = selectedFile
+                binding.layoutBerryFileLodaAGPS.layoutSelectFile1.tvFileName.text = agpsGR3File?.name?:""
+            }
+        }
+
+        clickCheckConnect(binding.layoutBerryFileLodaAGPS.layoutSelectFile2.btnSelectFile) {
+            addLogI("layoutBerryFileLodaAGPS.btnSelectFile")
+            DialogUtils.showSelectFileDialog(this, agpsFilePath, "") { selectedFile ->
+                agpsGALFile = selectedFile
+                binding.layoutBerryFileLodaAGPS.layoutSelectFile2.tvFileName.text = agpsGALFile?.name?:""
+            }
+        }
+
+        clickCheckConnect(binding.layoutBerryFileLodaAGPS.layoutSelectFile3.btnSelectFile) {
+            addLogI("layoutBerryFileLodaAGPS.btnSelectFile")
+            DialogUtils.showSelectFileDialog(this, agpsFilePath, "") { selectedFile ->
+                agpsBDSFile = selectedFile
+                binding.layoutBerryFileLodaAGPS.layoutSelectFile3.tvFileName.text = agpsBDSFile?.name?:""
+            }
+        }
+
+        clickCheckConnect(binding.layoutBerryFileLodaAGPS.btnSend) {
+            addLogI("layoutBerryFileLodaAGPS.btnSend")
+            addLogI("requestAgpsState")
+            isLodaAgps = true
             ControlBleTools.getInstance().requestAgpsState(object : SendCmdStateListener() {
                 override fun onState(state: SendCmdState?) {
                     addLogI("requestAgpsState state=$state")
@@ -148,6 +195,11 @@ class BerryFileActivity : BaseActivity() {
             if (bean.isNeed) {
                 if (GlobalData.deviceInfo == null) {
                     addLogI("deviceInfo is null")
+                    return@AgpsCallBack
+                }
+                //LUODA = 0x04;
+                if(isLodaAgps && bean.type == 4){
+                    sendlodaAgps()
                     return@AgpsCallBack
                 }
                 val fileByte = FileIOUtils.readFile2BytesByStream(agpsFile)
@@ -188,6 +240,32 @@ class BerryFileActivity : BaseActivity() {
             }
 
         }
+    }
+
+    private fun sendlodaAgps() {
+        if(agpsGR3File == null || agpsGALFile == null || agpsBDSFile == null){
+            ToastUtils.showToast(R.string.select_file_tip)
+            return
+        }
+        ControlBleTools.getInstance().sendLuodaAgpsFiles(
+            FileIOUtils.readFile2BytesByStream(agpsFile),
+            FileIOUtils.readFile2BytesByStream(agpsFile),
+            FileIOUtils.readFile2BytesByStream(agpsFile),
+            GlobalData.deviceInfo!!.equipmentNumber,object : UploadBigDataListener {
+                override fun onSuccess() {
+                    addLogI("startUploadBigDataByBerry onSuccess()")
+                }
+
+                override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                    val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                    addLogI("startUploadBigDataByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                }
+
+                override fun onTimeout(msg: String?) {
+                    addLogE("startUploadBigDataByBerry onTimeout msg=$msg")
+                }
+            }
+            )
     }
 
 }
