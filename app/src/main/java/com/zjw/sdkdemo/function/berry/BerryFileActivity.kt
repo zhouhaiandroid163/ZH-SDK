@@ -248,9 +248,9 @@ class BerryFileActivity : BaseActivity() {
             return
         }
         ControlBleTools.getInstance().sendLuodaAgpsFiles(
-            FileIOUtils.readFile2BytesByStream(agpsFile),
-            FileIOUtils.readFile2BytesByStream(agpsFile),
-            FileIOUtils.readFile2BytesByStream(agpsFile),
+            FileIOUtils.readFile2BytesByStream(agpsGR3File),
+            FileIOUtils.readFile2BytesByStream(agpsGALFile),
+            FileIOUtils.readFile2BytesByStream(agpsBDSFile),
             GlobalData.deviceInfo!!.equipmentNumber,object : UploadBigDataListener {
                 override fun onSuccess() {
                     addLogI("startUploadBigDataByBerry onSuccess()")
