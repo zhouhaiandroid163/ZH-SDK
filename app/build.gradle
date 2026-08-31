@@ -11,8 +11,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 36
         multiDexEnabled true
-        versionCode 245
-        versionName "2.4.5.0825"
+        versionCode 246
+        versionName "2.4.6.0831"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -104,7 +104,7 @@ dependencies {
     implementation files('libs/serialTransport-release.aar')
     implementation files('libs/watchfacelibrary-release.aar')
     //SDK
-    implementation files('libs/ZH_SDK_20260825_V2.4.5.aar')
+    implementation files('libs/ZH_SDK_20260831_V2.4.6.aar')
     //----------------------------------------------------------
 
     implementation project(':imagepick')

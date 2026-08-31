@@ -117,11 +117,13 @@
     <string name="fun_sleep_mode">睡眠模式</string>
     <string name="fun_sw_spo2_monitor">无屏手环血氧预警设置</string>
     <string name="fun_sw_hr_monitor">无屏手环心率预警设置</string>
-    <string name="fun_sw_hrv_monitor">无屏手环心率变异性预警设置</string>
+    <string name="fun_sw_sport_hr_monitor">无屏手环运动心率预警设置</string>
+    <string name="fun_sw_hrv_monitor">无屏手环压力预警设置</string>
     <string name="fun_sw_br_monitor">无屏手环呼吸放松预警设置</string>
     <string name="fun_sw_lp_reminder">无屏手环低电量提醒设置</string>
     <string name="fun_sw_measure_frequency">无屏手环测量频率设置</string>
     <string name="fun_sw_device_temperature">无屏手环确认设备温度事件</string>
+
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">调度器</string>
     <string name="child_school_mode">学校模式</string>
@@ -229,6 +231,9 @@
     <string name="btn_clear">清除</string>
     <string name="btn_allow">是否允许</string>
     <string name="btn_reply">回复</string>
+    <string name="btn_is_auto">是否自动运动</string>
+    <string name="btn_get_auto_config">获取自动运动配置</string>
+    <string name="btn_set_auto_config">设置自动运动配置</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">点击输入数据</string>
     <string name="target_price_step">步数目标单价:</string>
@@ -360,7 +365,17 @@
     <string name="input_super_notice_context">内容(英文逗号分隔)格式(%s):</string>
     <string name="input_activation_code">激活码:</string>
     <string name="input_bg_mode">多背景切换模式:</string>
-
+    <string name="input_walk_start_duration">步行开始时长:</string>
+    <string name="input_run_start_duration">跑步开始检测时长:</string>
+    <string name="input_cycling_start_duration">自行车开始检测时长:</string>
+    <string name="input_elliptical_start_duration">椭圆机开始检测时长:</string>
+    <string name="input_rowing_start_duration">划船开始检测时长:</string>
+    <string name="input_walk_end_duration">步行结束检测时长:</string>
+    <string name="input_run_end_duration">跑步结束检测时长:</string>
+    <string name="input_cycling_end_duration">自行车结束检测时长:</string>
+    <string name="input_elliptical_end_duration">椭圆机结束检测时长:</string>
+    <string name="input_rowing_end_duration">划船结束检测时长:</string>
+    <string name="input_ratio_threshold">置信度阈值:</string>
     <!--扫描相关 Scan-related-->
     <string name="title_scan_device">扫描设备</string>
     <string name="scan_start">开始扫描</string>
@@ -562,8 +577,8 @@
     <string name="sw_hr_low_value">心率低预警值</string>
     <string name="sw_hr_high_switch">心率高预警开关</string>
     <string name="sw_hr_high_value">心率高预警值</string>
-    <string name="sw_hrv_monitor_warning_switch">心率变异性预警开关</string>
-    <string name="sw_hrv_monitor_warning_value">心率变异性预警值</string>
+    <string name="sw_hrv_monitor_warning_switch">压力预警开关</string>
+    <string name="sw_hrv_monitor_warning_value">压力预警值</string>
     <string name="sw_br_monitor_warning_switch">呼吸放松预警开关</string>
     <string name="sw_br_monitor_warning_value">呼吸放松预警值</string>
     <string name="sw_lp_reminder_warning_switch">低电量提醒开关</string>

@@ -66,6 +66,10 @@
                 layout="@layout/item_fun_sw_hr_monitor" />
 
             <include
+                android:id="@+id/layoutSWSportHRMonitor"
+                layout="@layout/item_fun_sw_sport_hr_monitor" />
+
+            <include
                 android:id="@+id/layoutSWHRVMonitor"
                 layout="@layout/item_fun_sw_hrv_monitor" />
 

@@ -149,6 +149,9 @@ object MySettingMenuCallBack {
     // 无屏手环心率检测提醒设置
     val onSWHRMonitor = UnFlawedLiveData<SWHRMonitorBean>()
 
+    // 无屏手环心率检测提醒设置
+    val onSWSportHRMonitor = UnFlawedLiveData<SWHRMonitorBean>()
+
     // 无屏手环低电量提醒设置
     val onLowPowerReminderConfig = UnFlawedLiveData<LowPowerReminderConfigBean>()
 
@@ -318,6 +321,10 @@ object MySettingMenuCallBack {
             override fun onSWHRMonitor(bean: SWHRMonitorBean) {
                 onSWHRMonitor.postValue(bean)
 
+            }
+
+            override fun onSWSportHRMonitor(p0: SWHRMonitorBean?) {
+                onSWSportHRMonitor.postValue(p0)
             }
 
             override fun onLowPowerReminderConfig(bean: LowPowerReminderConfigBean?) {

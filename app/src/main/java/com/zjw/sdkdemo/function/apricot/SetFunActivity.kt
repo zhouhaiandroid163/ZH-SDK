@@ -94,6 +94,7 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutSleepMode.cbTop, binding.layoutSleepMode.llBottom, binding.layoutSleepMode.ivHelp)
         setMyCheckBox(binding.layoutSWSPO2Monitor.cbTop, binding.layoutSWSPO2Monitor.llBottom, binding.layoutSWSPO2Monitor.ivHelp)
         setMyCheckBox(binding.layoutSWHRMonitor.cbTop, binding.layoutSWHRMonitor.llBottom, binding.layoutSWHRMonitor.ivHelp)
+        setMyCheckBox(binding.layoutSWSportHRMonitor.cbTop, binding.layoutSWSportHRMonitor.llBottom, binding.layoutSWSportHRMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWHRVMonitor.cbTop, binding.layoutSWHRVMonitor.llBottom, binding.layoutSWHRVMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWBRMonitor.cbTop, binding.layoutSWBRMonitor.llBottom, binding.layoutSWBRMonitor.ivHelp)
         setMyCheckBox(binding.layoutSWLPReminderConfig.cbTop, binding.layoutSWLPReminderConfig.llBottom, binding.layoutSWLPReminderConfig.ivHelp)
@@ -445,6 +446,31 @@ class SetFunActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.layoutSWSportHRMonitor.btnGet) {
+            addLogI("layoutSWSportHRMonitor.btnGet")
+            addLogI("getSWSportHRMonitor")
+            ControlBleTools.getInstance().getSWSportHRMonitor(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSWSportHRMonitor state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWSportHRMonitor.btnSet) {
+            addLogI("layoutSWSportHRMonitor.btnSet")
+            val bean = SWHRMonitorBean()
+            bean.isLowWarning = binding.layoutSWSportHRMonitor.cbHrLowWarningSwitch.isChecked
+            bean.lowWarningValue = binding.layoutSWSportHRMonitor.etHrLowWarningValue.text.toString().trim().toInt()
+            bean.isHeightWarning = binding.layoutSWSportHRMonitor.cbHrHeightWarningSwitch.isChecked
+            bean.heightWarningValue = binding.layoutSWSportHRMonitor.etHrHeightWarningValue.text.toString().trim().toInt()
+            addLogBean("setSWSportHRMonitor", bean)
+            ControlBleTools.getInstance().setSWSportHRMonitor(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSWSportHRMonitor state=$state")
+                }
+            })
+        }
+
         clickCheckConnect(binding.layoutSWHRVMonitor.btnGet){
             addLogI("layoutSWHRVMonitor.btnGet")
             addLogI("getSWHRVMonitor")
@@ -599,6 +625,10 @@ class SetFunActivity : BaseActivity() {
 
         MySettingMenuCallBack.onSWHRMonitor.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onSWHRMonitor", bean!!)
+        })
+
+        MySettingMenuCallBack.onSWSportHRMonitor.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSWSportHRMonitor", bean!!)
         })
 
         MySettingMenuCallBack.onSWBRMonitor.observe(this, Observer { bean ->

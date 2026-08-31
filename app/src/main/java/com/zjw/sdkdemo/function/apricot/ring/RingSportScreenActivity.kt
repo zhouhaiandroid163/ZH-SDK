@@ -6,6 +6,8 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.zhapp.ble.BleCommonAttributes
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.PhoneSportDataBean
+import com.zhapp.ble.bean.RingAutoSportConfigBean
+import com.zhapp.ble.bean.RingIsAutoSportStatusBean
 import com.zhapp.ble.bean.RingSportDataBean
 import com.zhapp.ble.bean.RingSportStatusBean
 import com.zhapp.ble.bean.SendRingSportStatusBean
@@ -82,6 +84,45 @@ class RingSportScreenActivity : BaseActivity() {
             addLogI("btnEnd")
             sendSportState(sportEnd)
         }
+
+        clickCheckConnect(binding.btnIsAuto){
+            addLogI("btnIsAuto")
+            ControlBleTools.getInstance().getRingIsAutoSportStatus(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("getRingIsAutoSportStatus state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.btnGetAutoConfig){
+            addLogI("btnGetAutoConfig")
+            ControlBleTools.getInstance().getRingAutoSportConfig(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("getRingAutoSportConfig state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.btnSetAutoConfig){
+            addLogI("btnSetAutoConfig")
+            val config = RingAutoSportConfigBean()
+            config.walkStartDuration = binding.etWalkStartDuration.text.toString().toInt()
+            config.runStartDuration = binding.etRunStartDuration.text.toString().toInt()
+            config.cyclingStartDuration = binding.etCyclingStartDuration.text.toString().toInt()
+            config.ellipticalStartDuration = binding.etEllipticalStartDuration.text.toString().toInt()
+            config.rowingStartDuration = binding.etRowingStartDuration.text.toString().toInt()
+            config.walkEndDuration = binding.etWalkEndDuration.text.toString().toInt()
+            config.runEndDuration = binding.etRunEndDuration.text.toString().toInt()
+            config.cyclingEndDuration = binding.etCyclingEndDuration.text.toString().toInt()
+            config.ellipticalEndDuration = binding.etEllipticalEndDuration.text.toString().toInt()
+            config.rowingEndDuration = binding.etRowingEndDuration.text.toString().toInt()
+            config.ratioThreshold = binding.etRatioThreshold.text.toString().toInt()
+            ControlBleTools.getInstance().setRingAutoSportConfig(config,object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("setRingAutoSportConfig state=$state")
+                }
+            })
+        }
     }
 
     private fun initCallback() {
@@ -129,6 +170,14 @@ class RingSportScreenActivity : BaseActivity() {
             override fun onRingSportData(bean: RingSportDataBean) {
                 addLogBean("ringSportCallBack onRingSportData", bean)
                 binding.tvWearData.text = bean.toString()
+            }
+
+            override fun onRingIsAutoSportStatus(bean: RingIsAutoSportStatusBean) {
+                addLogBean("ringSportCallBack onRingIsAutoSportStatus", bean)
+            }
+
+            override fun onRingAutoSportConfig(bean: RingAutoSportConfigBean) {
+                addLogBean("ringSportCallBack onRingAutoSportConfig", bean)
             }
         }
     }

@@ -10,7 +10,7 @@
         <CheckBox
             android:id="@+id/cbTop"
             style="@style/help_cx"
-            android:text="@string/fun_sw_hr_monitor" />
+            android:text="@string/fun_sw_spo2_monitor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivHelp"

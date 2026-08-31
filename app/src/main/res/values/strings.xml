@@ -117,7 +117,8 @@
     <string name="fun_sleep_mode">Sleep Mode</string>
     <string name="fun_sw_spo2_monitor">Screenless wristband blood oxygen warning settings</string>
     <string name="fun_sw_hr_monitor">Screenless wristband heart rate warning settings</string>
-    <string name="fun_sw_hrv_monitor">Screenless wristband heart rate variability warning settings</string>
+    <string name="fun_sw_sport_hr_monitor">Screenless wristband sport heart rate warning settings</string>
+    <string name="fun_sw_hrv_monitor">Screenless wristband Stress warning settings</string>
     <string name="fun_sw_br_monitor">Screenless wristband breathing relaxation warning settings</string>
     <string name="fun_sw_lp_reminder">Screenless wristband low power reminder settings</string>
     <string name="fun_sw_measure_frequency">Screenless wristband measurement frequency settings</string>
@@ -229,6 +230,9 @@
     <string name="btn_clear">Clear</string>
     <string name="btn_allow">Is allow</string>
     <string name="btn_reply">Reply</string>
+    <string name="btn_is_auto">Is auto sport</string>
+    <string name="btn_get_auto_config">Get auto sport config</string>
+    <string name="btn_set_auto_config">Set auto sport config</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">Click to enter data</string>
     <string name="target_price_step">Step target unit price:</string>
@@ -360,7 +364,17 @@
     <string name="input_super_notice_context">Content (comma-separated) format (%s):</string>
     <string name="input_activation_code">Activation code:</string>
     <string name="input_bg_mode">Multi Img switching mode:</string>
-
+    <string name="input_walk_start_duration">Walk start duration:</string>
+    <string name="input_run_start_duration">Run start duration:</string>
+    <string name="input_cycling_start_duration">Cycling start duration:</string>
+    <string name="input_elliptical_start_duration">Elliptical start duration:</string>
+    <string name="input_rowing_start_duration">Rowing start duration:</string>
+    <string name="input_walk_end_duration">Walk end duration:</string>
+    <string name="input_run_end_duration">Run end duration:</string>
+    <string name="input_cycling_end_duration">Cycling end duration:</string>
+    <string name="input_elliptical_end_duration">Elliptical end duration:</string>
+    <string name="input_rowing_end_duration">Rowing end duration:</string>
+    <string name="input_ratio_threshold">Ratio threshold:</string>
     <!--扫描相关 Scan-related-->
     <string name="title_scan_device">Scan device</string>
     <string name="scan_start">Start scanning</string>
@@ -562,8 +576,8 @@
     <string name="sw_hr_low_value">Low heart rate warning value</string>
     <string name="sw_hr_high_switch">High heart rate warning switch</string>
     <string name="sw_hr_high_value">High heart rate warning value</string>
-    <string name="sw_hrv_monitor_warning_switch">Heart rate variability warning switch</string>
-    <string name="sw_hrv_monitor_warning_value">Heart rate variability warning value</string>
+    <string name="sw_hrv_monitor_warning_switch">Stress warning switch</string>
+    <string name="sw_hrv_monitor_warning_value">Stress warning value</string>
     <string name="sw_br_monitor_warning_switch">Breathing relaxation warning switch</string>
     <string name="sw_br_monitor_warning_value">Breathing relaxation warning value</string>
     <string name="sw_lp_reminder_warning_switch">Low power reminder switch</string>
