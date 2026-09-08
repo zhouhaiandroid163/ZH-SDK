@@ -2,6 +2,7 @@ package com.zjw.sdkdemo.function.apricot
 
 import android.media.AudioManager
 import android.os.Bundle
+import android.telecom.Call
 import android.view.KeyEvent
 import androidx.lifecycle.Observer
 import com.zh.ble.wear.protobuf.MusicProtos
@@ -10,6 +11,7 @@ import com.zhapp.ble.bean.BodyTemperatureSettingBean
 import com.zhapp.ble.bean.ContinuousBloodOxygenSettingsBean
 import com.zhapp.ble.bean.DataMeasureFrequencyBean
 import com.zhapp.ble.bean.HeartRateMonitorBean
+import com.zhapp.ble.bean.IdleRebootRespondBean
 import com.zhapp.ble.bean.LowPowerReminderConfigBean
 import com.zhapp.ble.bean.MusicInfoBean
 import com.zhapp.ble.bean.PressureModeBean
@@ -23,6 +25,7 @@ import com.zhapp.ble.bean.StockInfoBean
 import com.zhapp.ble.bean.StockSymbolBean
 import com.zhapp.ble.bean.WorldClockBean
 import com.zhapp.ble.callback.CallBackUtils
+import com.zhapp.ble.callback.DeviceIdleRebootCallBack
 import com.zhapp.ble.callback.MusicCallBack
 import com.zhapp.ble.callback.RealTimeHeartRateCallback
 import com.zhapp.ble.callback.SettingMenuCallBack
@@ -100,6 +103,7 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutSWLPReminderConfig.cbTop, binding.layoutSWLPReminderConfig.llBottom, binding.layoutSWLPReminderConfig.ivHelp)
         setMyCheckBox(binding.layoutSWMeasureFrequency.cbTop, binding.layoutSWMeasureFrequency.llBottom, binding.layoutSWMeasureFrequency.ivHelp)
         setMyCheckBox(binding.layoutSWDeviceTemperature.cbTop, binding.layoutSWDeviceTemperature.llBottom, binding.layoutSWDeviceTemperature.ivHelp)
+        setMyCheckBox(binding.layoutSWDeviceRebootReq.cbTop, binding.layoutSWDeviceRebootReq.llBottom, binding.layoutSWDeviceRebootReq.ivHelp)
 
         selectSettingTime(binding.layoutContinuousSpo2.tvStartTime)
         selectSettingTime(binding.layoutContinuousSpo2.tvEndTime)
@@ -588,6 +592,20 @@ class SetFunActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.layoutSWDeviceRebootReq.btnSet){
+            addLogI("layoutSWDeviceRebootReq.btnSet")
+            val isAllow = binding.layoutSWDeviceRebootReq.cbIsConfirm.isChecked
+            val waitTime = binding.layoutSWDeviceRebootReq.etRebootInterval.text.toString().trim().toInt()
+            val bean = IdleRebootRespondBean()
+            bean.isAllow = isAllow
+            bean.delaySecond = waitTime
+            ControlBleTools.getInstance().deviceIdleRebootRespond(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("deviceIdleRebootRespond state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallback() {
@@ -715,6 +733,12 @@ class SetFunActivity : BaseActivity() {
 
             override fun onDataResult(timeMillis: Long, hrValue: Int) {
                 addLogI("RealTimeHeartRateCallback onDataResult timeMillis=$timeMillis hrValue=$hrValue")
+            }
+        }
+
+        CallBackUtils.deviceIdleRebootCallBack = object : DeviceIdleRebootCallBack{
+            override fun onDeviceIdleRebootRequest(lastRebootTimestamp: Long) {
+                addLogI("onDeviceIdleRebootRequest lastRebootTimestamp=$lastRebootTimestamp")
             }
         }
     }

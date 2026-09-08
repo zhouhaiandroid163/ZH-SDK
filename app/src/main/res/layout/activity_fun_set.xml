@@ -89,6 +89,10 @@
                 android:id="@+id/layoutSWDeviceTemperature"
                 layout="@layout/item_fun_sw_device_temperature" />
 
+            <include
+                android:id="@+id/layoutSWDeviceRebootReq"
+                layout="@layout/item_fun_sw_dev_reboot_req" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

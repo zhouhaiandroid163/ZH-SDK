@@ -123,6 +123,7 @@
     <string name="fun_sw_lp_reminder">Screenless wristband low power reminder settings</string>
     <string name="fun_sw_measure_frequency">Screenless wristband measurement frequency settings</string>
     <string name="fun_sw_device_temperature">Screenless wristband confirm device temperature event</string>
+    <string name="fun_sw_dev_reboot_req">Screenless wristband reboot request</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">scheduler</string>
     <string name="child_school_mode">School Model</string>
@@ -606,5 +607,6 @@
     <string name="sw_spo2_measure_frequency">SPO2 measurement frequency(5*N):</string>
     <string name="sw_measure_in_sleep">Measure frequency in sleep</string>
     <string name="sw_measure_none_sleep">Measure frequency when not in sleep</string>
+    <string name="sw_reboot_wait_time">Wait for the device time after rejection(seconds)</string>
 
 </resources>

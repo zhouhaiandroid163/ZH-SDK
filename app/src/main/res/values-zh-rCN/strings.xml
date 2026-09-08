@@ -123,6 +123,7 @@
     <string name="fun_sw_lp_reminder">无屏手环低电量提醒设置</string>
     <string name="fun_sw_measure_frequency">无屏手环测量频率设置</string>
     <string name="fun_sw_device_temperature">无屏手环确认设备温度事件</string>
+    <string name="fun_sw_dev_reboot_req">无屏手环重启请求</string>
 
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">调度器</string>
@@ -607,4 +608,5 @@
     <string name="sw_spo2_measure_frequency">血氧测量频率(5*N):</string>
     <string name="sw_measure_in_sleep">在睡眠状态时测量频率</string>
     <string name="sw_measure_none_sleep">不在睡眠状态时测量频率</string>
+    <string name="sw_reboot_wait_time">拒绝后让设备等待的时间(单位:秒)</string>
 </resources>
