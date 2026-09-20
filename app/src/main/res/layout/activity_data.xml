@@ -62,6 +62,16 @@
                 style="@style/public_button"
                 android:text="@string/data_get_fitness_mode3" />
 
+            <CheckBox
+                android:id="@+id/cbIsConfirm"
+                style="@style/public_checkbox"
+                android:text="@string/data_executes_delete_daily_data" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnExecutesDeleteDailyData"
+                style="@style/public_button"
+                android:text="@string/data_executes_delete_daily_data" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnGetSport"
                 style="@style/public_button"

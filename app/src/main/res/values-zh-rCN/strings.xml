@@ -33,6 +33,7 @@
     <string name="data_get_fitness_mode1">获取日常数据(传输当天)</string>
     <string name="data_get_fitness_mode2">获取日常数据(传输历史)</string>
     <string name="data_get_fitness_mode3">获取日常数据(传输所有)</string>
+    <string name="data_executes_delete_daily_data">APP确认收到同步上来的数据(戒指/手环)</string>
     <string name="data_get_sport">获取运动数据</string>
     <string name="data_get_device_history_log">获取设备历史日志文件</string>
     <string name="data_get_device_history_log_berry">获取设备历史日志文件(Berry)</string>

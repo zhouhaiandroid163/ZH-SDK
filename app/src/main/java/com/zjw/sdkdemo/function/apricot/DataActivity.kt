@@ -168,6 +168,17 @@ class DataActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.btnExecutesDeleteDailyData) {
+            addLogI("btnExecutesDeleteDailyData")
+            addLogI("executesDeleteDailyData")
+            val isConfirm = binding.cbIsConfirm.isChecked
+            ControlBleTools.getInstance().ringExecutesDeleteDailyData(if(isConfirm) 1 else 0,object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState?) {
+                    addLogI("ringExecutesDeleteDailyData state=$state")
+                }
+            })
+        }
+
         clickCheckConnect(binding.btnGetSport) {
             addLogI("btnGetSport")
             addLogI("getFitnessSportIdsData")
