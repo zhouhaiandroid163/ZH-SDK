@@ -25,6 +25,7 @@ import com.zhapp.ble.bean.SchoolBean
 import com.zhapp.ble.bean.ScreenDisplayBean
 import com.zhapp.ble.bean.ScreenSettingBean
 import com.zhapp.ble.bean.SimpleSettingSummaryBean
+import com.zhapp.ble.bean.SleepConfigBean
 import com.zhapp.ble.bean.SleepModeBean
 import com.zhapp.ble.bean.SleepReminder
 import com.zhapp.ble.bean.WorldClockBean
@@ -166,6 +167,9 @@ object MySettingMenuCallBack {
 
     // 设备温度事件
     val onDeviceTemperatureEvent = UnFlawedLiveData<DeviceTemperatureEventBean>()
+
+    // 睡眠配置
+    val onSleepConfig = UnFlawedLiveData<SleepConfigBean?>()
 
     fun initMySettingMenuCallBack() {
         // 设备设置相关
@@ -345,6 +349,10 @@ object MySettingMenuCallBack {
 
             override fun onDeviceTemperatureEvent(temperatureEventBean: DeviceTemperatureEventBean) {
                 onDeviceTemperatureEvent.postValue(temperatureEventBean)
+            }
+
+            override fun onSleepConfig(sleepConfigBean: SleepConfigBean?) {
+                onSleepConfig.postValue(sleepConfigBean)
             }
 
         }

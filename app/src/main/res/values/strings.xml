@@ -125,6 +125,7 @@
     <string name="fun_sw_measure_frequency">Screenless wristband measurement frequency settings</string>
     <string name="fun_sw_device_temperature">Screenless wristband confirm device temperature event</string>
     <string name="fun_sw_dev_reboot_req">Screenless wristband reboot request</string>
+    <string name="fun_sw_sleep">Screenless wristband sleep settings</string>
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">scheduler</string>
     <string name="child_school_mode">School Model</string>
@@ -235,6 +236,12 @@
     <string name="btn_is_auto">Is auto sport</string>
     <string name="btn_get_auto_config">Get auto sport config</string>
     <string name="btn_set_auto_config">Set auto sport config</string>
+    <string name="btn_get_sleep_state">Get sleep state</string>
+    <string name="btn_set_sleep_config">Set sleep config</string>
+    <string name="btn_get_sleep_config">Get sleep config</string>
+    <string name="btn_disable_period_finetuning">Is period finetuning disabled</string>
+    <string name="btn_disable_auto_detection">Is auto detection disabled</string>
+    <string name="btn_disable_combine">Is combine sleep disabled</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">Click to enter data</string>
     <string name="target_price_step">Step target unit price:</string>
@@ -609,5 +616,9 @@
     <string name="sw_measure_in_sleep">Measure frequency in sleep</string>
     <string name="sw_measure_none_sleep">Measure frequency when not in sleep</string>
     <string name="sw_reboot_wait_time">Wait for the device time after rejection(seconds)</string>
+    <string name="sw_min_nap_length">Minimum napping detection length (minutes)[15, 60] default: 15</string>
+    <string name="sw_max_gap_length">Maximum gap length during long sleep (minutes)[0, 240] default: 120</string>
+    <string name="sw_long_sleep_period_start">Start time for long sleep detection (hours)[0, 23] default: 20</string>
+    <string name="sw_long_sleep_period_end">End time for long sleep detection (hours)[0, 23] default: 8</string>
 
 </resources>

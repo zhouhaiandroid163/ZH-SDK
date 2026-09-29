@@ -20,7 +20,9 @@ import com.zhapp.ble.bean.SWBRMonitorBean
 import com.zhapp.ble.bean.SWHRMonitorBean
 import com.zhapp.ble.bean.SWSPO2MonitorBean
 import com.zhapp.ble.bean.SWStressMonitorBean
+import com.zhapp.ble.bean.SleepConfigBean
 import com.zhapp.ble.bean.SleepModeBean
+import com.zhapp.ble.bean.SleepStateBean
 import com.zhapp.ble.bean.StockInfoBean
 import com.zhapp.ble.bean.StockSymbolBean
 import com.zhapp.ble.bean.WorldClockBean
@@ -29,6 +31,7 @@ import com.zhapp.ble.callback.DeviceIdleRebootCallBack
 import com.zhapp.ble.callback.MusicCallBack
 import com.zhapp.ble.callback.RealTimeHeartRateCallback
 import com.zhapp.ble.callback.SettingMenuCallBack
+import com.zhapp.ble.callback.SleepStateCallBack
 import com.zhapp.ble.callback.StockCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
@@ -104,6 +107,7 @@ class SetFunActivity : BaseActivity() {
         setMyCheckBox(binding.layoutSWMeasureFrequency.cbTop, binding.layoutSWMeasureFrequency.llBottom, binding.layoutSWMeasureFrequency.ivHelp)
         setMyCheckBox(binding.layoutSWDeviceTemperature.cbTop, binding.layoutSWDeviceTemperature.llBottom, binding.layoutSWDeviceTemperature.ivHelp)
         setMyCheckBox(binding.layoutSWDeviceRebootReq.cbTop, binding.layoutSWDeviceRebootReq.llBottom, binding.layoutSWDeviceRebootReq.ivHelp)
+        setMyCheckBox(binding.layoutSWSleep.cbTop, binding.layoutSWSleep.llBottom, binding.layoutSWSleep.ivHelp)
 
         selectSettingTime(binding.layoutContinuousSpo2.tvStartTime)
         selectSettingTime(binding.layoutContinuousSpo2.tvEndTime)
@@ -606,9 +610,51 @@ class SetFunActivity : BaseActivity() {
             })
         }
 
+        clickCheckConnect(binding.layoutSWSleep.btnGetSleepState){
+            addLogI("layoutSWSleep.btnGetSleepState")
+            addLogI("getSleepState")
+            ControlBleTools.getInstance().getSleepState(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSleepState state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect(binding.layoutSWSleep.btnSetSleepConfig){
+            addLogI("layoutSWSleep.btnSetSleepConfig")
+            val bean = SleepConfigBean()
+            bean.minNapLength = binding.layoutSWSleep.etMinNapLength.text.toString().trim().toInt()
+            bean.maxGapLength = binding.layoutSWSleep.etMaxGapLength.text.toString().trim().toInt()
+            bean.isDisablePeriodFinetuning = binding.layoutSWSleep.cbDisablePeriodFinetuning.isChecked
+            bean.isDisableAutoDetection = binding.layoutSWSleep.cbDisableAutoDetection.isChecked
+            bean.isDisableCombine = binding.layoutSWSleep.cbDisableCombine.isChecked
+            bean.longSleepPeriodStart = binding.layoutSWSleep.etLongSleepPeriodStart.text.toString().trim().toInt()
+            bean.longSleepPeriodEnd = binding.layoutSWSleep.etLongSleepPeriodEnd.text.toString().trim().toInt()
+            addLogBean("setSleepConfig", bean)
+            ControlBleTools.getInstance().setSleepConfig(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setSleepConfig state=$state")
+                }
+            })
+        }
+
+        clickCheckConnect( binding.layoutSWSleep.btnGetSleepConfig){
+            addLogI("layoutSWSleep.btnGetSleepConfig")
+            addLogI("getSleepConfig")
+            ControlBleTools.getInstance().getSleepConfig(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getSleepConfig state=$state")
+                }
+            })
+        }
+
     }
 
     private fun initCallback() {
+        MySettingMenuCallBack.onSleepConfig.observe(this, Observer { bean ->
+            addLogBean("MySettingMenuCallBack.onSleepConfig", bean!!)
+        })
+
         MySettingMenuCallBack.onWorldClockResult.observe(this, Observer { bean ->
             addLogBean("MySettingMenuCallBack.onWorldClockResult", bean!!)
         })
@@ -739,6 +785,12 @@ class SetFunActivity : BaseActivity() {
         CallBackUtils.deviceIdleRebootCallBack = object : DeviceIdleRebootCallBack{
             override fun onDeviceIdleRebootRequest(lastRebootTimestamp: Long) {
                 addLogI("onDeviceIdleRebootRequest lastRebootTimestamp=$lastRebootTimestamp")
+            }
+        }
+
+        CallBackUtils.sleepStateCallBack = object : SleepStateCallBack {
+            override fun onSleepState(bean: SleepStateBean) {
+                addLogBean("onSleepState", bean)
             }
         }
     }

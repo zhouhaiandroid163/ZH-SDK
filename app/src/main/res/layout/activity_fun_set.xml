@@ -93,6 +93,10 @@
                 android:id="@+id/layoutSWDeviceRebootReq"
                 layout="@layout/item_fun_sw_dev_reboot_req" />
 
+            <include
+                android:id="@+id/layoutSWSleep"
+                layout="@layout/item_fun_sw_sleep" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

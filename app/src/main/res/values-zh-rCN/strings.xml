@@ -125,6 +125,7 @@
     <string name="fun_sw_measure_frequency">无屏手环测量频率设置</string>
     <string name="fun_sw_device_temperature">无屏手环确认设备温度事件</string>
     <string name="fun_sw_dev_reboot_req">无屏手环重启请求</string>
+    <string name="fun_sw_sleep">无屏手环睡眠设置</string>
 
     <!--儿童设置 Children's Settings-->
     <string name="child_schedule">调度器</string>
@@ -236,6 +237,12 @@
     <string name="btn_is_auto">是否自动运动</string>
     <string name="btn_get_auto_config">获取自动运动配置</string>
     <string name="btn_set_auto_config">设置自动运动配置</string>
+    <string name="btn_get_sleep_state">获取睡眠状态</string>
+    <string name="btn_set_sleep_config">设置睡眠配置</string>
+    <string name="btn_get_sleep_config">获取睡眠配置</string>
+    <string name="btn_disable_period_finetuning">是否禁止周期调整</string>
+    <string name="btn_disable_auto_detection">是否禁用自动检测</string>
+    <string name="btn_disable_combine">是否禁用合并睡眠</string>
     <!--输入提示 Input prompt-->
     <string name="input_hint_tip">点击输入数据</string>
     <string name="target_price_step">步数目标单价:</string>
@@ -610,4 +617,8 @@
     <string name="sw_measure_in_sleep">在睡眠状态时测量频率</string>
     <string name="sw_measure_none_sleep">不在睡眠状态时测量频率</string>
     <string name="sw_reboot_wait_time">拒绝后让设备等待的时间(单位:秒)</string>
+    <string name="sw_min_nap_length">最短小睡检测时长(单位:分钟)[15, 60]默认15</string>
+    <string name="sw_max_gap_length">长睡最大清醒间隔时长(单位:分钟)[0, 240]默认120</string>
+    <string name="sw_long_sleep_period_start">长睡检测开始时间(单位:小时)[0, 23]默认20</string>
+    <string name="sw_long_sleep_period_end">长睡检测停止时间(单位:小时)[0, 23]默认8</string>
 </resources>
