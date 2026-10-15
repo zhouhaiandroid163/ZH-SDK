@@ -620,5 +620,7 @@
     <string name="sw_max_gap_length">Maximum gap length during long sleep (minutes)[0, 240] default: 120</string>
     <string name="sw_long_sleep_period_start">Start time for long sleep detection (hours)[0, 23] default: 20</string>
     <string name="sw_long_sleep_period_end">End time for long sleep detection (hours)[0, 23] default: 8</string>
+    <string name="get_serial_number">Get Device Serial Number</string>
+    <string name="revise_serial_number">Revise Device Serial Number</string>
 
 </resources>

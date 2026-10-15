@@ -62,6 +62,16 @@
                 style="@style/public_button"
                 android:text="@string/write_philips_key" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetSN"
+                style="@style/public_button"
+                android:text="@string/get_serial_number" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnReviseSN"
+                style="@style/public_button"
+                android:text="@string/revise_serial_number" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

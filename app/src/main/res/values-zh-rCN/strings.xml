@@ -621,4 +621,6 @@
     <string name="sw_max_gap_length">长睡最大清醒间隔时长(单位:分钟)[0, 240]默认120</string>
     <string name="sw_long_sleep_period_start">长睡检测开始时间(单位:小时)[0, 23]默认20</string>
     <string name="sw_long_sleep_period_end">长睡检测停止时间(单位:小时)[0, 23]默认8</string>
+    <string name="get_serial_number">获取设备序列号</string>
+    <string name="revise_serial_number">修正设备序列号</string>
 </resources>
