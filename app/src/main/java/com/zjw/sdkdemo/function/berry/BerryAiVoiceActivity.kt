@@ -23,6 +23,7 @@ import com.zjw.sdkdemo.utils.AiVoiceUtils
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.ByteArrayOutputStream
 import java.util.Calendar
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryAiVoiceActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryAiVoiceBinding.inflate(layoutInflater) }
@@ -60,10 +61,12 @@ class BerryAiVoiceActivity : BaseActivity() {
             addLogI("btnSendAiCmd")
             val value = binding.etAiCmd.text.toString().trim().toInt()
             addLogI("sendAiVoiceCmd value=$value")
-            ControlBleTools.getInstance().sendAiVoiceCmd(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiVoiceCmd state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiVoiceCmd(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiVoiceCmd state=$state")
+                    }
+                })
             })
         }
 
@@ -71,10 +74,12 @@ class BerryAiVoiceActivity : BaseActivity() {
             addLogI("btnSendAiError")
             val value = binding.etAiError.text.toString().trim().toInt()
             addLogI("sendAiErrorCode value=$value")
-            ControlBleTools.getInstance().sendAiErrorCode(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiErrorCode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiErrorCode(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiErrorCode state=$state")
+                    }
+                })
             })
         }
 
@@ -82,10 +87,12 @@ class BerryAiVoiceActivity : BaseActivity() {
             addLogI("btnSendAiTranslatedText")
             val value = binding.etAiTranslatedText.text.toString().trim()
             addLogI("sendAiTranslatedText value=$value")
-            ControlBleTools.getInstance().sendAiTranslatedText(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiTranslatedText state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiTranslatedText(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiTranslatedText state=$state")
+                    }
+                })
             })
         }
 
@@ -93,10 +100,12 @@ class BerryAiVoiceActivity : BaseActivity() {
             addLogI("btnSendAiAnswerText")
             val value = binding.etAiAnswerText.text.toString().trim()
             addLogI("sendAiAnswerText value=$value")
-            ControlBleTools.getInstance().sendAiAnswerText(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiAnswerText state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiAnswerText(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiAnswerText state=$state")
+                    }
+                })
             })
         }
 
@@ -114,10 +123,12 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.actionTime = DialogUtils.getTimeBean(binding.tvViewUiTime)
             }
             addLogBean("sendAiViewUi", bean)
-            ControlBleTools.getInstance().sendAiViewUi(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiViewUi state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiViewUi(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiViewUi state=$state")
+                    }
+                })
             })
         }
 
@@ -164,10 +175,12 @@ class BerryAiVoiceActivity : BaseActivity() {
                 }
             }
             addLogBean("sendAiHistoryUi", bean)
-            ControlBleTools.getInstance().sendAiHistoryUi(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiHistoryUi state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiHistoryUi(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiHistoryUi state=$state")
+                    }
+                })
             })
         }
 
@@ -189,10 +202,12 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.actionTime = DialogUtils.getTimeBean(binding.tvAiActionTime)
             }
             addLogBean("sendAiAction", bean)
-            ControlBleTools.getInstance().sendAiAction(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiAction state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiAction(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiAction state=$state")
+                    }
+                })
             })
         }
 
@@ -206,10 +221,12 @@ class BerryAiVoiceActivity : BaseActivity() {
                 this.actionTime = DialogUtils.getTimeBean(binding.tvAiToggleTime)
             }
             addLogBean("sendAiToggle", bean)
-            ControlBleTools.getInstance().sendAiToggle(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiToggle state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiToggle(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiToggle state=$state")
+                    }
+                })
             })
         }
 
@@ -245,10 +262,12 @@ class BerryAiVoiceActivity : BaseActivity() {
                 }
             }
             addLogBean("sendAiOpenFunction", bean)
-            ControlBleTools.getInstance().sendAiOpenFunction(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendAiOpenFunction state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendAiOpenFunction(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendAiOpenFunction state=$state")
+                    }
+                })
             })
         }
     }

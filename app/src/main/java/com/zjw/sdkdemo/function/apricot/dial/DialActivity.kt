@@ -21,6 +21,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityDialBinding
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 class DialActivity : BaseActivity() {
     private val binding by lazy { ActivityDialBinding.inflate(layoutInflater) }
@@ -68,10 +69,12 @@ class DialActivity : BaseActivity() {
             addLogI("layoutDialManage.btnSet")
             val id = binding.layoutDialManage.etId.text.toString()
             addLogI("setDeviceWatchFromId id=$id")
-            ControlBleTools.getInstance().setDeviceWatchFromId(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setDeviceWatchFromId state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDeviceWatchFromId(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setDeviceWatchFromId state=$state")
+                    }
+                })
             })
         }
 
@@ -79,10 +82,12 @@ class DialActivity : BaseActivity() {
             addLogI("layoutDialManage.btnDelete")
             val id = binding.layoutDialManage.etId.text.toString()
             addLogI("deleteDeviceWatchFromId id=$id")
-            ControlBleTools.getInstance().deleteDeviceWatchFromId(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("deleteDeviceWatchFromId state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.deleteDeviceWatchFromId(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("deleteDeviceWatchFromId state=$state")
+                    }
+                })
             })
         }
 

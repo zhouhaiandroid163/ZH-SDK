@@ -32,6 +32,7 @@ import com.zjw.sdkdemo.utils.AssetUtils.getAssetBitmap
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.ByteArrayOutputStream
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryRemindActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryRemindBinding.inflate(layoutInflater) }
@@ -68,19 +69,23 @@ class BerryRemindActivity : BaseActivity() {
 
         binding.layoutBerryRemindSyncCallSwitch.cbCallNoticeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             addLogI("setBerryIncomingCallNotificationSwitch isChecked=$isChecked")
-            ControlBleTools.getInstance().setBerryIncomingCallNotificationSwitch(isChecked, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setBerryIncomingCallNotificationSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setBerryIncomingCallNotificationSwitch(isChecked, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setBerryIncomingCallNotificationSwitch state=$state")
+                    }
+                })
             })
         }
 
         binding.layoutBerryRemindSyncCallSwitch.cbMissNoticeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             addLogI("setBerryMissCallNotificationSwitch isChecked=$isChecked")
-            ControlBleTools.getInstance().setBerryMissCallNotificationSwitch(isChecked, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setBerryMissCallNotificationSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setBerryMissCallNotificationSwitch(isChecked, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setBerryMissCallNotificationSwitch state=$state")
+                    }
+                })
             })
         }
 
@@ -134,20 +139,24 @@ class BerryRemindActivity : BaseActivity() {
             val switchCall = binding.layoutBerryRemindSyncCallSwitch.cbCallNoticeSwitch.isChecked
             val switchMiss = binding.layoutBerryRemindSyncCallSwitch.cbMissNoticeSwitch.isChecked
             addLogI("setBerryCallNotificationSwitch switchCall=$switchCall switchMiss=$switchMiss")
-            ControlBleTools.getInstance().setBerryCallNotificationSwitch(switchCall, switchMiss, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setBerryCallNotificationSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setBerryCallNotificationSwitch(switchCall, switchMiss, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setBerryCallNotificationSwitch state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryRemindWhatsAppQuickReply.btnGet) {
             addLogI("layoutBerryRemindWhatsAppQuickReply.btnGet")
             addLogI("getDevWhatsAppShortReplyData")
-            ControlBleTools.getInstance().getDevWhatsAppShortReplyData(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDevWhatsAppShortReplyData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDevWhatsAppShortReplyData(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDevWhatsAppShortReplyData state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutBerryRemindWhatsAppQuickReply.btnSet) {
@@ -161,10 +170,12 @@ class BerryRemindActivity : BaseActivity() {
                 list.add(reply)
             }
             addLogBean("setDevWhatsAppShortReplyData", list)
-            ControlBleTools.getInstance().setDevWhatsAppShortReplyData(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setDevWhatsAppShortReplyData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDevWhatsAppShortReplyData(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setDevWhatsAppShortReplyData state=$state")
+                    }
+                })
             })
         }
 
@@ -276,10 +287,12 @@ class BerryRemindActivity : BaseActivity() {
                 }
             }*/
             addLogBean("sendSuperNotification", bean)
-            ControlBleTools.getInstance().sendSuperNotification(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("sendSuperNotification state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendSuperNotification(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendSuperNotification state=$state")
+                    }
+                })
             })
         }
 
@@ -293,10 +306,12 @@ class BerryRemindActivity : BaseActivity() {
 
         clickCheckConnect(binding.layoutBerryRemindFavoriteHeadContacts.btnGet) {
             addLogI("getFavoriteContacts.btnGet")
-            ControlBleTools.getInstance().getFavoriteContacts(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getFavoriteContacts state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getFavoriteContacts(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getFavoriteContacts state=$state")
+                    }
+                })
             })
         }
 
@@ -372,10 +387,12 @@ class BerryRemindActivity : BaseActivity() {
             }
             val list = favoriteContactsBean!!.list
             addLogBean("deleteFavoriteContacts",list)
-            ControlBleTools.getInstance().deleteFavoriteContacts(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("deleteFavoriteContacts state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.deleteFavoriteContacts(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("deleteFavoriteContacts state=$state")
+                    }
+                })
             })
         }
 
@@ -384,30 +401,36 @@ class BerryRemindActivity : BaseActivity() {
         clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiCmd) {
             addLogI("layoutBerryQuickReplyVoice.btnSendQRCmd")
             val cmd = binding.layoutBerryQuickReplyVoice.etAiCmd.text.toString().trim().toInt()
-            ControlBleTools.getInstance().sendQuickReplyVoiceCmd(cmd, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("sendQuickReplyVoiceCmd state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendQuickReplyVoiceCmd(cmd, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendQuickReplyVoiceCmd state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiError) {
             addLogI("layoutBerryQuickReplyVoice.btnSendQRError")
             val error = binding.layoutBerryQuickReplyVoice.etAiError.text.toString().trim().toInt()
-            ControlBleTools.getInstance().sendQuickReplyVoiceErrorCode(error, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("sendQuickReplyVoiceErrorCode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendQuickReplyVoiceErrorCode(error, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendQuickReplyVoiceErrorCode state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryQuickReplyVoice.btnSendAiTranslatedText) {
             addLogI("layoutBerryQuickReplyVoice.btnSendQRTranslatedText")
             val translatedText = binding.layoutBerryQuickReplyVoice.etAiTranslatedText.text.toString().trim()
-            ControlBleTools.getInstance().sendQuickReplyVoiceText(translatedText, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("sendQuickReplyVoiceText state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendQuickReplyVoiceText(translatedText, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendQuickReplyVoiceText state=$state")
+                    }
+                })
             })
         }
 
@@ -475,10 +498,12 @@ class BerryRemindActivity : BaseActivity() {
 
     private fun getDeviceInfo() {
         addLogI("getDeviceInfo")
-        ControlBleTools.getInstance().getDeviceInfo(object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState?) {
-                addLogI("getDeviceInfo state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.getDeviceInfo(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getDeviceInfo state=$state")
+                }
+            })
         })
     }
 }

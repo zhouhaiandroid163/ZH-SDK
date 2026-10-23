@@ -17,6 +17,7 @@ import com.zjw.sdkdemo.databinding.ActivitySportScreenBinding
 import com.zjw.sdkdemo.livedata.BleConnectState
 import com.zjw.sdkdemo.utils.DescriptionUtils
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 /**
  * 副屏运动
@@ -48,7 +49,7 @@ class SportScreenActivity : BaseActivity() {
     }
 
     private fun initData() {
-        binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, BleConnectState.value!!)
+        binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, BleConnectState.value?.second?:0)
         updateSportState(sportInit)
     }
 
@@ -56,10 +57,12 @@ class SportScreenActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetSportState) {
             addLogI("btnGetSportState")
             addLogI("getSportStatus")
-            ControlBleTools.getInstance().getSportStatus(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getSportStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSportStatus(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSportStatus state=$state")
+                    }
+                })
             })
         }
 
@@ -93,12 +96,16 @@ class SportScreenActivity : BaseActivity() {
     }
 
     private fun initCallBack() {
-        BleConnectState.observe(this) { state ->
-            binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
-            updateSportState(sportInit)
-            //获取设备运动状态
-            if (state == BleCommonAttributes.STATE_CONNECTED) {
-                binding.btnGetSportState.callOnClick()
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first?:""
+            val state = connectState?.second
+            if(mac == MyConstants.deviceAddress) {
+                binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
+                updateSportState(sportInit)
+                //获取设备运动状态
+                if (state == BleCommonAttributes.STATE_CONNECTED) {
+                    binding.btnGetSportState.callOnClick()
+                }
             }
         }
 
@@ -184,10 +191,12 @@ class SportScreenActivity : BaseActivity() {
         bean.gpsAccuracy = 1
         bean.selectVersion = 1
         addLogBean("replyDevSecondaryScreenSportRequest",bean)
-        ControlBleTools.getInstance().replyDevSecondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState?) {
-                addLogI("replyDevSecondaryScreenSportRequest state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.replyDevSecondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("replyDevSecondaryScreenSportRequest state=$state")
+                }
+            })
         })
     }
 
@@ -200,54 +209,64 @@ class SportScreenActivity : BaseActivity() {
                 sportStartTime = System.currentTimeMillis() / 1000L
                 val bean = SportRequestBean.getStartPhoneSportRequest(sportType, sportStartTime)
                 addLogBean("secondaryScreenSportRequest",bean)
-                ControlBleTools.getInstance().secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("secondaryScreenSportRequest state=$state")
-                        updateSportState(sportRequestStart)
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("secondaryScreenSportRequest state=$state")
+                            updateSportState(sportRequestStart)
+                        }
+                    })
                 })
             }
             //运动暂停
             sportPause -> {
                 val bean = SportRequestBean.getPausePhoneSportRequest(sportType, sportStartTime)
                 addLogBean("secondaryScreenSportRequest",bean)
-                ControlBleTools.getInstance().secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("secondaryScreenSportRequest state=$state")
-                        updateSportState(sportPause)
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("secondaryScreenSportRequest state=$state")
+                            updateSportState(sportPause)
+                        }
+                    })
                 })
             }
             //运动继续
             sportResume -> {
                 val bean = SportRequestBean.getResumePhoneSportRequest(sportType, sportStartTime)
                 addLogBean("secondaryScreenSportRequest",bean)
-                ControlBleTools.getInstance().secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("secondaryScreenSportRequest state=$state")
-                        updateSportState(sportResume)
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("secondaryScreenSportRequest state=$state")
+                            updateSportState(sportResume)
+                        }
+                    })
                 })
             }
             //运动结束-正常
             sportEnd -> {
                 val bean = SportRequestBean.getStopPhoneSportRequest(sportType, sportStartTime)
                 addLogBean("secondaryScreenSportRequest",bean)
-                ControlBleTools.getInstance().secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("secondaryScreenSportRequest state=$state")
-                        updateSportState(sportEnd)
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("secondaryScreenSportRequest state=$state")
+                            updateSportState(sportEnd)
+                        }
+                    })
                 })
             }
             //运动结束-异常
             sportErrorStopTip -> {
                 val bean = SportRequestBean.getErrorStopPhoneSportRequest(sportType, sportStartTime, SecondaryScreenSportCallBack.StopErrorCode.SPORT_DURATION_NO_METTING.code)
                 addLogBean("secondaryScreenSportRequest",bean)
-                ControlBleTools.getInstance().secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("secondaryScreenSportRequest state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.secondaryScreenSportRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("secondaryScreenSportRequest state=$state")
+                        }
+                    })
                 })
             }
         }

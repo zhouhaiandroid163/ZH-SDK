@@ -127,25 +127,30 @@ class LoopFitnessActivity : BaseActivity() {
 
     fun initCallback() {
 
-        BleConnectState.observe(this) { state ->
-            binding.tvStatus.text = DescriptionUtils.getConnectStateStr(this@LoopFitnessActivity, state!!)
-            saveLog(recordFilePath, binding.tvStatus.text.toString())
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first ?: ""
+            val state = connectState?.second
+            if (mac == MyConstants.deviceAddress) {
+                binding.tvStatus.text = DescriptionUtils.getConnectStateStr(this@LoopFitnessActivity, state!!)
+                saveLog(recordFilePath, binding.tvStatus.text.toString())
 
-            when (state) {
-                BleCommonAttributes.STATE_CONNECTED -> {
-                    loop()
-                }
-                BleCommonAttributes.STATE_TIME_OUT -> {
-                    binding.tvStatus.text = getString(R.string.input_connect_state) + getString(R.string.connect_state_4)
-                    if (sucNum + fillNum < mCount) {
-                        saveLog(recordFilePath, binding.tvStatus.text.toString())
-                        binding.tvFailNum.text = "失败次数：${++fillNum}"
-                        binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
-                        saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                when (state) {
+                    BleCommonAttributes.STATE_CONNECTED -> {
                         loop()
-                    } else {
-                        binding.btnStart.text = "循环已完成"
-                        ControlBleTools.getInstance().disconnect()
+                    }
+
+                    BleCommonAttributes.STATE_TIME_OUT -> {
+                        binding.tvStatus.text = getString(R.string.input_connect_state) + getString(R.string.connect_state_4)
+                        if (sucNum + fillNum < mCount) {
+                            saveLog(recordFilePath, binding.tvStatus.text.toString())
+                            binding.tvFailNum.text = "失败次数：${++fillNum}"
+                            binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
+                            saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                            loop()
+                        } else {
+                            binding.btnStart.text = "循环已完成"
+                            ControlBleTools.getInstance().disconnect()
+                        }
                     }
                 }
             }

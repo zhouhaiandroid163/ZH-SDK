@@ -12,6 +12,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityEvBinding
 import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 class EvActivity : BaseActivity() {
     private val binding by lazy { ActivityEvBinding.inflate(layoutInflater) }
@@ -36,20 +37,24 @@ class EvActivity : BaseActivity() {
             addLogI("btnEvDataSet")
             val bean = getEvDataInfoBean()
             addLogBean("setEvDataInfo", bean)
-            ControlBleTools.getInstance().setEvDataInfo(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEvDataInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEvDataInfo(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEvDataInfo state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnEvRemindSet) {
             addLogI("btnEvRemindSet")
             val remind = binding.etEvRemind.text.toString().trim().toInt()
             addLogI("setEvRemindStatus remind=$remind")
-            ControlBleTools.getInstance().setEvRemindStatus(remind, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEvRemindStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEvRemindStatus(remind, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEvRemindStatus state=$state")
+                    }
+                })
             })
         }
     }

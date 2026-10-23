@@ -16,6 +16,7 @@ import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityActiveMeasureBinding
+import com.zjw.sdkdemo.utils.MyConstants
 
 class MeasureActivity : BaseActivity() {
     private val binding by lazy { ActivityActiveMeasureBinding.inflate(layoutInflater) }
@@ -170,25 +171,29 @@ class MeasureActivity : BaseActivity() {
         bean.isSwitchMeasure = true
         if (deviceType == 0) {
             addLogBean("activeMeasurementStart", bean)
-            ControlBleTools.getInstance().activeMeasurementStart(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("activeMeasurementStart state=$state")
-                    if (state != SendCmdState.SUCCEED) {
-                        binding.btnStart.isEnabled = true
-                        binding.btnStop.isEnabled = false
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.activeMeasurementStart(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("activeMeasurementStart state=$state")
+                        if (state != SendCmdState.SUCCEED) {
+                            binding.btnStart.isEnabled = true
+                            binding.btnStop.isEnabled = false
+                        }
                     }
-                }
+                })
             })
         } else {
             addLogBean("wearActiveMeasurementStart", bean)
-            ControlBleTools.getInstance().wearActiveMeasurementStart(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("wearActiveMeasurementStart state=$state")
-                    if (state != SendCmdState.SUCCEED) {
-                        binding.btnStart.isEnabled = true
-                        binding.btnStop.isEnabled = false
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.wearActiveMeasurementStart(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("wearActiveMeasurementStart state=$state")
+                        if (state != SendCmdState.SUCCEED) {
+                            binding.btnStart.isEnabled = true
+                            binding.btnStop.isEnabled = false
+                        }
                     }
-                }
+                })
             })
         }
     }
@@ -204,17 +209,21 @@ class MeasureActivity : BaseActivity() {
         bean.isSwitchMeasure = false
         if (deviceType == 0) {
             addLogBean("activeMeasurementStop",bean)
-            ControlBleTools.getInstance().activeMeasurementStop(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("activeMeasurementStop state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.activeMeasurementStop(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("activeMeasurementStop state=$state")
+                    }
+                })
             })
         } else {
             addLogBean("wearActiveMeasurementStop",bean)
-            ControlBleTools.getInstance().wearActiveMeasurementStop(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("wearActiveMeasurementStop state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.wearActiveMeasurementStop(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("wearActiveMeasurementStop state=$state")
+                    }
+                })
             })
         }
     }

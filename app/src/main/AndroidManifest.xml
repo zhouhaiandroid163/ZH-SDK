@@ -235,6 +235,10 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:exported="true" />
 
+        <activity android:name=".function.apricot.test.MultiBleTestActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:exported="true" />
+
         <activity
             android:name=".function.apricot.test.SyncTestActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"

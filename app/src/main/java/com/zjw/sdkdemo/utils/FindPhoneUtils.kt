@@ -70,10 +70,12 @@ object FindPhoneUtils {
 
                     //发送给设备结束找手机 Send to device to end phone search
                     Log.i(tag, "sendCloseFindPhone")
-                    ControlBleTools.getInstance().sendCloseFindPhone(object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState?) {
-                            Log.i(tag, "sendCloseFindPhone state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.sendCloseFindPhone(object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                Log.i(tag, "sendCloseFindPhone state=$state")
+                            }
+                        })
                     })
                 }
             }.create()

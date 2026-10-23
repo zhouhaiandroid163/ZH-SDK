@@ -17,6 +17,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityUserSetBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.zjw.sdkdemo.utils.MyConstants
 
 class SetUserActivity : BaseActivity() {
     val binding by lazy { ActivityUserSetBinding.inflate(layoutInflater) }
@@ -73,20 +74,24 @@ class SetUserActivity : BaseActivity() {
             addLogI("layoutUserSyncTime.btnSetSystemTime")
             val time = System.currentTimeMillis()
             addLogI("setTime time=$time")
-            ControlBleTools.getInstance().setTime(time, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTime state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTime(time, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTime state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutUserSyncTime.btnGeTimeType) {
             addLogI("layoutUserSyncTime.btnGeTimeType")
             addLogI("getTimeFormat")
-            ControlBleTools.getInstance().getTimeFormat(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getTimeFormat state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getTimeFormat(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getTimeFormat state=$state")
+                    }
+                })
             })
         }
 
@@ -94,10 +99,12 @@ class SetUserActivity : BaseActivity() {
             addLogI("layoutUserSyncTime.btnSeTimeType")
             val value = binding.layoutUserSyncTime.cbTimeType.isChecked
             addLogI("setTimeFormat value=$value")
-            ControlBleTools.getInstance().setTimeFormat(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTimeFormat state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTimeFormat(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTimeFormat state=$state")
+                    }
+                })
             })
         }
 
@@ -106,20 +113,24 @@ class SetUserActivity : BaseActivity() {
             val time = System.currentTimeMillis()
             val value = binding.layoutUserSyncTime.cbTimeType.isChecked
             addLogI("setTime time=$time value=$value")
-            ControlBleTools.getInstance().setTime(time, value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTime state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTime(time, value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTime state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutUserLanguage.btnGet) {
             addLogI("layoutUserLanguage.btnGet")
             addLogI("getLanguageList")
-            ControlBleTools.getInstance().getLanguageList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getLanguageList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getLanguageList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getLanguageList state=$state")
+                    }
+                })
             })
         }
 
@@ -131,10 +142,12 @@ class SetUserActivity : BaseActivity() {
             }
             val id = languageListBean!!.languageList[binding.layoutUserLanguage.spLan.selectedItemPosition]
             addLogI("setLanguage id=$id")
-            ControlBleTools.getInstance().setLanguage(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setLanguage state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setLanguage(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setLanguage state=$state")
+                    }
+                })
             })
         }
 
@@ -142,10 +155,12 @@ class SetUserActivity : BaseActivity() {
             addLogI("layoutUserUserConfig.btnSetUserInfo")
             val bean = getTestUserInfo()
             addLogBean("setUserProfile", bean)
-            ControlBleTools.getInstance().setUserProfile(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setUserProfile state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserProfile(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setUserProfile state=$state")
+                    }
+                })
             })
         }
 
@@ -157,10 +172,12 @@ class SetUserActivity : BaseActivity() {
                 0
             }
             addLogI("setDistanceUnit value=$value")
-            ControlBleTools.getInstance().setDistanceUnit(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setDistanceUnit state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDistanceUnit(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setDistanceUnit state=$state")
+                    }
+                })
             })
         }
 
@@ -172,10 +189,12 @@ class SetUserActivity : BaseActivity() {
                 0
             }
             addLogI("setTemperatureUnit value=$value")
-            ControlBleTools.getInstance().setTemperatureUnit(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTemperatureUnit state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTemperatureUnit(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTemperatureUnit state=$state")
+                    }
+                })
             })
         }
 
@@ -193,20 +212,24 @@ class SetUserActivity : BaseActivity() {
                 0
             }
             addLogBean("setUserInformation unitType=$unitType temperatureType=$temperatureType", bean)
-            ControlBleTools.getInstance().setUserInformation(unitType, temperatureType, bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setUserInformation state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserInformation(unitType, temperatureType, bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setUserInformation state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutUserUserConfig.btnGetUserProfile) {
             addLogI("layoutUserUserConfig.btnGetUserProfile")
             addLogI("getUserProfile")
-            ControlBleTools.getInstance().getUserProfile(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getUserProfile state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getUserProfile(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getUserProfile state=$state")
+                    }
+                })
             })
         }
     }

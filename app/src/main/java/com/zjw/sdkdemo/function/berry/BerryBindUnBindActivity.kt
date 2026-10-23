@@ -14,6 +14,7 @@ import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerryBindUnbindBinding
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryBindUnBindActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryBindUnbindBinding.inflate(layoutInflater) }
@@ -35,20 +36,24 @@ class BerryBindUnBindActivity : BaseActivity() {
             val phoneName = DeviceUtils.getModel()
             val systemVersion = DeviceUtils.getSDKVersionName()
             addLogI("setUserIdByBerryProtocol userId=$userId phoneName=$phoneName systemVersion=$systemVersion")
-            ControlBleTools.getInstance().setUserIdByBerryProtocol(userId, phoneName, systemVersion, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setUserIdByBerryProtocol state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserIdByBerryProtocol(userId, phoneName, systemVersion, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setUserIdByBerryProtocol state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnBindDevice) {
             addLogI("btnBindDevice")
             addLogI("bindDevice")
-            ControlBleTools.getInstance().bindDevice(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("bindDevice state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.bindDevice(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("bindDevice state=$state")
+                    }
+                })
             })
         }
 
@@ -56,10 +61,12 @@ class BerryBindUnBindActivity : BaseActivity() {
             addLogI("btnReplyBindSuccess")
             val value = true
             addLogI("bindDeviceSucByBerryProtocol value=$value")
-            ControlBleTools.getInstance().bindDeviceSucByBerryProtocol(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("bindDeviceSucByBerryProtocol state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.bindDeviceSucByBerryProtocol(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("bindDeviceSucByBerryProtocol state=$state")
+                    }
+                })
             })
         }
 
@@ -69,43 +76,51 @@ class BerryBindUnBindActivity : BaseActivity() {
             val phoneName = DeviceUtils.getModel()
             val systemVersion = DeviceUtils.getSDKVersionName()
             addLogI("setUserIdByBerryProtocol userId=$userId phoneName=$phoneName systemVersion=$systemVersion")
-            ControlBleTools.getInstance().setUserIdByBerryProtocol(userId, phoneName, systemVersion, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setUserIdByBerryProtocol state=$state")
-
-                    if (state == SendCmdState.SUCCEED) {
-                        addLogI("bindDevice")
-                        ControlBleTools.getInstance().bindDevice(object : SendCmdStateListener() {
-                            override fun onState(state: SendCmdState?) {
-                                addLogI("bindDevice state=$state")
-
-                                if (state == SendCmdState.SUCCEED) {
-                                    ThreadUtils.runOnUiThreadDelayed({
-
-                                        val value = true
-                                        addLogI("bindDeviceSucByBerryProtocol value=$value")
-                                        ControlBleTools.getInstance().bindDeviceSucByBerryProtocol(value, object : SendCmdStateListener() {
-                                            override fun onState(state: SendCmdState?) {
-                                                addLogI("bindDeviceSucByBerryProtocol state=$state")
-                                            }
-                                        })
-
-                                    }, 1000)
-                                }
-                            }
-                        })
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserIdByBerryProtocol(userId, phoneName, systemVersion, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setUserIdByBerryProtocol state=$state")
+    
+                        if (state == SendCmdState.SUCCEED) {
+                            addLogI("bindDevice")
+                            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                                tools.bindDevice(object : SendCmdStateListener() {
+                                    override fun onState(state: SendCmdState) {
+                                        addLogI("bindDevice state=$state")
+        
+                                        if (state == SendCmdState.SUCCEED) {
+                                            ThreadUtils.runOnUiThreadDelayed({
+        
+                                                val value = true
+                                                addLogI("bindDeviceSucByBerryProtocol value=$value")
+                                                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                                                    tools.bindDeviceSucByBerryProtocol(value, object : SendCmdStateListener() {
+                                                        override fun onState(state: SendCmdState) {
+                                                            addLogI("bindDeviceSucByBerryProtocol state=$state")
+                                                        }
+                                                    })
+                                                })
+        
+                                            }, 1000)
+                                        }
+                                    }
+                                })
+                            })
+                        }
                     }
-                }
+                })
             })
         }
 
         clickCheckConnect(binding.btnUnbindDevice) {
             addLogI("btnUnbindDevice")
             addLogI("unbindDevice")
-            ControlBleTools.getInstance().unbindDevice(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("unbindDevice state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.unbindDevice(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("unbindDevice state=$state")
+                    }
+                })
             })
         }
     }

@@ -98,25 +98,29 @@ class LoopBindActivity : BaseActivity() {
 
     private fun initCallback() {
 
-        BleConnectState.observe(this) { state ->
-            binding.tvStatus.text = DescriptionUtils.getConnectStateStr(this@LoopBindActivity, state!!)
-            saveLog(recordFilePath, binding.tvStatus.text.toString())
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first?:""
+            val state = connectState?.second
+            if(mac == MyConstants.deviceAddress) {
+                binding.tvStatus.text = DescriptionUtils.getConnectStateStr(this@LoopBindActivity, state!!)
+                saveLog(recordFilePath, binding.tvStatus.text.toString())
 
-            when (state) {
-                BleCommonAttributes.STATE_CONNECTED -> {
-                    loop()
-                }
-
-                BleCommonAttributes.STATE_TIME_OUT -> {
-                    if (sucNum + fillNum < mCount) {
-                        saveLog(recordFilePath, binding.tvStatus.text.toString())
-                        binding.tvFailNum.text = "失败次数：${++fillNum}"
-                        binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
-                        saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                when (state) {
+                    BleCommonAttributes.STATE_CONNECTED -> {
                         loop()
-                    } else {
-                        binding.btnStart.text = "循环已完成"
-                        ControlBleTools.getInstance().disconnect()
+                    }
+
+                    BleCommonAttributes.STATE_TIME_OUT -> {
+                        if (sucNum + fillNum < mCount) {
+                            saveLog(recordFilePath, binding.tvStatus.text.toString())
+                            binding.tvFailNum.text = "失败次数：${++fillNum}"
+                            binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
+                            saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                            loop()
+                        } else {
+                            binding.btnStart.text = "循环已完成"
+                            ControlBleTools.getInstance().disconnect()
+                        }
                     }
                 }
             }
@@ -148,34 +152,38 @@ class LoopBindActivity : BaseActivity() {
         CallBackUtils.bindDeviceStateCallBack = BindDeviceStateCallBack { bindDeviceBean ->
             saveLog(recordFilePath, "BindDeviceState:${bindDeviceBean.deviceVerify}")
             if (bindDeviceBean.deviceVerify) {
-                ControlBleTools.getInstance().sendAppBindResult("", object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        saveLog(recordFilePath, "sendAppBind onState state=$state")
-                        if (state != SendCmdState.SUCCEED) {
-                            binding.tvFailNum.text = "失败次数：${++fillNum}"
-                            binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
-                            saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
-                            loop()
-                        } else {
-                            Handler(Looper.myLooper()!!).postDelayed({
-                                binding.tvBindStatus.text = "绑定状态：" + "解绑中"
-                                unBindDevice()
-                            }, mDuration)
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendAppBindResult("", object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            saveLog(recordFilePath, "sendAppBind onState state=$state")
+                            if (state != SendCmdState.SUCCEED) {
+                                binding.tvFailNum.text = "失败次数：${++fillNum}"
+                                binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
+                                saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                                loop()
+                            } else {
+                                Handler(Looper.myLooper()!!).postDelayed({
+                                    binding.tvBindStatus.text = "绑定状态：" + "解绑中"
+                                    unBindDevice()
+                                }, mDuration)
+                            }
                         }
-                    }
+                    })
                 })
             }
         }
         addLogI("bindDevice")
-        ControlBleTools.getInstance().bindDevice(object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState) {
-                if (state != SendCmdState.SUCCEED) {
-                    binding.tvFailNum.text = "失败次数：${++fillNum}"
-                    binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
-                    saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
-                    loop()
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.bindDevice(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    if (state != SendCmdState.SUCCEED) {
+                        binding.tvFailNum.text = "失败次数：${++fillNum}"
+                        binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
+                        saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                        loop()
+                    }
                 }
-            }
+            })
         })
     }
 
@@ -190,16 +198,18 @@ class LoopBindActivity : BaseActivity() {
             }, mInterval)
         }
         addLogI("unbindDevice")
-        ControlBleTools.getInstance().unbindDevice(object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState) {
-                if (state != SendCmdState.SUCCEED) {
-                    binding.tvFailNum.text = "失败次数：${++fillNum}"
-                    binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
-                    saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
-                    loop()
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.unbindDevice(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    if (state != SendCmdState.SUCCEED) {
+                        binding.tvFailNum.text = "失败次数：${++fillNum}"
+                        binding.tvCount.text = "循环总次数：${sucNum + fillNum}"
+                        saveLog(recordFilePath, "总次数：$mCount 成功次数：$sucNum 失败次数：$fillNum")
+                        loop()
+                    }
+                    saveLog(recordFilePath, "unbindDevice onState state=$state")
                 }
-                saveLog(recordFilePath, "unbindDevice onState state=$state")
-            }
+            })
         })
     }
 

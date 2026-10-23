@@ -186,6 +186,7 @@
     <string name="ch_loop_bind">循环绑定测试</string>
     <string name="ch_loop_sync">循环同步测试</string>
     <string name="ch_loop_notify">循环发送通知测试</string>
+    <string name="ch_multi_ble">多蓝牙测试</string>
 
     <!--工厂集合 Factory Collections-->
     <string name="gr_factory">工厂集合</string>

@@ -12,6 +12,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityMicroBinding
 import com.zjw.sdkdemo.livedata.MyMicroCallBack
 import java.util.Collections
+import com.zjw.sdkdemo.utils.MyConstants
 
 /**
  * 小功能综合
@@ -42,30 +43,36 @@ class MicroActivity : BaseActivity() {
         clickCheckConnect(binding.btnMicroRestart) {
             addLogI("btnMicroRestart")
             addLogI("rebootDevice")
-            ControlBleTools.getInstance().rebootDevice(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("rebootDevice state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.rebootDevice(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("rebootDevice state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnMicroShutdown) {
             addLogI("btnMicroShutdown")
             addLogI("shutdownDevice")
-            ControlBleTools.getInstance().shutdownDevice(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("shutdownDevice state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.shutdownDevice(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("shutdownDevice state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnMicroFindWear) {
             addLogI("btnMicroFindWear")
             addLogI("sendFindWear")
-            ControlBleTools.getInstance().sendFindWear(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendFindWear state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendFindWear(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendFindWear state=$state")
+                    }
+                })
             })
         }
 
@@ -73,30 +80,36 @@ class MicroActivity : BaseActivity() {
             addLogI("layoutMicroTakePhoto.btnOpen")
             val value = 0
             addLogI("sendPhonePhotogragh value=$value")
-            ControlBleTools.getInstance().sendPhonePhotogragh(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendPhonePhotogragh state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendPhonePhotogragh(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendPhonePhotogragh state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutTakePhoto.btnClose) {
             addLogI("layoutMicroTakePhoto.btnClose")
             val value = 1
             addLogI("sendPhonePhotogragh value=$value")
-            ControlBleTools.getInstance().sendPhonePhotogragh(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendPhonePhotogragh state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendPhonePhotogragh(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendPhonePhotogragh state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutWidgetList.btnGet) {
             addLogI("layoutWidgetList.btnGet")
             addLogI("getWidgetList")
-            ControlBleTools.getInstance().getWidgetList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getWidgetList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getWidgetList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getWidgetList state=$state")
+                    }
+                })
             })
         }
 
@@ -139,20 +152,24 @@ class MicroActivity : BaseActivity() {
                 }
             }
             addLogBean("setWidgetList",list)
-            ControlBleTools.getInstance().setWidgetList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setWidgetList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setWidgetList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setWidgetList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutApplicationList.btnGet) {
             addLogI("layoutApplicationList.btnGet")
             addLogI("getApplicationList")
-            ControlBleTools.getInstance().getApplicationList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getApplicationList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getApplicationList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getApplicationList state=$state")
+                    }
+                })
             })
         }
 
@@ -177,20 +194,24 @@ class MicroActivity : BaseActivity() {
                 list[i].order = i + 1
             }
             addLogBean("setApplicationList",list)
-            ControlBleTools.getInstance().setApplicationList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setApplicationList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setApplicationList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setApplicationList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSportsIconList.btnGet) {
             addLogI("layoutSportsIconList.btnGet")
             addLogI("getSportWidgetSortList")
-            ControlBleTools.getInstance().getSportWidgetSortList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSportWidgetSortList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSportWidgetSortList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSportWidgetSortList state=$state")
+                    }
+                })
             })
         }
 
@@ -213,10 +234,12 @@ class MicroActivity : BaseActivity() {
                 list[i].order = i + 1
             }
             addLogBean("setSportWidgetSortList",list)
-            ControlBleTools.getInstance().setSportWidgetSortList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSportWidgetSortList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSportWidgetSortList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSportWidgetSortList state=$state")
+                    }
+                })
             })
         }
 

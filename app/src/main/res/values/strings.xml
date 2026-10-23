@@ -185,6 +185,7 @@
     <string name="ch_loop_bind">Loop Binding Test</string>
     <string name="ch_loop_sync">Cyclic synchronization test</string>
     <string name="ch_loop_notify">Loop send notification test</string>
+    <string name="ch_multi_ble">Multi-BLE Test</string>
 
     <!--工厂集合 Factory Collections-->
     <string name="gr_factory">Factory Collection</string>

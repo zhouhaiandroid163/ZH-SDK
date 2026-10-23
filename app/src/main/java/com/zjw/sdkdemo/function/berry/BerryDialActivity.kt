@@ -39,6 +39,7 @@ import com.zjw.sdkdemo.function.MainActivity.GlobalData.deviceInfo
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.File
 import kotlin.math.abs
+import com.zjw.sdkdemo.utils.MyConstants
 
 
 class BerryDialActivity : BaseActivity() {
@@ -139,10 +140,12 @@ class BerryDialActivity : BaseActivity() {
             val dialData = FileIOUtils.readFile2BytesByStream(ordinaryFile)
             isSendPhoto = false
             addLogI("getWatchFaceStatusByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
-            ControlBleTools.getInstance().getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, null, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getWatchFaceStatusByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, null, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getWatchFaceStatusByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -217,10 +220,12 @@ class BerryDialActivity : BaseActivity() {
                         bgBitmap = ImageUtils.toRoundCorner(bgBitmap, ControlBleTools.getInstance().berryAlbumRadius * 1.0f)
                     }
                     addLogI("getWatchFaceStatusByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
-                    ControlBleTools.getInstance().getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, bgBitmap, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("getWatchFaceStatusByBerry state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.getWatchFaceStatusByBerry(dialId, dialStyle, dialData.size, bgBitmap, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("getWatchFaceStatusByBerry state=$state")
+                            }
+                        })
                     })
                 } else if (ControlBleTools.getInstance().berryAlbumVersion == BleCommonAttributes.BERRY_ALBUM_VERSION_1) {
                     val bgBitmaps = mutableListOf<Bitmap>()
@@ -232,10 +237,12 @@ class BerryDialActivity : BaseActivity() {
                         }
                     }
                     addLogI("getWatchFaceStatusMultiImgByBerry dialId=$dialId dialStyle=$dialStyle dialData=${dialData.size}")
-                    ControlBleTools.getInstance().getWatchFaceStatusMultiImgByBerry(dialId, dialStyle, dialData.size, bgBitmaps, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("getWatchFaceStatusMultiImgByBerry state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.getWatchFaceStatusMultiImgByBerry(dialId, dialStyle, dialData.size, bgBitmaps, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("getWatchFaceStatusMultiImgByBerry state=$state")
+                            }
+                        })
                     })
                 }
             }
@@ -473,10 +480,12 @@ class BerryDialActivity : BaseActivity() {
         addLogI("onSetNow")
         val id = watchFace.id
         addLogI("setDeviceWatchFromId id=$id")
-        ControlBleTools.getInstance().setDeviceWatchFromId(id, object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState?) {
-                addLogI("setDeviceWatchFromId state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.setDeviceWatchFromId(id, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("setDeviceWatchFromId state=$state")
+                }
+            })
         })
     }
 
@@ -484,10 +493,12 @@ class BerryDialActivity : BaseActivity() {
         addLogI("onDelete")
         val id = watchFace.id
         addLogI("deleteDeviceWatchFromId id=$id")
-        ControlBleTools.getInstance().deleteDeviceWatchFromId(id, object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState?) {
-                addLogI("deleteDeviceWatchFromId state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.deleteDeviceWatchFromId(id, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("deleteDeviceWatchFromId state=$state")
+                }
+            })
         })
     }
 

@@ -29,6 +29,7 @@ import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
 import com.zjw.sdkdemo.ui.customdialog.CustomDialog
 import com.zjw.sdkdemo.ui.view.CustomSwitchMaterial
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BreathingLightActivity : BaseActivity() {
     private val binding by lazy { ActivityBreathingLightBinding.inflate(layoutInflater) }
@@ -101,10 +102,12 @@ class BreathingLightActivity : BaseActivity() {
             addLogI("btnGet")
             executeCheckConnect {
                 addLogI("getBreathingLightSettings")
-                ControlBleTools.getInstance().getBreathingLightSettings(object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("getBreathingLightSettings state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools->
+                    tools.getBreathingLightSettings(object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("getBreathingLightSettings state=$state")
+                        }
+                    })
                 })
             }
         }
@@ -128,10 +131,12 @@ class BreathingLightActivity : BaseActivity() {
         executeCheckConnect {
             val bean = settingsBean!!
             addLogBean("setBreathingLightSettings",bean)
-            ControlBleTools.getInstance().setBreathingLightSettings(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setBreathingLightSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.setBreathingLightSettings(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setBreathingLightSettings state=$state")
+                    }
+                })
             })
         }
     }

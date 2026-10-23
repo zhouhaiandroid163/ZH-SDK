@@ -25,6 +25,7 @@ import com.zjw.sdkdemo.function.apricot.MeasureActivity
 import com.zjw.sdkdemo.function.apricot.MeasureTypeActivity
 import com.zjw.sdkdemo.livedata.MyMicroCallBack
 import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
+import com.zjw.sdkdemo.utils.MyConstants
 
 class RingActivity : BaseActivity() {
     private val binding by lazy { ActivityRingBinding.inflate(layoutInflater) }
@@ -63,20 +64,24 @@ class RingActivity : BaseActivity() {
         clickCheckConnect(binding.btnRingAirplaneMode) {
             addLogI("btnRingAirplaneMode")
             addLogI("setRingAirplaneMode")
-            ControlBleTools.getInstance().setRingAirplaneMode(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setRingAirplaneMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRingAirplaneMode(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRingAirplaneMode state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingGetChargingCaseState) {
             addLogI("btnRingGetChargingCaseState")
             addLogI("getRingChargingCaseInfo")
-            ControlBleTools.getInstance().getRingChargingCaseInfo(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingChargingCaseInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingChargingCaseInfo(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingChargingCaseInfo state=$state")
+                    }
+                })
             })
         }
 
@@ -88,70 +93,84 @@ class RingActivity : BaseActivity() {
         clickCheckConnect(binding.btnRingGetAutoSport) {
             addLogI("btnRingGetAutoSport")
             addLogI("getAutoSportData")
-            ControlBleTools.getInstance().getAutoSportData(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getAutoSportData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getAutoSportData(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getAutoSportData state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingGetNfcSleepError) {
             addLogI("btnRingGetNfcSleepError")
             addLogI("getRingNFCSleepErr")
-            ControlBleTools.getInstance().getRingNFCSleepErr(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingNFCSleepErr state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingNFCSleepErr(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingNFCSleepErr state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingGetWearingStatus) {
             addLogI("btnRingGetWearingStatus")
             addLogI("getRingWearingStatus")
-            ControlBleTools.getInstance().getRingWearingStatus(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingWearingStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingWearingStatus(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingWearingStatus state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingGetSleepInvalidReason) {
             addLogI("btnRingGetSleepInvalidReason")
             addLogI("getRingSleepInvalidReason")
-            ControlBleTools.getInstance().getRingSleepInvalidReason(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingSleepInvalidReason state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingSleepInvalidReason(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingSleepInvalidReason state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingStartSarCalibration) {
             addLogI("btnRingStartSarCalibration")
             addLogI("startRingSarCalibration")
-            ControlBleTools.getInstance().startRingSarCalibration(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("startRingSarCalibration state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.startRingSarCalibration(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("startRingSarCalibration state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnRingGetSarCalibration) {
             addLogI("btnRingGetSarCalibration")
             addLogI("getRingSarCalibrationResult")
-            ControlBleTools.getInstance().getRingSarCalibrationResult(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingSarCalibration state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingSarCalibrationResult(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingSarCalibration state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutAllSleepSwitch.btnGet) {
             addLogI("layoutAllSleepSwitch.btnGet")
             addLogI("getRingAllDaySleepConfig")
-            ControlBleTools.getInstance().getRingAllDaySleepConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingAllDaySleepConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingAllDaySleepConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingAllDaySleepConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -165,20 +184,24 @@ class RingActivity : BaseActivity() {
             addLogI("layoutAllSleepSwitch.btnSet isTrue=$isTrue")
             val bean = RingSleepConfigBean(isTrue)
             addLogBean("setRingAllDaySleepConfig", bean)
-            ControlBleTools.getInstance().setRingAllDaySleepConfig(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setRingAllDaySleepConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRingAllDaySleepConfig(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRingAllDaySleepConfig state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutAutoActivityDetection.btnGet) {
             addLogI("layoutAutoActivityDetection.btnGet")
             addLogI("getRingAutoActiveSportConfig")
-            ControlBleTools.getInstance().getRingAutoActiveSportConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRingAutoActiveSportConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingAutoActiveSportConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingAutoActiveSportConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -189,20 +212,24 @@ class RingActivity : BaseActivity() {
             val bean = RingAutoActiveSportConfigBean(isTrue)
             bean.autoActiveSportActivetime = timeValue
             addLogBean("setRingAutoActiveSportConfig", bean)
-            ControlBleTools.getInstance().setRingAutoActiveSportConfig(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setRingAutoActiveSportConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRingAutoActiveSportConfig(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRingAutoActiveSportConfig state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutAutoMotionRecognize.btnGet) {
             addLogI("layoutAutoMotionRecognize.btnGet")
             addLogI("getMotionRecognition")
-            ControlBleTools.getInstance().getMotionRecognition(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getMotionRecognition state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getMotionRecognition(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getMotionRecognition state=$state")
+                    }
+                })
             })
         }
 
@@ -211,10 +238,12 @@ class RingActivity : BaseActivity() {
             val autoSportSwitch = binding.layoutAutoMotionRecognize.cbSwitch.isChecked
             val autoSportStopSwitch = binding.layoutAutoMotionRecognize.cbAutoSportStopSwitch.isChecked
             addLogI("setMotionRecognition autoSportSwitch=$autoSportSwitch autoSportStopSwitch=$autoSportStopSwitch")
-            ControlBleTools.getInstance().setMotionRecognition(autoSportSwitch, autoSportStopSwitch, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setMotionRecognition state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setMotionRecognition(autoSportSwitch, autoSportStopSwitch, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setMotionRecognition state=$state")
+                    }
+                })
             })
         }
 
@@ -223,10 +252,12 @@ class RingActivity : BaseActivity() {
             val isAllow =  binding.layoutAutoMotionRecognize.cbAutoSportStopAllow.isChecked
             val sportType =  binding.layoutAutoMotionRecognize.etAutoSportStopType.text.toString().trim().toInt()
             addLogI("replyAutoSportStop value=$isAllow sportType=$sportType")
-            ControlBleTools.getInstance().replyAutoSportState(ReplyAutoSportStateBean(isAllow,sportType),  object : SendCmdStateListener() {
-                override fun onState(p0: SendCmdState?) {
-                    addLogI("replyAutoSportStop state=$p0")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.replyAutoSportState(ReplyAutoSportStateBean(isAllow,sportType),  object : SendCmdStateListener() {
+                    override fun onState(p0: SendCmdState?) {
+                        addLogI("replyAutoSportStop state=$p0")
+                    }
+                })
             })
         }
     }

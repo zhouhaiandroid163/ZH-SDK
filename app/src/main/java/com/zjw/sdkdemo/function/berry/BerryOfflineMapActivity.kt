@@ -14,6 +14,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerryOffLineMapBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
 import com.zjw.sdkdemo.utils.AssetUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryOfflineMapActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryOffLineMapBinding.inflate(layoutInflater) }
@@ -35,10 +36,12 @@ class BerryOfflineMapActivity : BaseActivity() {
         clickCheckConnect(binding.btnGet) {
             addLogI("btnGet")
             addLogI("getOfflineMapDataByBerry")
-            ControlBleTools.getInstance().getOfflineMapDataByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getOfflineMapDataByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getOfflineMapDataByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getOfflineMapDataByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -54,10 +57,12 @@ class BerryOfflineMapActivity : BaseActivity() {
             }
             val value = offlineMapBean?.maps?.get(0)
             addLogI("deleteOfflineMapDataByBerry value=$value")
-            ControlBleTools.getInstance().deleteOfflineMapDataByBerry(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("deleteOfflineMapDataByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.deleteOfflineMapDataByBerry(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("deleteOfflineMapDataByBerry state=$state")
+                    }
+                })
             })
         }
 

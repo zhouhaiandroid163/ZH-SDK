@@ -24,6 +24,7 @@ import com.zjw.sdkdemo.databinding.ActivityBerryDeviceRelaTimeLogBinding
 import com.zjw.sdkdemo.function.MainActivity.GlobalData
 import com.zjw.sdkdemo.livedata.BleConnectState
 import com.zjw.sdkdemo.manager.WakeLockManager
+import com.zjw.sdkdemo.utils.MyConstants
 import java.io.File
 
 class BerryDeviceRealtimeLogActivity : BaseActivity() {
@@ -178,10 +179,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
             addLogI("btnStartLog")
             binding.btnStartLog.isEnabled = false
             binding.tvStatus.text = getString(R.string.in_progress)
-            ControlBleTools.getInstance().berryRealTimeLog(true, type, object : ParsingStateManager.SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("berryRealTimeLog state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.berryRealTimeLog(true, type, object : ParsingStateManager.SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("berryRealTimeLog state=$state")
+                    }
+                })
             })
         }
 
@@ -190,10 +193,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
             isEnd = true
             binding.btnStartLog.isEnabled = true
             binding.tvStatus.text = getString(R.string.not_started)
-            ControlBleTools.getInstance().berryRealTimeLog(false, type, object : ParsingStateManager.SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("berryRealTimeLog state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.berryRealTimeLog(false, type, object : ParsingStateManager.SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("berryRealTimeLog state=$state")
+                    }
+                })
             })
         }
 
@@ -220,11 +225,15 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
     }
 
     private fun initCallBack() {
-        BleConnectState.observe(this) { state ->
-            addLogI("BleConnectState state=$state")
-            if (state == BleCommonAttributes.STATE_CONNECTED || state == BleCommonAttributes.STATE_DISCONNECTED) {
-                isEnd = true
-                binding.btnStartLog.isEnabled = true
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first?:""
+            val state = connectState?.second
+            if(mac == MyConstants.deviceAddress) {
+                addLogI("BleConnectState state=$state")
+                if (state == BleCommonAttributes.STATE_CONNECTED || state == BleCommonAttributes.STATE_DISCONNECTED) {
+                    isEnd = true
+                    binding.btnStartLog.isEnabled = true
+                }
             }
         }
 
@@ -237,11 +246,13 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
                 val optionalAppVer = AppUtils.getAppVersionName()
                 val optionalDeviceType = GlobalData.deviceInfo!!.equipmentNumber
                 addLogI("requestLogFileStatusByBerry type=$type optionalUserId=$optionalUserId optionalPhoneType=$optionalPhoneType optionalAppVer=$optionalAppVer optionalDeviceType=$optionalDeviceType")
-                    ControlBleTools.getInstance().requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : ParsingStateManager.SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("requestLogFileStatusByBerry state=$state")
-                    }
-                })
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : ParsingStateManager.SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("requestLogFileStatusByBerry state=$state")
+                        }
+                    })
+                    })
             }
         }
 
@@ -254,10 +265,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
                 val optionalAppVer = AppUtils.getAppVersionName()
                 val optionalDeviceType = GlobalData.deviceInfo!!.equipmentNumber
                 addLogI("requestLogFileStatusByBerry type=$type optionalUserId=$optionalUserId optionalPhoneType=$optionalPhoneType optionalAppVer=$optionalAppVer optionalDeviceType=$optionalDeviceType")
-                ControlBleTools.getInstance().requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : ParsingStateManager.SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("requestLogFileStatusByBerry state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.requestLogFileStatusByBerry(type, optionalUserId, optionalPhoneType, optionalAppVer, optionalDeviceType, object : ParsingStateManager.SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("requestLogFileStatusByBerry state=$state")
+                        }
+                    })
                 })
             }
 
@@ -270,10 +283,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
                     val type = bean.type
                     val size = bean.fileSize
                     addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
-                    ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : ParsingStateManager.SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("requestUploadLogFileByBerry state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.requestUploadLogFileByBerry(isStart, type, size, object : ParsingStateManager.SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
                     })
                 }
             }
@@ -294,10 +309,12 @@ class BerryDeviceRealtimeLogActivity : BaseActivity() {
                     val type = bean.type
                     val size = bean.fileSize
                     addLogI("requestUploadLogFileByBerry isStart=$isStart type=$type size=$size")
-                    ControlBleTools.getInstance().requestUploadLogFileByBerry(isStart, type, size, object : ParsingStateManager.SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("requestUploadLogFileByBerry state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.requestUploadLogFileByBerry(isStart, type, size, object : ParsingStateManager.SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("requestUploadLogFileByBerry state=$state")
+                            }
+                        })
                     })
                 }
             }

@@ -49,6 +49,7 @@ import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityTestSyncBinding
+import com.zjw.sdkdemo.utils.MyConstants
 
 @SuppressLint("SetTextI18n")
 class SyncTestActivity : BaseActivity() {
@@ -99,13 +100,15 @@ class SyncTestActivity : BaseActivity() {
             executeCheckConnect {
                 //同步开始  Start syncing
                 isSyncing = true
-                ControlBleTools.getInstance().getDailyHistoryData(object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        Log.i(tag, "getDailyHistoryData state=$state")
-                        if (state != SendCmdState.SUCCEED) {
-                            isSyncing = false
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.getDailyHistoryData(object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            Log.i(tag, "getDailyHistoryData state=$state")
+                            if (state != SendCmdState.SUCCEED) {
+                                isSyncing = false
+                            }
                         }
-                    }
+                    })
                 })
             }
         }
@@ -371,10 +374,12 @@ class SyncTestActivity : BaseActivity() {
 
     private fun realTimeDataSwitch() {
         if (ControlBleTools.getInstance().isConnect) {
-            ControlBleTools.getInstance().realTimeDataSwitch(true, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "realTimeDataSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.realTimeDataSwitch(true, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "realTimeDataSwitch state=$state")
+                    }
+                })
             })
         }
     }
@@ -388,10 +393,12 @@ class SyncTestActivity : BaseActivity() {
 
     private fun getDeviceInfo() {
         if (ControlBleTools.getInstance().isConnect) {
-            ControlBleTools.getInstance().getDeviceInfo(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "getDeviceInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDeviceInfo(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "getDeviceInfo state=$state")
+                    }
+                })
             })
         }
     }
@@ -407,10 +414,12 @@ class SyncTestActivity : BaseActivity() {
     private fun setUserProfile() {
         if (ControlBleTools.getInstance().isConnect) {
             val bean = UserInfo()
-            ControlBleTools.getInstance().setUserProfile(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "setUserProfile state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserProfile(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "setUserProfile state=$state")
+                    }
+                })
             })
         }
     }
@@ -426,10 +435,12 @@ class SyncTestActivity : BaseActivity() {
     private fun setUserInformation() {
         if (ControlBleTools.getInstance().isConnect) {
             val userInfo = UserInfo()
-            ControlBleTools.getInstance().setUserInformation(0, 0, userInfo, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "setUserInformation state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setUserInformation(0, 0, userInfo, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "setUserInformation state=$state")
+                    }
+                })
             })
         }
     }
@@ -445,10 +456,12 @@ class SyncTestActivity : BaseActivity() {
 
     private fun verifyUserId() {
         if (ControlBleTools.getInstance().isConnect) {
-            ControlBleTools.getInstance().verifyUserId("", object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "verifyUserId state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.verifyUserId("", object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "verifyUserId state=$state")
+                    }
+                })
             })
         }
     }

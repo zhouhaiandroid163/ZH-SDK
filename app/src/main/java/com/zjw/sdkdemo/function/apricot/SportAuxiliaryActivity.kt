@@ -14,6 +14,7 @@ import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivitySportAuxiliaryBinding
 import com.zjw.sdkdemo.livedata.MySportCallBack
+import com.zjw.sdkdemo.utils.MyConstants
 
 class SportAuxiliaryActivity : BaseActivity() {
     private val binding by lazy { ActivitySportAuxiliaryBinding.inflate(layoutInflater) }
@@ -62,10 +63,12 @@ class SportAuxiliaryActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetDevSportStatus) {
             addLogI("btnGetDevSportStatus")
             addLogI("getSportStatus")
-            ControlBleTools.getInstance().getSportStatus(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getSportStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSportStatus(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSportStatus state=$state")
+                    }
+                })
             })
         }
     }
@@ -117,10 +120,12 @@ class SportAuxiliaryActivity : BaseActivity() {
                 }
                 bean.gpsAccuracy = 1
                 addLogBean("replyDevSportRequest",bean)
-                ControlBleTools.getInstance().replyDevSportRequest(bean, object : SendCmdStateListener(null) {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("replyDevSportRequest state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.replyDevSportRequest(bean, object : SendCmdStateListener(null) {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("replyDevSportRequest state=$state")
+                        }
+                    })
                 })
             }
 
@@ -185,10 +190,12 @@ class SportAuxiliaryActivity : BaseActivity() {
         bean.latitude = lat
         bean.longitude = lon
         addLogBean("sendPhoneSportData",bean)
-        ControlBleTools.getInstance().sendPhoneSportData(bean, object : SendCmdStateListener(null) {
-            override fun onState(state: SendCmdState?) {
-                Log.i(tag, "sendPhoneSportData state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.sendPhoneSportData(bean, object : SendCmdStateListener(null) {
+                override fun onState(state: SendCmdState) {
+                    Log.i(tag, "sendPhoneSportData state=$state")
+                }
+            })
         })
     }
 

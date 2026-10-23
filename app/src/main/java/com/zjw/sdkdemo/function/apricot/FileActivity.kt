@@ -17,6 +17,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityFileBinding
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 class FileActivity : BaseActivity() {
     private val binding by lazy { ActivityFileBinding.inflate(layoutInflater) }
@@ -116,10 +117,12 @@ class FileActivity : BaseActivity() {
         clickCheckConnect(binding.layoutFileAGPS.btnSend) {
             addLogI("layoutFileAGPS.btnSend")
             addLogI("requestAgpsState")
-            ControlBleTools.getInstance().requestAgpsState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("requestAgpsState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.requestAgpsState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestAgpsState state=$state")
+                    }
+                })
             })
         }
     }

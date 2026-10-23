@@ -14,6 +14,7 @@ import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerryWeatherBinding
 import kotlin.random.Random
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryWeatherActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryWeatherBinding.inflate(layoutInflater) }
@@ -47,10 +48,12 @@ class BerryWeatherActivity : BaseActivity() {
             bean.alertsList = alertsList
             bean.pressure = 20f
             addLogBean("sendBerryLatestWeather", bean)
-            ControlBleTools.getInstance().sendBerryLatestWeather(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendBerryLatestWeather state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendBerryLatestWeather(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendBerryLatestWeather state=$state")
+                    }
+                })
             })
         }
 
@@ -74,10 +77,12 @@ class BerryWeatherActivity : BaseActivity() {
             }
             bean.data = dataList
             addLogBean("sendBerryDailyForecastWeather", bean)
-            ControlBleTools.getInstance().sendBerryDailyForecastWeather(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendBerryDailyForecastWeather state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendBerryDailyForecastWeather(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendBerryDailyForecastWeather state=$state")
+                    }
+                })
             })
         }
 
@@ -101,10 +106,12 @@ class BerryWeatherActivity : BaseActivity() {
             }
             bean.data = dataList
             addLogBean("sendBerryHourlyForecastWeather", bean)
-            ControlBleTools.getInstance().sendBerryHourlyForecastWeather(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendBerryHourlyForecastWeather state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendBerryHourlyForecastWeather(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendBerryHourlyForecastWeather state=$state")
+                    }
+                })
             })
         }
 
@@ -112,19 +119,23 @@ class BerryWeatherActivity : BaseActivity() {
             addLogI("btnSendPressure")
             val value = Random.nextFloat() * (2000 - 1) + 2000
             addLogI("sendBerryPressureByWeather value=$value")
-            ControlBleTools.getInstance().sendBerryPressureByWeather(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendBerryPressureByWeather state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendBerryPressureByWeather(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendBerryPressureByWeather state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnSendSwitch){
             addLogI("btnSendSwitch")
-            ControlBleTools.getInstance().setAppWeatherSwitch(binding.cbWeatherSwitch.isChecked, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setAppWeatherSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setAppWeatherSwitch(binding.cbWeatherSwitch.isChecked, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setAppWeatherSwitch state=$state")
+                    }
+                })
             })
         }
     }

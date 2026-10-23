@@ -20,6 +20,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityRingSportScreenBinding
 import com.zjw.sdkdemo.livedata.BleConnectState
 import com.zjw.sdkdemo.utils.DescriptionUtils
+import com.zjw.sdkdemo.utils.MyConstants
 import java.util.Random
 
 class RingSportScreenActivity : BaseActivity() {
@@ -49,7 +50,7 @@ class RingSportScreenActivity : BaseActivity() {
     }
 
     private fun initData() {
-        binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, BleConnectState.value!!)
+        binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, BleConnectState.value?.second?:0)
         updateSportState(sportInit)
     }
 
@@ -57,10 +58,12 @@ class RingSportScreenActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetSportState) {
             addLogI("btnGetSportState")
             addLogI("getRingSportStatus")
-            ControlBleTools.getInstance().getRingSportStatus(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getRingSportStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingSportStatus(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingSportStatus state=$state")
+                    }
+                })
             })
         }
 
@@ -87,19 +90,23 @@ class RingSportScreenActivity : BaseActivity() {
 
         clickCheckConnect(binding.btnIsAuto){
             addLogI("btnIsAuto")
-            ControlBleTools.getInstance().getRingIsAutoSportStatus(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getRingIsAutoSportStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingIsAutoSportStatus(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingIsAutoSportStatus state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetAutoConfig){
             addLogI("btnGetAutoConfig")
-            ControlBleTools.getInstance().getRingAutoSportConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getRingAutoSportConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRingAutoSportConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRingAutoSportConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -117,20 +124,26 @@ class RingSportScreenActivity : BaseActivity() {
             config.ellipticalEndDuration = binding.etEllipticalEndDuration.text.toString().toInt()
             config.rowingEndDuration = binding.etRowingEndDuration.text.toString().toInt()
             config.ratioThreshold = binding.etRatioThreshold.text.toString().toInt()
-            ControlBleTools.getInstance().setRingAutoSportConfig(config,object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setRingAutoSportConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRingAutoSportConfig(config,object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRingAutoSportConfig state=$state")
+                    }
+                })
             })
         }
     }
 
     private fun initCallback() {
-        BleConnectState.observe(this) { state ->
-            binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
-            updateSportState(sportInit)
-            if (state == BleCommonAttributes.STATE_CONNECTED) {
-                binding.btnGetSportState.callOnClick()
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first?:""
+            val state = connectState?.second
+            if(mac == MyConstants.deviceAddress) {
+                binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
+                updateSportState(sportInit)
+                if (state == BleCommonAttributes.STATE_CONNECTED) {
+                    binding.btnGetSportState.callOnClick()
+                }
             }
         }
 
@@ -191,43 +204,51 @@ class RingSportScreenActivity : BaseActivity() {
                 sportStartTime = System.currentTimeMillis() / 1000
                 val bean = SendRingSportStatusBean(sportType, RingSportCallBack.RingSportStatus.SPORT_STATUS_START.status, sportStartTime)
                 addLogBean("sendRingSportStatus",bean)
-                ControlBleTools.getInstance().sendRingSportStatus(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendRingSportStatus state=$state")
-                        if(state != SendCmdState.SUCCEED){
-                            updateSportState(sportInit)
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendRingSportStatus(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendRingSportStatus state=$state")
+                            if(state != SendCmdState.SUCCEED){
+                                updateSportState(sportInit)
+                            }
                         }
-                    }
+                    })
                 })
             }
             //运动暂停
             sportPause -> {
                 val bean = SendRingSportStatusBean(sportType, RingSportCallBack.RingSportStatus.SPORT_STATUS_PAUSE.status, sportStartTime)
                 addLogBean("sendRingSportStatus",bean)
-                ControlBleTools.getInstance().sendRingSportStatus(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendRingSportStatus state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendRingSportStatus(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendRingSportStatus state=$state")
+                        }
+                    })
                 })
             }
             //运动继续
             sportResume -> {
                 val bean = SendRingSportStatusBean(sportType, RingSportCallBack.RingSportStatus.SPORT_STATUS_RESUME.status, sportStartTime)
                 addLogBean("sendRingSportStatus",bean)
-                ControlBleTools.getInstance().sendRingSportStatus(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendRingSportStatus state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendRingSportStatus(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendRingSportStatus state=$state")
+                        }
+                    })
                 })
             }
             //运动结束-正常
             sportEnd -> {
                 val bean = SendRingSportStatusBean(sportType, RingSportCallBack.RingSportStatus.SPORT_STATUS_END.status, System.currentTimeMillis() / 1000)
                 addLogBean("sendRingSportStatus",bean)
-                ControlBleTools.getInstance().sendRingSportStatus(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendRingSportStatus state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendRingSportStatus(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendRingSportStatus state=$state")
+                        }
+                    })
                 })
             }
         }
@@ -399,10 +420,12 @@ class RingSportScreenActivity : BaseActivity() {
             mLastTime = System.currentTimeMillis()
             mLastLat = mLatitude
             mLastLon = mLongitude
-            ControlBleTools.getInstance().sendPhoneSportData(phoneSportDataBean, object : SendCmdStateListener(null) {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendPhoneSportData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendPhoneSportData(phoneSportDataBean, object : SendCmdStateListener(null) {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendPhoneSportData state=$state")
+                    }
+                })
             })
         }
     }

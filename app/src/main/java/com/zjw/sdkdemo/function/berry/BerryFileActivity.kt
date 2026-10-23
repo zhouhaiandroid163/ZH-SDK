@@ -19,6 +19,7 @@ import com.zjw.sdkdemo.function.MainActivity.GlobalData
 import com.zjw.sdkdemo.utils.DialogUtils
 import com.zjw.sdkdemo.utils.ToastUtils
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryFileActivity : BaseActivity() {
     val binding by lazy { ActivityBerryFileBinding.inflate(layoutInflater) }
@@ -145,10 +146,12 @@ class BerryFileActivity : BaseActivity() {
             addLogI("layoutBerryFileAGPS.btnSend")
             addLogI("requestAgpsState")
             isLodaAgps = false
-            ControlBleTools.getInstance().requestAgpsState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("requestAgpsState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.requestAgpsState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestAgpsState state=$state")
+                    }
+                })
             })
         }
 
@@ -180,10 +183,12 @@ class BerryFileActivity : BaseActivity() {
             addLogI("layoutBerryFileLodaAGPS.btnSend")
             addLogI("requestAgpsState")
             isLodaAgps = true
-            ControlBleTools.getInstance().requestAgpsState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("requestAgpsState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.requestAgpsState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("requestAgpsState state=$state")
+                    }
+                })
             })
         }
     }

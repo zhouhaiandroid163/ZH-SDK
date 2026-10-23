@@ -25,6 +25,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityEsimBinding
 import com.zjw.sdkdemo.manager.ESimHttpRequestManager
 import java.net.MalformedURLException
+import com.zjw.sdkdemo.utils.MyConstants
 
 class ESimActivity : BaseActivity() {
     private val binding: ActivityEsimBinding by lazy { ActivityEsimBinding.inflate(layoutInflater) }
@@ -79,30 +80,36 @@ class ESimActivity : BaseActivity() {
             val bean = ESIMBigdataBean()
             bean.esimActivationCodeData = binding.etActivationCode.text.toString()
             addLogBean("setEsimBigdataSettings", bean)
-            ControlBleTools.getInstance().setEsimBigdataSettings(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEsimBigdataSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEsimBigdataSettings(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEsimBigdataSettings state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetEsimEidSettings) {
             addLogI("btnGetEsimEidSettings")
             addLogI("getEsimEidSettings")
-            ControlBleTools.getInstance().getEsimEidSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getEsimEidSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getEsimEidSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getEsimEidSettings state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetEsimCommonDataSettings) {
             addLogI("btnGetEsimCommonDataSettings")
             addLogI("getEsimCommonDataSettings")
-            ControlBleTools.getInstance().getEsimCommonDataSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getEsimCommonDataSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getEsimCommonDataSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getEsimCommonDataSettings state=$state")
+                    }
+                })
             })
         }
 
@@ -114,10 +121,12 @@ class ESimActivity : BaseActivity() {
             }
             val id = esimCommonData!!.esimId
             addLogI("delEsimData id=$id")
-            ControlBleTools.getInstance().delEsimData(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("delEsimData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.delEsimData(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("delEsimData state=$state")
+                    }
+                })
             })
         }
 
@@ -181,10 +190,12 @@ class ESimActivity : BaseActivity() {
                 bean.esimHttpData = responseBodyInfo
                 bean.esimHttpCode = code
                 addLogBean("setEsimBigdataSettings", bean)
-                ControlBleTools.getInstance().setEsimBigdataSettings(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("setEsimBigdataSettings state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.setEsimBigdataSettings(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("setEsimBigdataSettings state=$state")
+                        }
+                    })
                 })
 
                 if (!responseBodyInfo.contains("Executed-Success")) {
@@ -199,10 +210,12 @@ class ESimActivity : BaseActivity() {
             bean.esimHttpData = errorInfo
             bean.esimHttpCode = code
             addLogBean("setEsimBigdataSettings", bean)
-            ControlBleTools.getInstance().setEsimBigdataSettings(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEsimBigdataSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEsimBigdataSettings(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEsimBigdataSettings state=$state")
+                    }
+                })
             })
         }
     }

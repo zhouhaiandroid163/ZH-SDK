@@ -15,6 +15,7 @@ import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityRingHeartRawGetBinding
+import com.zjw.sdkdemo.utils.MyConstants
 
 class RingHeartRawGetActivity : BaseActivity() {
     private val binding by lazy { ActivityRingHeartRawGetBinding.inflate(layoutInflater) }
@@ -33,19 +34,23 @@ class RingHeartRawGetActivity : BaseActivity() {
     private fun initListener() {
         clickCheckConnect(binding.btnRingTestStart) {
             addLogI("btnRingTestStart")
-            ControlBleTools.getInstance().setHeartRateRawSwitch(true, object : SendCmdStateListener(lifecycle) {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setHeartRateRawSwitch state=$state")
-
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setHeartRateRawSwitch(true, object : SendCmdStateListener(lifecycle) {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setHeartRateRawSwitch state=$state")
+    
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnRingTestStop) {
             addLogI("btnRingTestStop")
-            ControlBleTools.getInstance().setHeartRateRawSwitch(false, object : SendCmdStateListener(lifecycle) {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setHeartRateRawSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setHeartRateRawSwitch(false, object : SendCmdStateListener(lifecycle) {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setHeartRateRawSwitch state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnRingTestShare) {

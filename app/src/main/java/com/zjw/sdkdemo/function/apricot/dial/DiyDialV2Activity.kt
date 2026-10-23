@@ -55,6 +55,7 @@ import com.zjw.sdkdemo.utils.AssetUtils
 import com.zjw.sdkdemo.utils.DiyUtils
 import com.zjw.sdkdemo.utils.ToastUtils
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 @SuppressLint("NotifyDataSetChanged")
 class DiyDialV2Activity : BaseActivity() {
@@ -137,60 +138,64 @@ class DiyDialV2Activity : BaseActivity() {
             addLogI("btnSync")
             val bean = getDiyParamsBean()
             addLogI("getNewDiyDialData")
-            ControlBleTools.getInstance().getNewDiyDialData(bean, object : DiyDialDataCallBack {
-                override fun onDialData(diyDialId: String?, data: ByteArray, bean: DiyWatchFaceConfigBean) {
-                    //需要更新文件和配置类
-                    addLogBean("getDeviceDiyWatchFace onDialData diyDialId=$diyDialId Data.size=${data.size}", bean)
-                    ControlBleTools.getInstance().getDeviceDiyWatchFace(diyDialId, data.size, true, bean, object : DeviceWatchFaceFileStatusListener {
-                        override fun onSuccess(statusValue: Int, statusName: String) {
-                            addLogI("getDeviceDiyWatchFace onSuccess statusValue$statusValue statusName=$statusName")
-
-                            if (statusValue == DeviceWatchFaceFileStatusListener.PrepareStatus.READY.state) {
-
-                                val type = BleCommonAttributes.UPLOAD_BIG_DATA_WATCH
-                                val isReplace = true
-                                addLogI("startUploadBigData type=$type fileByte=${data.size} isReplace=$isReplace")
-                                ControlBleTools.getInstance().startUploadBigData(type, data, isReplace, object : UploadBigDataListener {
-                                    override fun onSuccess() {
-                                        addLogI("startUploadBigData onSuccess")
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getNewDiyDialData(bean, object : DiyDialDataCallBack {
+                    override fun onDialData(diyDialId: String?, data: ByteArray, bean: DiyWatchFaceConfigBean) {
+                        //需要更新文件和配置类
+                        addLogBean("getDeviceDiyWatchFace onDialData diyDialId=$diyDialId Data.size=${data.size}", bean)
+                        ControlBleTools.getInstance().getDeviceDiyWatchFace(diyDialId, data.size, true, bean, object : DeviceWatchFaceFileStatusListener {
+                            override fun onSuccess(statusValue: Int, statusName: String) {
+                                addLogI("getDeviceDiyWatchFace onSuccess statusValue$statusValue statusName=$statusName")
+    
+                                if (statusValue == DeviceWatchFaceFileStatusListener.PrepareStatus.READY.state) {
+    
+                                    val type = BleCommonAttributes.UPLOAD_BIG_DATA_WATCH
+                                    val isReplace = true
+                                    addLogI("startUploadBigData type=$type fileByte=${data.size} isReplace=$isReplace")
+                                    ControlBleTools.getInstance().startUploadBigData(type, data, isReplace, object : UploadBigDataListener {
+                                        override fun onSuccess() {
+                                            addLogI("startUploadBigData onSuccess")
+                                            diyWatchFaceConfig = bean
+                                        }
+    
+                                        override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                                            val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                                            addLogI("startUploadBigData onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                                        }
+    
+                                        override fun onTimeout(msg: String?) {
+                                            addLogE("startUploadBigData onTimeout msg=$msg")
+                                        }
+                                    })
+                                }
+                            }
+    
+                            override fun timeOut() {
+                                addLogE("getDeviceDiyWatchFace timeOut")
+                            }
+                        })
+                    }
+    
+                    override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
+    
+                        //只需要更新配置类
+                        addLogBean("setDiyWatchFaceConfig onChangeConfig", bean)
+                        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                            tools.setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
+                                override fun onState(state: SendCmdState) {
+                                    addLogI("setDiyWatchFaceConfig state=$state")
+                                    if (state == SendCmdState.SUCCEED) {
                                         diyWatchFaceConfig = bean
                                     }
-
-                                    override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
-                                        val percentage = (curPiece * 100 / dataPackTotalPieceLength)
-                                        addLogI("startUploadBigData onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
-                                    }
-
-                                    override fun onTimeout(msg: String?) {
-                                        addLogE("startUploadBigData onTimeout msg=$msg")
-                                    }
-                                })
-                            }
-                        }
-
-                        override fun timeOut() {
-                            addLogE("getDeviceDiyWatchFace timeOut")
-                        }
-                    })
-                }
-
-                override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
-
-                    //只需要更新配置类
-                    addLogBean("setDiyWatchFaceConfig onChangeConfig", bean)
-                    ControlBleTools.getInstance().setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState?) {
-                            addLogI("setDiyWatchFaceConfig state=$state")
-                            if (state == SendCmdState.SUCCEED) {
-                                diyWatchFaceConfig = bean
-                            }
-                        }
-                    })
-                }
-
-                override fun onError(errMsg: String?) {
-                    addLogI("getNewDiyDialData onError errMsg=$errMsg")
-                }
+                                }
+                            })
+                        })
+                    }
+    
+                    override fun onError(errMsg: String?) {
+                        addLogI("getNewDiyDialData onError errMsg=$errMsg")
+                    }
+                })
             })
         }
     }
@@ -551,10 +556,12 @@ class DiyDialV2Activity : BaseActivity() {
 
             val diyWatchId = diyWatchFaceConfig?.id
             addLogI("getDiyWatchFaceConfig diyWatchId=$diyWatchId")
-            ControlBleTools.getInstance().getDiyWatchFaceConfig(diyWatchId, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDiyWatchFaceConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDiyWatchFaceConfig(diyWatchId, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDiyWatchFaceConfig state=$state")
+                    }
+                })
             })
         } catch (e: Exception) {
             e.printStackTrace()
@@ -693,10 +700,12 @@ class DiyDialV2Activity : BaseActivity() {
             //获取设备表盘功能状态
             val id = diyWatchFaceConfig?.id
             addLogI("getDiyWatchFaceConfig id=$id")
-            ControlBleTools.getInstance().getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDiyWatchFaceConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDiyWatchFaceConfig state=$state")
+                    }
+                })
             })
         } catch (e: Exception) {
             e.printStackTrace()

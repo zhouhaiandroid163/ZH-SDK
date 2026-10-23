@@ -17,6 +17,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityBerrySocketBinding
 import com.zjw.sdkdemo.manager.BerrySocketManager
 import java.io.ByteArrayOutputStream
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerrySocketActivity : BaseActivity() {
     private val binding by lazy { ActivityBerrySocketBinding.inflate(layoutInflater) }
@@ -52,10 +53,12 @@ class BerrySocketActivity : BaseActivity() {
             addLogI("sendSocketNetworkEnable")
             val enable = true
             addLogI("sendSocketNetworkEnable enable=$enable")
-            ControlBleTools.getInstance().sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendSocketNetworkEnable state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendSocketNetworkEnable state=$state")
+                    }
+                })
             })
         }
 
@@ -63,10 +66,12 @@ class BerrySocketActivity : BaseActivity() {
             addLogI("btnSocketNetworkAbnormal")
             val enable = false
             addLogI("sendSocketNetworkEnable enable=$enable")
-            ControlBleTools.getInstance().sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendSocketNetworkEnable state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendSocketNetworkEnable state=$state")
+                    }
+                })
             })
         }
     }
@@ -84,10 +89,12 @@ class BerrySocketActivity : BaseActivity() {
                     } else {
                         val enable = false
                         addLogI("sendSocketNetworkEnable enable=$enable")
-                        ControlBleTools.getInstance().sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
-                            override fun onState(state: SendCmdState) {
-                                addLogI("sendSocketNetworkEnable state=$state")
-                            }
+                        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                            tools.sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
+                                override fun onState(state: SendCmdState) {
+                                    addLogI("sendSocketNetworkEnable state=$state")
+                                }
+                            })
                         })
                     }
                 }
@@ -102,10 +109,12 @@ class BerrySocketActivity : BaseActivity() {
                         this.messageData = bean.messageData
                     }
                     addLogBean("replyWearSocketMessage", bean)
-                    ControlBleTools.getInstance().replyWearSocketMessage(bean, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("replyWearSocketMessage state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.replyWearSocketMessage(bean, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("replyWearSocketMessage state=$state")
+                            }
+                        })
                     })
                     if (bean.messageData != null) {
                         BerrySocketManager.sendData(bean.messageData) { isSuc, msg ->
@@ -128,10 +137,12 @@ class BerrySocketActivity : BaseActivity() {
                         this.messageData = chunk
                     }
                     addLogBean("sendServerSocketMessage", bean)
-                    ControlBleTools.getInstance().sendServerSocketMessage(bean, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("SendCmdStateListener state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.sendServerSocketMessage(bean, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("SendCmdStateListener state=$state")
+                            }
+                        })
                     })
                     sentDataIndex = endIndex
                     if (sentDataIndex >= dataSize) {
@@ -151,10 +162,12 @@ class BerrySocketActivity : BaseActivity() {
                     this.respType = 1
                 }
                 addLogBean("replyWearSocketDisconnect", bean)
-                ControlBleTools.getInstance().replyWearSocketDisconnect(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("replyWearSocketDisconnect state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.replyWearSocketDisconnect(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("replyWearSocketDisconnect state=$state")
+                        }
+                    })
                 })
                 sentDataIndex = 0
             }
@@ -163,10 +176,12 @@ class BerrySocketActivity : BaseActivity() {
                 addLogI("wearSocketCallBack onRequestNetworkStatus")
                 NetworkUtils.isAvailableAsync {
                     addLogBean("replyWearSocketNetworkEnable", it)
-                    ControlBleTools.getInstance().replyWearSocketNetworkEnable(it, object : SendCmdStateListener() {
-                        override fun onState(state: SendCmdState) {
-                            addLogI("replyWearSocketNetworkEnable state=$state")
-                        }
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.replyWearSocketNetworkEnable(it, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("replyWearSocketNetworkEnable state=$state")
+                            }
+                        })
                     })
                 }
             }
@@ -177,10 +192,12 @@ class BerrySocketActivity : BaseActivity() {
             override fun onConnected(sessionId: Int) {
                 val enable = true
                 addLogI("sendSocketNetworkEnable enable=$enable")
-                ControlBleTools.getInstance().sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("sendSocketNetworkEnable state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendSocketNetworkEnable(enable, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendSocketNetworkEnable state=$state")
+                        }
+                    })
                 })
                 clearDataBuffer()
                 val bean = WearSocketResp().apply {
@@ -188,10 +205,12 @@ class BerrySocketActivity : BaseActivity() {
                     this.respType = 1
                 }
                 addLogBean("replyWearSocketResp", bean)
-                ControlBleTools.getInstance().replyWearSocketResp(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("replyWearSocketResp state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.replyWearSocketResp(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("replyWearSocketResp state=$state")
+                        }
+                    })
                 })
             }
 
@@ -203,10 +222,12 @@ class BerrySocketActivity : BaseActivity() {
                     this.respType = 3
                 }
                 addLogBean("replyWearSocketResp", bean)
-                ControlBleTools.getInstance().replyWearSocketResp(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("SendCmdStateListener state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.replyWearSocketResp(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("SendCmdStateListener state=$state")
+                        }
+                    })
                 })
             }
 
@@ -218,10 +239,12 @@ class BerrySocketActivity : BaseActivity() {
                     this.respType = 2
                 }
                 addLogBean("replyWearSocketResp", bean)
-                ControlBleTools.getInstance().replyWearSocketResp(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("SendCmdStateListener state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.replyWearSocketResp(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("SendCmdStateListener state=$state")
+                        }
+                    })
                 })
                 sentDataIndex = 0
             }
@@ -253,3 +276,4 @@ class BerrySocketActivity : BaseActivity() {
         lastDataReceivedTime = 0
     }
 }
+

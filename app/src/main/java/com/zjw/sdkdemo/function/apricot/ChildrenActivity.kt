@@ -21,6 +21,7 @@ import com.zjw.sdkdemo.databinding.ActivityChildrenBinding
 import com.zjw.sdkdemo.livedata.MyChildrenCallBack
 import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 class ChildrenActivity : BaseActivity() {
     private val binding by lazy { ActivityChildrenBinding.inflate(layoutInflater) }
@@ -57,10 +58,12 @@ class ChildrenActivity : BaseActivity() {
         clickCheckConnect(binding.layoutChildScheduler.btnGet) {
             addLogI("layoutChildScheduler.btnGet")
             addLogI("getScheduleReminder")
-            ControlBleTools.getInstance().getScheduleReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getScheduleReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools->
+                tools.getScheduleReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getScheduleReminder state=$state")
+                    }
+                })
             })
         }
 
@@ -121,20 +124,24 @@ class ChildrenActivity : BaseActivity() {
                 })
             }
             addLogBean("setScheduleReminder",bean)
-            ControlBleTools.getInstance().setScheduleReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setScheduleReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.setScheduleReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setScheduleReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutChildSchoolMode.btnGet) {
             addLogI("layoutChildSchoolMode.btnGet")
             addLogI("getSchoolMode")
-            ControlBleTools.getInstance().getSchoolMode(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSchoolMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.getSchoolMode(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSchoolMode state=$state")
+                    }
+                })
             })
         }
 
@@ -160,20 +167,24 @@ class ChildrenActivity : BaseActivity() {
                 true
             )
             addLogBean("setSchoolMode",bean)
-            ControlBleTools.getInstance().setSchoolMode(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSchoolMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.setSchoolMode(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSchoolMode state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutChildExamMode.btnGet) {
             addLogI("layoutChildExamMode.btnGet")
             addLogI("getExamReminderSettings")
-            ControlBleTools.getInstance().getExamReminderSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getExamReminderSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.getExamReminderSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getExamReminderSettings state=$state")
+                    }
+                })
             })
         }
 
@@ -197,10 +208,12 @@ class ChildrenActivity : BaseActivity() {
                 })
             }
             addLogBean("setExamReminderSettings",list)
-            ControlBleTools.getInstance().setExamReminderSettings(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setExamReminderSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.setExamReminderSettings(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setExamReminderSettings state=$state")
+                    }
+                })
             })
         }
     }

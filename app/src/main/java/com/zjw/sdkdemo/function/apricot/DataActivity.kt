@@ -51,6 +51,7 @@ import com.zjw.sdkdemo.databinding.ActivityDataBinding
 import com.zjw.sdkdemo.function.berry.BerryDeviceHistoryLogActivity
 import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
 import com.zjw.sdkdemo.livedata.MySportCallBack
+import com.zjw.sdkdemo.utils.MyConstants
 
 class DataActivity : BaseActivity() {
     private val binding by lazy { ActivityDataBinding.inflate(layoutInflater) }
@@ -77,40 +78,48 @@ class DataActivity : BaseActivity() {
         clickCheckConnect(binding.btnDataGetSimpleSettingSummary) {
             addLogI("btnDataGetSimpleSettingSummary")
             addLogI("getSimpleSetting")
-            ControlBleTools.getInstance().getSimpleSetting(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSimpleSetting state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools->
+                tools.getSimpleSetting(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSimpleSetting state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetDevice) {
             addLogI("btnGetDevice")
             addLogI("getDeviceInfo")
-            ControlBleTools.getInstance().getDeviceInfo(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDeviceInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.getDeviceInfo(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState?) {
+                        addLogI("getDeviceInfo state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetBattery) {
             addLogI("btnGetBattery")
             addLogI("getDeviceBattery")
-            ControlBleTools.getInstance().getDeviceBattery(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDeviceBattery state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDeviceBattery(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDeviceBattery state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetBatteryUseList) {
             addLogI("btnGetBatteryUseList")
             addLogI("getMptPowerLogList")
-            ControlBleTools.getInstance().getMptPowerLogList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getMptPowerLogList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getMptPowerLogList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getMptPowerLogList state=$state")
+                    }
+                })
             })
 
         }
@@ -124,47 +133,57 @@ class DataActivity : BaseActivity() {
             }
             val value = binding.btnRealDataSwitch.tag == 1
             addLogI("realTimeDataSwitch value=$value")
-            ControlBleTools.getInstance().realTimeDataSwitch(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("realTimeDataSwitch state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.realTimeDataSwitch(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("realTimeDataSwitch state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetFitness) {
             addLogI("btnGetFitness")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDailyHistoryData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDailyHistoryData(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDailyHistoryData state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnGetFitnessMode1) {
             addLogI("btnGetFitnessMode1")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(1, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDailyHistoryData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDailyHistoryData(1, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDailyHistoryData state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnGetFitnessMode2) {
             addLogI("btnGetFitnessMode2")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(2, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDailyHistoryData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDailyHistoryData(2, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDailyHistoryData state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.btnGetFitnessMode3) {
             addLogI("btnGetFitnessMode3")
             addLogI("getDailyHistoryData")
-            ControlBleTools.getInstance().getDailyHistoryData(3, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDailyHistoryData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDailyHistoryData(3, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDailyHistoryData state=$state")
+                    }
+                })
             })
         }
 
@@ -172,20 +191,24 @@ class DataActivity : BaseActivity() {
             addLogI("btnExecutesDeleteDailyData")
             addLogI("executesDeleteDailyData")
             val isConfirm = binding.cbIsConfirm.isChecked
-            ControlBleTools.getInstance().ringExecutesDeleteDailyData(if(isConfirm) 1 else 0,object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("ringExecutesDeleteDailyData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.ringExecutesDeleteDailyData(if(isConfirm) 1 else 0,object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("ringExecutesDeleteDailyData state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetSport) {
             addLogI("btnGetSport")
             addLogI("getFitnessSportIdsData")
-            ControlBleTools.getInstance().getFitnessSportIdsData(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getFitnessSportIdsData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getFitnessSportIdsData(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getFitnessSportIdsData state=$state")
+                    }
+                })
             })
         }
 

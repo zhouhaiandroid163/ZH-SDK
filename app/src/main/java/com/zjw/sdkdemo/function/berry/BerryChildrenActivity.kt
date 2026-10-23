@@ -32,6 +32,7 @@ import com.zjw.sdkdemo.utils.AssetUtils
 import com.zjw.sdkdemo.utils.AssetUtils.getAssetBitmap
 import com.zjw.sdkdemo.utils.DialogUtils
 import java.io.File
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerryChildrenActivity : BaseActivity() {
     private val binding by lazy { ActivityBerryChildrenBinding.inflate(layoutInflater) }
@@ -78,10 +79,12 @@ class BerryChildrenActivity : BaseActivity() {
         clickCheckConnect(binding.layoutBerryChildChild.btnGet) {
             addLogI("layoutBerryChildChild.btnGet")
             addLogI("getChildrenInfoByBerry")
-            ControlBleTools.getInstance().getChildrenInfoByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getChildrenInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getChildrenInfoByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getChildrenInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -94,20 +97,24 @@ class BerryChildrenActivity : BaseActivity() {
             bean.medication = binding.layoutBerryChildChild.etMedication.text.toString()
             bean.address = binding.layoutBerryChildChild.etAddress.text.toString()
             addLogBean("setChildrenInfoByBerry", bean)
-            ControlBleTools.getInstance().setChildrenInfoByBerry(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setChildrenInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setChildrenInfoByBerry(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setChildrenInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryChildParent.btnGet) {
             addLogI("layoutBerryChildParent.btnGet")
             addLogI("getParentInfoByBerry")
-            ControlBleTools.getInstance().getParentInfoByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getParentInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getParentInfoByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getParentInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -179,20 +186,24 @@ class BerryChildrenActivity : BaseActivity() {
                 list.add(item.id)
             }
             addLogBean("delParentInfoByBerry", list)
-            ControlBleTools.getInstance().delParentInfoByBerry(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("delParentInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.delParentInfoByBerry(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("delParentInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryChildFc.btnGet) {
             addLogI("layoutBerryChildFc.btnGet")
             addLogI("getFlashCardIdsByBerry")
-            ControlBleTools.getInstance().getFlashCardIdsByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getFlashCardIdsByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getFlashCardIdsByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getFlashCardIdsByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -267,30 +278,32 @@ class BerryChildrenActivity : BaseActivity() {
                 //删除已有数据
                 val list = flashCardInfos!!.list
                 addLogBean("delFlashCardByBerry", list)
-                ControlBleTools.getInstance().delFlashCardByBerry(list, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("delFlashCardByBerry state=$state")
-                        if (state == SendCmdState.SUCCEED) {
-
-                            val equipmentNumber = GlobalData.deviceInfo!!.equipmentNumber
-                            addLogBean("setupFlashCardByBerry equipmentNumber=$equipmentNumber", bean)
-                            ControlBleTools.getInstance().setupFlashCardByBerry(bean, equipmentNumber, object : UploadBigDataListener {
-                                override fun onSuccess() {
-                                    addLogI("setupFlashCardByBerry onSuccess")
-                                    binding.layoutBerryChildFc.btnGet.callOnClick()
-                                }
-
-                                override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
-                                    val percentage = (curPiece * 100 / dataPackTotalPieceLength)
-                                    addLogI("setupFlashCardByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
-                                }
-
-                                override fun onTimeout(msg: String?) {
-                                    addLogE("setupFlashCardByBerry onTimeout msg=$msg")
-                                }
-                            })
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.delFlashCardByBerry(list, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("delFlashCardByBerry state=$state")
+                            if (state == SendCmdState.SUCCEED) {
+    
+                                val equipmentNumber = GlobalData.deviceInfo!!.equipmentNumber
+                                addLogBean("setupFlashCardByBerry equipmentNumber=$equipmentNumber", bean)
+                                ControlBleTools.getInstance().setupFlashCardByBerry(bean, equipmentNumber, object : UploadBigDataListener {
+                                    override fun onSuccess() {
+                                        addLogI("setupFlashCardByBerry onSuccess")
+                                        binding.layoutBerryChildFc.btnGet.callOnClick()
+                                    }
+    
+                                    override fun onProgress(curPiece: Int, dataPackTotalPieceLength: Int) {
+                                        val percentage = (curPiece * 100 / dataPackTotalPieceLength)
+                                        addLogI("setupFlashCardByBerry onProgress curPiece=$curPiece dataPackTotalPieceLength=$dataPackTotalPieceLength  percentage=$percentage")
+                                    }
+    
+                                    override fun onTimeout(msg: String?) {
+                                        addLogE("setupFlashCardByBerry onTimeout msg=$msg")
+                                    }
+                                })
+                            }
                         }
-                    }
+                    })
                 })
             }
         }
@@ -303,10 +316,12 @@ class BerryChildrenActivity : BaseActivity() {
             }
             val list = flashCardInfos!!.list
             addLogBean("delFlashCardByBerry", list)
-            ControlBleTools.getInstance().delFlashCardByBerry(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("delFlashCardByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.delFlashCardByBerry(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("delFlashCardByBerry state=$state")
+                    }
+                })
             })
 
             ThreadUtils.runOnUiThreadDelayed({
@@ -317,10 +332,12 @@ class BerryChildrenActivity : BaseActivity() {
         clickCheckConnect(binding.layoutBerryChildChallenge.btnGet) {
             addLogI("layoutBerryChildChallenge.btnGet")
             addLogI("getChallengeInfoByBerry")
-            ControlBleTools.getInstance().getChallengeInfoByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getChallengeInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getChallengeInfoByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getChallengeInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -337,20 +354,24 @@ class BerryChildrenActivity : BaseActivity() {
             }
             val bean = challengeInfoBean!!
             addLogBean("modifyChallengeInfoByBerry", bean)
-            ControlBleTools.getInstance().modifyChallengeInfoByBerry(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("modifyChallengeInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.modifyChallengeInfoByBerry(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("modifyChallengeInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerryChildrenRevenue.btnGet) {
             addLogI("layoutBerryChildrenRevenue.btnGet")
             addLogI("getEarningsInfoByBerry")
-            ControlBleTools.getInstance().getEarningsInfoByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getEarningsInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getEarningsInfoByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getEarningsInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -366,10 +387,12 @@ class BerryChildrenActivity : BaseActivity() {
             bean.challenge = binding.layoutBerryChildrenRevenue.etTargetPriceChallenge.text.toString().trim().toInt()
             bean.medals = binding.layoutBerryChildrenRevenue.etTargetPriceMedals.text.toString().trim().toInt()
             addLogBean("setEarningsPriceByBerry",bean)
-            ControlBleTools.getInstance().setEarningsPriceByBerry(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEarningsPriceByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEarningsPriceByBerry(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEarningsPriceByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -377,10 +400,12 @@ class BerryChildrenActivity : BaseActivity() {
         clickCheckConnect(binding.layoutBerryChildrenMedal.btnGet) {
             addLogI("layoutBerryChildrenMedal.btnGet")
             addLogI("getMedalInfoByBerry")
-            ControlBleTools.getInstance().getMedalInfoByBerry(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getMedalInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getMedalInfoByBerry(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getMedalInfoByBerry state=$state")
+                    }
+                })
             })
         }
 
@@ -410,10 +435,12 @@ class BerryChildrenActivity : BaseActivity() {
                 })
             }
             addLogBean("setMedalInfoByBerry",list)
-            ControlBleTools.getInstance().setMedalInfoByBerry(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setMedalInfoByBerry state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setMedalInfoByBerry(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setMedalInfoByBerry state=$state")
+                    }
+                })
             })
         }
     }

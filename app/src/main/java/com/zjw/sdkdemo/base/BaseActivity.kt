@@ -28,6 +28,7 @@ import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.function.help.HelpActivity
 import com.zjw.sdkdemo.utils.DialogUtils
 import com.zjw.sdkdemo.utils.LogSendUtil
+import com.zjw.sdkdemo.utils.MyConstants
 import com.zjw.sdkdemo.utils.MyFormatUtils
 import com.zjw.sdkdemo.utils.SpUtils
 import com.zjw.sdkdemo.utils.ToastUtils
@@ -138,7 +139,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun clickCheckConnect(view: View, block: () -> Unit) {
         ClickUtils.applySingleDebouncing(view) {
-            if (!ControlBleTools.getInstance().isConnect) {
+            if (!ControlBleTools.getInstance().isConnect(MyConstants.deviceAddress)) {
                 ToastUtils.showToast(R.string.device_no_connect)
             }
             try {
@@ -152,7 +153,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun executeCheckConnect(block: () -> Unit) {
-        if (!ControlBleTools.getInstance().isConnect) {
+        if (!ControlBleTools.getInstance().isConnect(MyConstants.deviceAddress)) {
             ToastUtils.showToast(R.string.device_no_connect)
         }
         try {

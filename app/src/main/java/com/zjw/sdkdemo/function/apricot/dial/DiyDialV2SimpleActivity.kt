@@ -18,6 +18,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityDiyDialV2SimpleBinding
 import com.zjw.sdkdemo.utils.AssetUtils
 import com.zjw.sdkdemo.utils.BitmapUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 
 class DiyDialV2SimpleActivity : BaseActivity() {
@@ -64,10 +65,12 @@ class DiyDialV2SimpleActivity : BaseActivity() {
 
             val id = diyWatchFaceConfig?.id
             addLogI("getDiyWatchFaceConfig id=$id")
-            ControlBleTools.getInstance().getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDiyWatchFaceConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDiyWatchFaceConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -81,10 +84,12 @@ class DiyDialV2SimpleActivity : BaseActivity() {
 
             val id = diyWatchFaceConfig?.id
             addLogI("getDiyWatchFaceConfig id=$id")
-            ControlBleTools.getInstance().getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getDiyWatchFaceConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDiyWatchFaceConfig(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDiyWatchFaceConfig state=$state")
+                    }
+                })
             })
         }
     }
@@ -103,31 +108,35 @@ class DiyDialV2SimpleActivity : BaseActivity() {
         val data = AssetUtils.getAssetBytes(this, "$mPointerResource/pointer/3101_Data.bin")
         val complex = AssetUtils.getAssetBytes(this, "$mPointerResource/complex/complex.bin")
         addLogI("getSimplePointerDiyDialData")
-        ControlBleTools.getInstance().getSimplePointerDiyDialData(bitmapList, thumbnailBitmap, data, complex, diyWatchFaceConfig, pointerJsonStr, object : DiyDialDataCallBack {
-            override fun onDialData(diyDialId: String, data: ByteArray, bean: DiyWatchFaceConfigBean) {
-                addLogBean("getSimplePointerDiyDialData onDialData iyDialId=$diyDialId data.size=${data.size}", bean)
-                //需要更新文件和配置类
-                uploadWatch(diyDialId, data, bean)
-            }
-
-            override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
-                addLogBean("getSimplePointerDiyDialData onChangeConfig", bean)
-
-                //只需要更新配置类
-                addLogBean("setDiyWatchFaceConfig", bean)
-                ControlBleTools.getInstance().setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("setDiyWatchFaceConfig state=$state")
-                        if (state == SendCmdState.SUCCEED) {
-                            diyWatchFaceConfig = bean
-                        }
-                    }
-                })
-            }
-
-            override fun onError(errMsg: String?) {
-                addLogE("getSimplePointerDiyDialData onError errMsg=$errMsg")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.getSimplePointerDiyDialData(bitmapList, thumbnailBitmap, data, complex, diyWatchFaceConfig, pointerJsonStr, object : DiyDialDataCallBack {
+                override fun onDialData(diyDialId: String, data: ByteArray, bean: DiyWatchFaceConfigBean) {
+                    addLogBean("getSimplePointerDiyDialData onDialData iyDialId=$diyDialId data.size=${data.size}", bean)
+                    //需要更新文件和配置类
+                    uploadWatch(diyDialId, data, bean)
+                }
+    
+                override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
+                    addLogBean("getSimplePointerDiyDialData onChangeConfig", bean)
+    
+                    //只需要更新配置类
+                    addLogBean("setDiyWatchFaceConfig", bean)
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("setDiyWatchFaceConfig state=$state")
+                                if (state == SendCmdState.SUCCEED) {
+                                    diyWatchFaceConfig = bean
+                                }
+                            }
+                        })
+                    })
+                }
+    
+                override fun onError(errMsg: String?) {
+                    addLogE("getSimplePointerDiyDialData onError errMsg=$errMsg")
+                }
+            })
         })
     }
 
@@ -148,31 +157,35 @@ class DiyDialV2SimpleActivity : BaseActivity() {
         }
 
         addLogI("getSimpleNumberDiyDialData")
-        ControlBleTools.getInstance().getSimpleNumberDiyDialData(bitmapList, design, numberId, time, complex, colorList, diyWatchFaceConfig, numberJsonStr, object : DiyDialDataCallBack {
-            override fun onDialData(diyDialId: String, data: ByteArray, bean: DiyWatchFaceConfigBean) {
-                addLogBean("getSimpleNumberDiyDialData onDialData diyDialId=$diyDialId data.size=${data.size}", bean)
-                //需要更新文件和配置类
-                uploadWatch(diyDialId, data, bean)
-            }
-
-            override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
-                addLogBean("getSimpleNumberDiyDialData onChangeConfig", bean)
-
-                //只需要更新配置类
-                addLogBean("setDiyWatchFaceConfig", bean)
-                ControlBleTools.getInstance().setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("setDiyWatchFaceConfig state=$state")
-                        if (state == SendCmdState.SUCCEED) {
-                            diyWatchFaceConfig = bean
-                        }
-                    }
-                })
-            }
-
-            override fun onError(errMsg: String?) {
-                addLogE("getSimpleNumberDiyDialData onError errMsg=$errMsg")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.getSimpleNumberDiyDialData(bitmapList, design, numberId, time, complex, colorList, diyWatchFaceConfig, numberJsonStr, object : DiyDialDataCallBack {
+                override fun onDialData(diyDialId: String, data: ByteArray, bean: DiyWatchFaceConfigBean) {
+                    addLogBean("getSimpleNumberDiyDialData onDialData diyDialId=$diyDialId data.size=${data.size}", bean)
+                    //需要更新文件和配置类
+                    uploadWatch(diyDialId, data, bean)
+                }
+    
+                override fun onChangeConfig(bean: DiyWatchFaceConfigBean) {
+                    addLogBean("getSimpleNumberDiyDialData onChangeConfig", bean)
+    
+                    //只需要更新配置类
+                    addLogBean("setDiyWatchFaceConfig", bean)
+                    ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                        tools.setDiyWatchFaceConfig(bean, object : SendCmdStateListener() {
+                            override fun onState(state: SendCmdState) {
+                                addLogI("setDiyWatchFaceConfig state=$state")
+                                if (state == SendCmdState.SUCCEED) {
+                                    diyWatchFaceConfig = bean
+                                }
+                            }
+                        })
+                    })
+                }
+    
+                override fun onError(errMsg: String?) {
+                    addLogE("getSimpleNumberDiyDialData onError errMsg=$errMsg")
+                }
+            })
         })
     }
 

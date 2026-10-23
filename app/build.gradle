@@ -104,7 +104,7 @@ dependencies {
     implementation files('libs/serialTransport-release.aar')
     implementation files('libs/watchfacelibrary-release.aar')
     //SDK
-    implementation files('libs/ZH_SDK_20261015_V2.5.2.aar')
+    implementation files('libs/ZH_SDK_20261023_V2.5.2.aar')
     //----------------------------------------------------------
 
     implementation project(':imagepick')

@@ -14,6 +14,7 @@ import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityEmojiBinding
 import java.util.Calendar
+import com.zjw.sdkdemo.utils.MyConstants
 
 class EmojiActivity : BaseActivity() {
     val binding by lazy { ActivityEmojiBinding.inflate(layoutInflater) }
@@ -33,10 +34,12 @@ class EmojiActivity : BaseActivity() {
         clickCheckConnect(binding.btnContactsGet) {
             addLogI("btnContactsGet")
             addLogI("getGlodFriendContactsList")
-            ControlBleTools.getInstance().getGlodFriendContactsList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getGlodFriendContactsList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getGlodFriendContactsList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getGlodFriendContactsList state=$state")
+                    }
+                })
             })
         }
 
@@ -51,10 +54,12 @@ class EmojiActivity : BaseActivity() {
                 list.add(bean)
             }
             addLogBean("setGlodFriendContactsList", list)
-            ControlBleTools.getInstance().setGlodFriendContactsList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setGlodFriendContactsList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setGlodFriendContactsList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setGlodFriendContactsList state=$state")
+                    }
+                })
             })
         }
 
@@ -71,10 +76,12 @@ class EmojiActivity : BaseActivity() {
                 TimeBean(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH], cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND])
             )
             addLogBean("setGlodFriendContactsList", bean)
-            ControlBleTools.getInstance().setGlodFriendEmoji(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setGlodFriendEmoji state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setGlodFriendEmoji(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setGlodFriendEmoji state=$state")
+                    }
+                })
             })
         }
 
@@ -84,10 +91,12 @@ class EmojiActivity : BaseActivity() {
                 glodFriendEmojiBean?.friendEmojiState = 1
                 val bean = glodFriendEmojiBean!!
                 addLogBean("setGlodFriendEmojiRequest", bean)
-                ControlBleTools.getInstance().setGlodFriendEmojiRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("setGlodFriendEmojiRequest state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.setGlodFriendEmojiRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("setGlodFriendEmojiRequest state=$state")
+                        }
+                    })
                 })
             }
         }
@@ -98,10 +107,12 @@ class EmojiActivity : BaseActivity() {
                 glodFriendEmojiBean?.friendEmojiState = 0
                 val bean = glodFriendEmojiBean!!
                 addLogBean("setGlodFriendEmojiRequest", bean)
-                ControlBleTools.getInstance().setGlodFriendEmojiRequest(bean, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState) {
-                        addLogI("setGlodFriendEmojiRequest state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.setGlodFriendEmojiRequest(bean, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("setGlodFriendEmojiRequest state=$state")
+                        }
+                    })
                 })
             }
         }

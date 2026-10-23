@@ -15,6 +15,7 @@ import com.zhapp.ble.callback.RingSleepInvalidReasonCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
 import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.utils.FindPhoneUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 object MyMicroCallBack {
     private val tag: String = MicroCallBack::class.java.simpleName
@@ -83,10 +84,12 @@ object MyMicroCallBack {
 
         CallBackUtils.berryDevReqContactCallBack = BerryDevReqContactCallBack { phoneNumber ->
             val contactName = "test name"
-            ControlBleTools.getInstance().updateBerryContactInfo(contactName, phoneNumber, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    Log.i(tag, "updateBerryContactInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.updateBerryContactInfo(contactName, phoneNumber, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        Log.i(tag, "updateBerryContactInfo state=$state")
+                    }
+                })
             })
         }
 

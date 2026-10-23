@@ -32,6 +32,7 @@ import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityRemindBinding
 import com.zjw.sdkdemo.livedata.MySettingMenuCallBack
 import com.zjw.sdkdemo.utils.DialogUtils
+import com.zjw.sdkdemo.utils.MyConstants
 
 class RemindActivity : BaseActivity() {
     val binding by lazy { ActivityRemindBinding.inflate(layoutInflater) }
@@ -112,10 +113,12 @@ class RemindActivity : BaseActivity() {
             addLogI("btnHangUpPhone")
             val value = 1
             addLogI("sendCallState value=$value")
-            ControlBleTools.getInstance().sendCallState(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendCallState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendCallState(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendCallState state=$state")
+                    }
+                })
             })
         }
 
@@ -123,10 +126,12 @@ class RemindActivity : BaseActivity() {
             addLogI("btnAnswerThePhone")
             val value = 0
             addLogI("sendCallState value=$value")
-            ControlBleTools.getInstance().sendCallState(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("sendCallState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendCallState(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendCallState state=$state")
+                    }
+                })
             })
         }
 
@@ -144,10 +149,12 @@ class RemindActivity : BaseActivity() {
                 val text = binding.layoutNoticeOther.etContext.text.toString().trim()
                 val ticker = binding.layoutNoticeOther.etTicker.text.toString().trim()
                 addLogI("sendAppNotification appName=$appName appPackName=$appPackName title=$title text=$text ticker=$ticker")
-                ControlBleTools.getInstance().sendAppNotification(appPackName,appName, appPackName, title, text, ticker, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendAppNotification state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                    tools.sendAppNotification(appPackName,appName, appPackName, title, text, ticker, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState) {
+                            addLogI("sendAppNotification state=$state")
+                        }
+                    })
                 })
             } else {
                 addLogI(getString(R.string.please_select_app))
@@ -157,10 +164,12 @@ class RemindActivity : BaseActivity() {
         clickCheckConnect(binding.layoutCallSet.btnGet) {
             addLogI("layoutCallSet.btnGet")
             addLogI("getCallModeSettings")
-            ControlBleTools.getInstance().getCallModeSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getCallModeSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getCallModeSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getCallModeSettings state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutCallSet.btnSet) {
@@ -168,20 +177,24 @@ class RemindActivity : BaseActivity() {
             val mode = binding.layoutCallSet.etMode.text.toString().trim().toInt()
             val volume = binding.layoutCallSet.etVolume.text.toString().trim().toInt()
             addLogI("setCallModeSettings mode=$mode volume=$volume")
-            ControlBleTools.getInstance().setCallModeSettings(mode, volume, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setCallModeSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setCallModeSettings(mode, volume, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setCallModeSettings state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutQuitReply.btnGet) {
             addLogI("layoutQuitReply.btnGet")
             addLogI("getDevShortReplyData")
-            ControlBleTools.getInstance().getDevShortReplyData(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getDevShortReplyData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDevShortReplyData(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDevShortReplyData state=$state")
+                    }
+                })
             })
         }
 
@@ -196,20 +209,24 @@ class RemindActivity : BaseActivity() {
                 list.add(reply)
             }
             addLogBean("setDevShortReplyData", list)
-            ControlBleTools.getInstance().setDevShortReplyData(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setDevShortReplyData state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDevShortReplyData(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setDevShortReplyData state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutContactsList.btnGet) {
             addLogI("layoutContactsList.btnGet")
             addLogI("getContactList")
-            ControlBleTools.getInstance().getContactList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getContactList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getContactList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getContactList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutContactsList.btnSet) {
@@ -222,20 +239,24 @@ class RemindActivity : BaseActivity() {
                 list.add(contactBean)
             }
             addLogBean("setContactList", list)
-            ControlBleTools.getInstance().setContactList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setContactList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setContactList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setContactList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSosContacts.btnGet) {
             addLogI("layoutSosContacts.btnGet")
             addLogI("getEmergencyContacts")
-            ControlBleTools.getInstance().getEmergencyContacts(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getEmergencyContacts state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getEmergencyContacts(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getEmergencyContacts state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutSosContacts.btnSet) {
@@ -253,20 +274,24 @@ class RemindActivity : BaseActivity() {
             bean.sosSwitch = true
             bean.max = 1
             addLogBean("setEmergencyContacts", bean)
-            ControlBleTools.getInstance().setEmergencyContacts(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEmergencyContacts state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEmergencyContacts(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEmergencyContacts state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutFavoriteContacts.btnGet) {
             addLogI("layoutFavoriteContacts.btnGet")
             addLogI("getCollectContactList")
-            ControlBleTools.getInstance().getCollectContactList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getCollectContactList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getCollectContactList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getCollectContactList state=$state")
+                    }
+                })
             })
         }
 
@@ -285,20 +310,24 @@ class RemindActivity : BaseActivity() {
             bean.sosSwitch = true
             bean.max = 1
             addLogBean("setCollectContactList", list)
-            ControlBleTools.getInstance().setCollectContactList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEmergencyContacts state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setCollectContactList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEmergencyContacts state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutEvent.btnGet) {
             addLogI("layoutEvent.btnGet")
             addLogI("getEventInfoList")
-            ControlBleTools.getInstance().getEventInfoList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getEventInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getEventInfoList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getEventInfoList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutEvent.btnSet) {
@@ -319,20 +348,24 @@ class RemindActivity : BaseActivity() {
                 list.add(infoBean)
             }
             addLogBean("setEventInfoList", list)
-            ControlBleTools.getInstance().setEventInfoList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setEventInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setEventInfoList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setEventInfoList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutClock.btnGet) {
             addLogI("layoutClock.btnGet")
             addLogI("getClockInfoList")
-            ControlBleTools.getInstance().getClockInfoList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getClockInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getClockInfoList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getClockInfoList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutClock.btnSet) {
@@ -355,20 +388,24 @@ class RemindActivity : BaseActivity() {
             clockInfo.data = bean
             list.add(clockInfo)
             addLogBean("setClockInfoList", list)
-            ControlBleTools.getInstance().setClockInfoList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setClockInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setClockInfoList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setClockInfoList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSedentary.btnGet) {
             addLogI("layoutSedentary.btnGet")
             addLogI("getSedentaryReminder")
-            ControlBleTools.getInstance().getSedentaryReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSedentaryReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSedentaryReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSedentaryReminder state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutSedentary.btnSet) {
@@ -381,20 +418,24 @@ class RemindActivity : BaseActivity() {
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutSedentary.layoutReminder.tvEndTime)
             bean.frequency = frequency
             addLogBean("setSedentaryReminder", bean)
-            ControlBleTools.getInstance().setSedentaryReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSedentaryReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSedentaryReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSedentaryReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutMedication.btnGet) {
             addLogI("layoutMedication.btnGet")
             addLogI("getMedicationReminder")
-            ControlBleTools.getInstance().getMedicationReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getMedicationReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getMedicationReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getMedicationReminder state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutMedication.btnSet) {
@@ -406,21 +447,25 @@ class RemindActivity : BaseActivity() {
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutMedication.layoutReminder.tvEndTime)
             bean.frequency = frequency
             addLogBean("setMedicationReminder", bean)
-            ControlBleTools.getInstance().setMedicationReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setMedicationReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setMedicationReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setMedicationReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutDrinkWater.btnGet) {
             addLogI("layoutMeals.btnGet")
             addLogI("getDrinkWaterReminder")
-            ControlBleTools.getInstance().getDrinkWaterReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getScreenDisplay state=$state")
-
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDrinkWaterReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getScreenDisplay state=$state")
+    
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutDrinkWater.btnSet) {
@@ -433,20 +478,24 @@ class RemindActivity : BaseActivity() {
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutDrinkWater.layoutReminder.tvEndTime)
             bean.frequency = frequency
             addLogBean("setDrinkWaterReminder", bean)
-            ControlBleTools.getInstance().setDrinkWaterReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setDrinkWaterReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDrinkWaterReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setDrinkWaterReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutMeals.btnGet) {
             addLogI("layoutMeals.btnGet")
             addLogI("getHaveMealsReminder")
-            ControlBleTools.getInstance().getHaveMealsReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getHaveMealsReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getHaveMealsReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getHaveMealsReminder state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutMeals.btnSet) {
@@ -458,20 +507,24 @@ class RemindActivity : BaseActivity() {
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutMeals.layoutReminder.tvEndTime)
             bean.frequency = frequency
             addLogBean("setHaveMealsWaterReminder", bean)
-            ControlBleTools.getInstance().setHaveMealsWaterReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setHaveMealsWaterReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setHaveMealsWaterReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setHaveMealsWaterReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutWashHand.btnGet) {
             addLogI("layoutWashHand.btnGet")
             addLogI("getWashHandReminder")
-            ControlBleTools.getInstance().getWashHandReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getWashHandReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getWashHandReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getWashHandReminder state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutWashHand.btnSet) {
@@ -483,20 +536,24 @@ class RemindActivity : BaseActivity() {
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutWashHand.layoutReminder.tvEndTime)
             bean.frequency = frequency
             addLogBean("setWashHandReminder", bean)
-            ControlBleTools.getInstance().setWashHandReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setWashHandReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setWashHandReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setWashHandReminder state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutPhysiologicalCycle.btnGet) {
             addLogI("layoutPhysiologicalCycle.btnGet")
             addLogI("getPhysiologicalCycle")
-            ControlBleTools.getInstance().getPhysiologicalCycle(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getPhysiologicalCycle state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getPhysiologicalCycle(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getPhysiologicalCycle state=$state")
+                    }
+                })
             })
         }
 
@@ -517,20 +574,24 @@ class RemindActivity : BaseActivity() {
             bean.physiologicalStartDate = DialogUtils.getDateBean(binding.layoutPhysiologicalCycle.tvStartDate)
             bean.physiologicalCycleSwitch = binding.layoutPhysiologicalCycle.cbPeriodSwitch.isChecked
             addLogBean("setPhysiologicalCycle", bean)
-            ControlBleTools.getInstance().setPhysiologicalCycle(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setPhysiologicalCycle state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setPhysiologicalCycle(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setPhysiologicalCycle state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutNoiceSet.btnGet) {
             addLogI("layoutNoiceSet.btnGet")
             addLogI("getNotificationSettings")
-            ControlBleTools.getInstance().getNotificationSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getNotificationSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getNotificationSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getNotificationSettings state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutNoiceSet.btnSet) {
@@ -543,20 +604,24 @@ class RemindActivity : BaseActivity() {
             bean.phoneRemindVibrationMode = vMode
             bean.phoneRemindRingMode = rMode
             addLogBean("setNotificationSettings", bean)
-            ControlBleTools.getInstance().setNotificationSettings(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setNotificationSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setNotificationSettings(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setNotificationSettings state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBtCallSwitch.btnGet) {
             addLogI("layoutBtCallSwitch.btnGet")
             addLogI("getClassicBluetoothState")
-            ControlBleTools.getInstance().getClassicBluetoothState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getClassicBluetoothState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getClassicBluetoothState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getClassicBluetoothState state=$state")
+                    }
+                })
             })
         }
 
@@ -566,20 +631,24 @@ class RemindActivity : BaseActivity() {
             val disconnectRemind = binding.layoutBtCallSwitch.cbDisconnectRemind.isChecked
             val bean = ClassicBluetoothStateBean(switch, disconnectRemind)
             addLogBean("setClassicBluetoothState", bean)
-            ControlBleTools.getInstance().setClassicBluetoothState(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setClassicBluetoothState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setClassicBluetoothState(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setClassicBluetoothState state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutLargeContactsList.btnGet) {
             addLogI("layoutLargeContactsList.btnGet")
             addLogI("getContactLotList")
-            ControlBleTools.getInstance().getContactLotList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getContactLotList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getContactLotList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getContactLotList state=$state")
+                    }
+                })
             })
         }
 
@@ -598,20 +667,24 @@ class RemindActivity : BaseActivity() {
             bean.allCount = list.size
             bean.data = list
             addLogBean("setContactLotList", bean)
-            ControlBleTools.getInstance().setContactLotList(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setContactLotList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setContactLotList(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setContactLotList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSleepReminder.btnGet) {
             addLogI("layoutSleepReminder.btnGet")
             addLogI("getSleepReminder")
-            ControlBleTools.getInstance().getSleepReminder(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSleepReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSleepReminder(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSleepReminder state=$state")
+                    }
+                })
             })
         }
 
@@ -621,10 +694,12 @@ class RemindActivity : BaseActivity() {
             bean.isOn = binding.layoutSleepReminder.cbSwitch.isChecked
             bean.reminderTime = DialogUtils.getSettingTimeBean(binding.layoutSleepReminder.tvStartTime)
             addLogBean("setSleepReminder", bean)
-            ControlBleTools.getInstance().setSleepReminder(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSleepReminder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSleepReminder(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSleepReminder state=$state")
+                    }
+                })
             })
         }
     }
@@ -717,13 +792,16 @@ class RemindActivity : BaseActivity() {
         val content = binding.layoutNoticeSystem.etContacts.text.toString().trim()
         val msg = binding.layoutNoticeSystem.etMsg.text.toString().trim()
         addLogI("sendSystemNotification type=$type phone=$phone content=$content msg=$msg")
-        ControlBleTools.getInstance().sendSystemNotification(type, phone,phone, phone, content, msg, object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState) {
-                addLogI("sendSystemNotification state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.sendSystemNotification(type, phone,phone, phone, content, msg, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("sendSystemNotification state=$state")
+                }
+            })
         })
     }
 }
+
 
 
 

@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.LogUtils
 import com.zhapp.ble.BleCommonAttributes
 import com.zhapp.ble.ControlBleTools
 import com.zhapp.ble.bean.DeviceInfoBean
+import com.zhapp.ble.callback.BleStateCallBack
 import com.zhapp.ble.callback.CallBackUtils
 import com.zhapp.ble.callback.DeviceInfoCallBack
 import com.zhapp.ble.parsing.ParsingStateManager.SendCmdStateListener
@@ -37,6 +38,7 @@ import com.zjw.sdkdemo.function.apricot.ring.RingActivity
 import com.zjw.sdkdemo.function.apricot.sifli.SifliActivity
 import com.zjw.sdkdemo.function.apricot.test.LoopBindActivity
 import com.zjw.sdkdemo.function.apricot.test.LoopFitnessActivity
+import com.zjw.sdkdemo.function.apricot.test.MultiBleTestActivity
 import com.zjw.sdkdemo.function.apricot.test.NotifySendTestActivity
 import com.zjw.sdkdemo.function.apricot.test.SyncTestActivity
 import com.zjw.sdkdemo.function.berry.BerryAiVoiceActivity
@@ -58,6 +60,7 @@ import com.zjw.sdkdemo.ui.adapter.MyExpandableAdapter
 import com.zjw.sdkdemo.utils.DescriptionUtils
 import com.zjw.sdkdemo.utils.MyConstants
 import com.zjw.sdkdemo.utils.ToastUtils
+import kotlin.jvm.java
 
 class MainActivity : BaseActivity() {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -139,6 +142,7 @@ class MainActivity : BaseActivity() {
                 R.string.ch_loop_bind,
                 R.string.ch_loop_sync,
                 R.string.ch_loop_notify,
+                R.string.ch_multi_ble,
             ),
             R.string.gr_factory to listOf(
                 R.string.ch_factory,
@@ -152,7 +156,7 @@ class MainActivity : BaseActivity() {
             val groupNameId = adapter.getGroup(groupPos)
             val childNameId = adapter.getChild(groupPos, childPos)
             LogUtils.i("OnChildClickListener ${getStringResourceNameById(groupNameId)} - ${getStringResourceNameById(childNameId)}")
-            val isConnect = ControlBleTools.getInstance().isConnect
+            val isConnect = ControlBleTools.getInstance().isConnect(MyConstants.deviceAddress)
             if (isConnect) {
                 when (groupNameId) {
                     R.string.gr_gather_function ->
@@ -206,6 +210,7 @@ class MainActivity : BaseActivity() {
                             R.string.ch_loop_bind -> startActivity(Intent(this, LoopBindActivity::class.java))
                             R.string.ch_loop_sync -> startActivity(Intent(this, LoopFitnessActivity::class.java))
                             R.string.ch_loop_notify -> startActivity(Intent(this, NotifySendTestActivity::class.java))
+                            R.string.ch_multi_ble -> startActivity(Intent(this, MultiBleTestActivity::class.java))
                         }
 
                     R.string.gr_factory ->
@@ -241,25 +246,33 @@ class MainActivity : BaseActivity() {
 
         binding.btnDisConnectDevice.setOnClickListener {
             addLogI("btnDisConnectDevice()")
-            ControlBleTools.getInstance().disconnect()
+            ControlBleTools.getInstance().disconnect(MyConstants.deviceAddress)
         }
     }
 
 
     private fun initCallback() {
-        ControlBleTools.getInstance().setBleStateCallBack { state ->
-            addLogI("setBleStateCallBack state=$state")
-            BleConnectState.postValue(state)
-            if (state == BleCommonAttributes.STATE_TIME_OUT) {
-                if (MyConstants.deviceAddress != null) {
-                    ControlBleTools.getInstance().connect(MyConstants.deviceName, MyConstants.deviceAddress, MyConstants.deviceProtocol)
-                }
+        ControlBleTools.getInstance().setBleStateCallBack(object : BleStateCallBack{
+            override fun onConnectState(state: Int) {
+
             }
 
-            if (state == BleCommonAttributes.STATE_CONNECTED) {
-                getDeviceInfo()
+            override fun onConnectState(mac: String, state: Int) {
+                super.onConnectState(mac, state)
+                addLogI("setBleStateCallBack mac=$mac state=$state")
+                BleConnectState.postValue(Pair(mac, state))
+                if (state == BleCommonAttributes.STATE_TIME_OUT) {
+                    if (MyConstants.deviceAddress != null) {
+                        ControlBleTools.getInstance().connect(MyConstants.deviceName, MyConstants.deviceAddress, MyConstants.deviceProtocol)
+                    }
+                }
+
+                if (state == BleCommonAttributes.STATE_CONNECTED) {
+                    getDeviceInfo()
+                }
             }
-        }
+        })
+
 
         CallBackUtils.deviceInfoCallBack = object : DeviceInfoCallBack {
             override fun onDeviceInfo(bean: DeviceInfoBean) {
@@ -272,9 +285,12 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        BleConnectState.observe(this) { state ->
-            binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
-
+        BleConnectState.observe(this) { connectState ->
+            val mac = connectState?.first?:""
+            val state = connectState?.second
+            if(mac == MyConstants.deviceAddress) {
+                binding.tvConnectState.text = DescriptionUtils.getConnectStateStr(this, state!!)
+            }
         }
     }
 
@@ -288,15 +304,17 @@ class MainActivity : BaseActivity() {
 
     private fun getDeviceInfo() {
         addLogI("getDeviceInfo")
-        ControlBleTools.getInstance().getDeviceInfo(object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState) {
-                addLogI("getDeviceInfo state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.getDeviceInfo(object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("getDeviceInfo state=$state")
+                }
+            })
         })
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        ControlBleTools.getInstance().disconnect()
+        //ControlBleTools.getInstance().disconnect()
     }
 }

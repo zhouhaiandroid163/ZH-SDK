@@ -47,6 +47,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import com.zjw.sdkdemo.utils.MyConstants
 
 class SetFunActivity : BaseActivity() {
     val binding by lazy { ActivityFunSetBinding.inflate(layoutInflater) }
@@ -124,10 +125,12 @@ class SetFunActivity : BaseActivity() {
         clickCheckConnect(binding.layoutWorldClock.btnGet) {
             addLogI("layoutWorldClock.btnGet")
             addLogI("getWorldClockList")
-            ControlBleTools.getInstance().getWorldClockList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getWorldClockList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getWorldClockList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getWorldClockList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutWorldClock.btnSet) {
@@ -151,10 +154,12 @@ class SetFunActivity : BaseActivity() {
             list.add(worldClockBean)
 
             addLogBean("setWorldClockList", list)
-            ControlBleTools.getInstance().setWorldClockList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setWorldClockList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setWorldClockList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setWorldClockList state=$state")
+                    }
+                })
             })
         }
 
@@ -166,19 +171,23 @@ class SetFunActivity : BaseActivity() {
         clickCheckConnect(binding.layoutStock.btnSync) {
             addLogI("layoutStock.btnSync")
             addLogBean("syncStockInfoList", stockInfos)
-            ControlBleTools.getInstance().syncStockInfoList(stockInfos, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("syncStockInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.syncStockInfoList(stockInfos, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("syncStockInfoList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutStock.btnGet) {
             addLogI("layoutStock.btnGet")
             addLogI("getStockSymbolList")
-            ControlBleTools.getInstance().getStockSymbolList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getStockSymbolList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getStockSymbolList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getStockSymbolList state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutStock.btnSet) {
@@ -192,30 +201,36 @@ class SetFunActivity : BaseActivity() {
                 list.add(symbolBean)
             }
             addLogBean("setStockSymbolOrder", list)
-            ControlBleTools.getInstance().setStockSymbolOrder(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setStockSymbolOrder state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setStockSymbolOrder(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setStockSymbolOrder state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutStock.btnDelete) {
             addLogI(".layoutStock.btnDelete")
             val value = stockInfos[0]!!.symbol
             addLogI(".deleteStockBySymbol value=$value")
-            ControlBleTools.getInstance().deleteStockBySymbol(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("deleteStockBySymbol state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.deleteStockBySymbol(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("deleteStockBySymbol state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutContinuousHeart.btnGet) {
             addLogI("layoutContinuousHeart.btnGet")
             addLogI("getHeartRateMonitor")
-            ControlBleTools.getInstance().getHeartRateMonitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getHeartRateMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getHeartRateMonitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getHeartRateMonitor state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutContinuousHeart.btnSet) {
@@ -233,30 +248,36 @@ class SetFunActivity : BaseActivity() {
             bean.continuousHeartRateMode =
                 if (binding.layoutContinuousHeart.cbSmartHeartSwitch.isChecked) SettingMenuCallBack.ContinuousHeartRateMode.INTELLIGENT_HEART_RATE.mode else SettingMenuCallBack.ContinuousHeartRateMode.ALL_DAY_HEART_RATE.mode
             addLogBean(".setHeartRateMonitor", bean)
-            ControlBleTools.getInstance().setHeartRateMonitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setHeartRateMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setHeartRateMonitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setHeartRateMonitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutHeartRealTime.btnGet) {
             addLogI("layoutHeartRealTime.btnGet")
             addLogI("getRealTimeHeartRateConfig")
-            ControlBleTools.getInstance().getRealTimeHeartRateConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRealTimeHeartRateConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRealTimeHeartRateConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRealTimeHeartRateConfig state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutHeartRealTime.btnOpen) {
             addLogI("layoutHeartRealTime.btnOpen")
             val bean = RealTimeHeartRateConfigBean(true, 3, 30)
             addLogBean(".setRealTimeHeartRateConfig", bean)
-            ControlBleTools.getInstance().setRealTimeHeartRateConfig(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setRealTimeHeartRateConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRealTimeHeartRateConfig(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRealTimeHeartRateConfig state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutHeartRealTime.btnClose) {
@@ -266,20 +287,24 @@ class SetFunActivity : BaseActivity() {
             bean.frequency = 3
             bean.overtime = 30
             addLogBean(".setRealTimeHeartRateConfig", bean)
-            ControlBleTools.getInstance().setRealTimeHeartRateConfig(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("RealTimeHeartRateConfigBean state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRealTimeHeartRateConfig(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("RealTimeHeartRateConfigBean state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutContinuousSpo2.btnGet) {
             addLogI("layoutContinuousSpo2.btnGet")
             addLogI("getContinuousBloodOxygenSettings")
-            ControlBleTools.getInstance().getContinuousBloodOxygenSettings(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getContinuousBloodOxygenSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getContinuousBloodOxygenSettings(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getContinuousBloodOxygenSettings state=$state")
+                    }
+                })
             })
         }
 
@@ -292,20 +317,24 @@ class SetFunActivity : BaseActivity() {
             bean.startTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousSpo2.tvStartTime)
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousSpo2.tvEndTime)
             addLogBean(".setContinuousBloodOxygenSettings", bean)
-            ControlBleTools.getInstance().setContinuousBloodOxygenSettings(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setContinuousBloodOxygenSettings state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setContinuousBloodOxygenSettings(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setContinuousBloodOxygenSettings state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutContinuousTemperature.btnGet) {
             addLogI("layoutContinuousTemperature.btnGet")
             addLogI("getContinuousTemperature")
-            ControlBleTools.getInstance().getContinuousTemperature(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getContinuousTemperature state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getContinuousTemperature(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getContinuousTemperature state=$state")
+                    }
+                })
             })
         }
 
@@ -318,20 +347,24 @@ class SetFunActivity : BaseActivity() {
             bean.startTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousTemperature.tvStartTime)
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutContinuousTemperature.tvEndTime)
             addLogBean(".setContinuousTemperature", bean)
-            ControlBleTools.getInstance().setContinuousTemperature(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setContinuousTemperature state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setContinuousTemperature(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setContinuousTemperature state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutPressureMode.btnGet) {
             addLogI("layoutPressureMode.btnGet")
             addLogI("getPressureMode")
-            ControlBleTools.getInstance().getPressureMode(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getPressureMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getPressureMode(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getPressureMode state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutPressureMode.btnSet) {
@@ -340,20 +373,24 @@ class SetFunActivity : BaseActivity() {
             bean.pressureMode = binding.layoutPressureMode.cbPressureModeSwitch.isChecked
             bean.relaxationReminder = binding.layoutPressureMode.cbRelaxationReminderSwitch.isChecked
             addLogBean(".setPressureMode", bean)
-            ControlBleTools.getInstance().setPressureMode(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setPressureMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setPressureMode(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setPressureMode state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutRem.btnRapidEyeMoveGet) {
             addLogI("btnRapidEyeMoveGet")
             addLogI("getRapidEyeMovement")
-            ControlBleTools.getInstance().getRapidEyeMovement(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getRapidEyeMovement state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getRapidEyeMovement(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getRapidEyeMovement state=$state")
+                    }
+                })
             })
         }
 
@@ -361,10 +398,12 @@ class SetFunActivity : BaseActivity() {
             addLogI("layoutRem.btnOpen")
             val isTrue = true
             addLogI(".setRapidEyeMovement isTrue=$isTrue")
-            ControlBleTools.getInstance().setRapidEyeMovement(isTrue, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setRapidEyeMovement state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRapidEyeMovement(isTrue, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRapidEyeMovement state=$state")
+                    }
+                })
             })
         }
 
@@ -372,20 +411,24 @@ class SetFunActivity : BaseActivity() {
             addLogI("layoutRem.btnClose")
             val isTrue = false
             addLogI("setRapidEyeMovement isTrue=$isTrue")
-            ControlBleTools.getInstance().setRapidEyeMovement(isTrue, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setRapidEyeMovement state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setRapidEyeMovement(isTrue, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setRapidEyeMovement state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSleepMode.btnGet) {
             addLogI("layoutSleepMode.btnGet")
             addLogI("getSleepMode")
-            ControlBleTools.getInstance().getSleepMode(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSleepMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSleepMode(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSleepMode state=$state")
+                    }
+                })
             })
         }
 
@@ -399,20 +442,24 @@ class SetFunActivity : BaseActivity() {
             bean.startTime = DialogUtils.getSettingTimeBean(binding.layoutSleepMode.tvStartTime)
             bean.endTime = DialogUtils.getSettingTimeBean(binding.layoutSleepMode.tvEndTime)
             addLogBean("setSleepMode", bean)
-            ControlBleTools.getInstance().setSleepMode(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSleepMode state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSleepMode(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSleepMode state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWSPO2Monitor.btnGet) {
             addLogI("layoutSWSPO2Monitor.btnGet")
             addLogI("getSWSPO2Monitor")
-            ControlBleTools.getInstance().getSWSPO2Monitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSWSPO2Monitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSWSPO2Monitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSWSPO2Monitor state=$state")
+                    }
+                })
             })
         }
 
@@ -422,20 +469,24 @@ class SetFunActivity : BaseActivity() {
             bean.isWarning = binding.layoutSWSPO2Monitor.cbSpo2WarningSwitch.isChecked
             bean.warningValue = binding.layoutSWSPO2Monitor.etSpo2WarningValue.text.toString().trim().toInt()
             addLogBean("setSWSPO2Monitor", bean)
-            ControlBleTools.getInstance().setSWSPO2Monitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWSPO2Monitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSWSPO2Monitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWSPO2Monitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWHRMonitor.btnGet) {
             addLogI("layoutSWHRMonitor.btnGet")
             addLogI("getSWHRMonitor")
-            ControlBleTools.getInstance().getSWHRMonitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSWHRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSWHRMonitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSWHRMonitor state=$state")
+                    }
+                })
             })
         }
 
@@ -447,20 +498,24 @@ class SetFunActivity : BaseActivity() {
             bean.isHeightWarning = binding.layoutSWHRMonitor.cbHrHeightWarningSwitch.isChecked
             bean.heightWarningValue = binding.layoutSWHRMonitor.etHrHeightWarningValue.text.toString().trim().toInt()
             addLogBean("setSWHRMonitor", bean)
-            ControlBleTools.getInstance().setSWHRMonitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWHRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSWHRMonitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWHRMonitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWSportHRMonitor.btnGet) {
             addLogI("layoutSWSportHRMonitor.btnGet")
             addLogI("getSWSportHRMonitor")
-            ControlBleTools.getInstance().getSWSportHRMonitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSWSportHRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSWSportHRMonitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSWSportHRMonitor state=$state")
+                    }
+                })
             })
         }
 
@@ -472,20 +527,24 @@ class SetFunActivity : BaseActivity() {
             bean.isHeightWarning = binding.layoutSWSportHRMonitor.cbHrHeightWarningSwitch.isChecked
             bean.heightWarningValue = binding.layoutSWSportHRMonitor.etHrHeightWarningValue.text.toString().trim().toInt()
             addLogBean("setSWSportHRMonitor", bean)
-            ControlBleTools.getInstance().setSWSportHRMonitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWSportHRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSWSportHRMonitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWSportHRMonitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWHRVMonitor.btnGet){
             addLogI("layoutSWHRVMonitor.btnGet")
             addLogI("getSWHRVMonitor")
-            ControlBleTools.getInstance().getSWStressMonitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSWHRVMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSWStressMonitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSWHRVMonitor state=$state")
+                    }
+                })
             })
         }
 
@@ -495,20 +554,24 @@ class SetFunActivity : BaseActivity() {
             bean.isWarning = binding.layoutSWHRVMonitor.cbHrvWarningSwitch.isChecked
             bean.warningValue = binding.layoutSWHRVMonitor.etHrvWarningValue.text.toString().trim().toInt()
             addLogBean("setSWStressMonitor", bean)
-            ControlBleTools.getInstance().setSWStressMonitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWStressMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSWStressMonitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWStressMonitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWBRMonitor.btnGet){
             addLogI("layoutSWBRMonitor.btnGet")
             addLogI("getSWBRMonitor")
-            ControlBleTools.getInstance().getSWBRMonitor(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSWBRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSWBRMonitor(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSWBRMonitor state=$state")
+                    }
+                })
             })
         }
 
@@ -518,20 +581,24 @@ class SetFunActivity : BaseActivity() {
             bean.isWarning = binding.layoutSWBRMonitor.cbBrWarningSwitch.isChecked
             bean.warningValue = binding.layoutSWBRMonitor.etBrWarningValue.text.toString().trim().toInt()
             addLogBean("setSWBRMonitor", bean)
-            ControlBleTools.getInstance().setSWBRMonitor(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWBRMonitor state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSWBRMonitor(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWBRMonitor state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWLPReminderConfig.btnGet){
             addLogI("layoutSWLPReminderConfig.btnGet")
             addLogI("getLowPowerReminderConfig")
-            ControlBleTools.getInstance().getLowPowerReminderConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getLowPowerReminderConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getLowPowerReminderConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getLowPowerReminderConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -541,20 +608,24 @@ class SetFunActivity : BaseActivity() {
             configbean.isEnableRemind = binding.layoutSWLPReminderConfig.cbLpWarningSwitch  .isChecked
             configbean.remindValue = binding.layoutSWLPReminderConfig.etLpWarningValue.text.toString().trim().toInt()
             addLogBean("setLowPowerReminderConfig", configbean)
-            ControlBleTools.getInstance().setLowPowerReminderConfig(configbean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setLowPowerReminderConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setLowPowerReminderConfig(configbean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setLowPowerReminderConfig state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWMeasureFrequency.btnGet){
             addLogI("layoutSWMeasureFrequency.btnGet")
             addLogI("getDataMeasureFrequency")
-            ControlBleTools.getInstance().getDataMeasureFrequency(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getDataMeasureFrequency state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getDataMeasureFrequency(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getDataMeasureFrequency state=$state")
+                    }
+                })
             })
         }
 
@@ -578,10 +649,12 @@ class SetFunActivity : BaseActivity() {
             bean.inSleepMeasureFrequency = inSleep
             bean.noneSleepMeasureFrequency = noneSleep
             addLogBean("setSWMeasureFrequency", bean)
-            ControlBleTools.getInstance().setDataMeasureFrequency(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSWMeasureFrequency state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setDataMeasureFrequency(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSWMeasureFrequency state=$state")
+                    }
+                })
             })
         }
 
@@ -589,10 +662,12 @@ class SetFunActivity : BaseActivity() {
             addLogI("layoutSWDeviceTemperature.btnSet")
             val isConfirm = binding.layoutSWDeviceTemperature.cbIsConfirm.isChecked
             addLogBean("confirmDeviceTemperatureEvent", isConfirm)
-            ControlBleTools.getInstance().confirmDeviceTemperatureEvent(isConfirm, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("confirmDeviceTemperatureEvent state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.confirmDeviceTemperatureEvent(isConfirm, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("confirmDeviceTemperatureEvent state=$state")
+                    }
+                })
             })
         }
 
@@ -603,20 +678,24 @@ class SetFunActivity : BaseActivity() {
             val bean = IdleRebootRespondBean()
             bean.isAllow = isAllow
             bean.delaySecond = waitTime
-            ControlBleTools.getInstance().deviceIdleRebootRespond(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("deviceIdleRebootRespond state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.deviceIdleRebootRespond(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("deviceIdleRebootRespond state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutSWSleep.btnGetSleepState){
             addLogI("layoutSWSleep.btnGetSleepState")
             addLogI("getSleepState")
-            ControlBleTools.getInstance().getSleepState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSleepState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSleepState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSleepState state=$state")
+                    }
+                })
             })
         }
 
@@ -631,20 +710,24 @@ class SetFunActivity : BaseActivity() {
             bean.longSleepPeriodStart = binding.layoutSWSleep.etLongSleepPeriodStart.text.toString().trim().toInt()
             bean.longSleepPeriodEnd = binding.layoutSWSleep.etLongSleepPeriodEnd.text.toString().trim().toInt()
             addLogBean("setSleepConfig", bean)
-            ControlBleTools.getInstance().setSleepConfig(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("setSleepConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setSleepConfig(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setSleepConfig state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect( binding.layoutSWSleep.btnGetSleepConfig){
             addLogI("layoutSWSleep.btnGetSleepConfig")
             addLogI("getSleepConfig")
-            ControlBleTools.getInstance().getSleepConfig(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getSleepConfig state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSleepConfig(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSleepConfig state=$state")
+                    }
+                })
             })
         }
 
@@ -816,10 +899,12 @@ class SetFunActivity : BaseActivity() {
         bean.totalProgress = mMusicTP
         bean.currentProgress = mMusicCP
         addLogBean("syncMusicInfo", bean)
-        ControlBleTools.getInstance().syncMusicInfo(bean, object : SendCmdStateListener() {
-            override fun onState(state: SendCmdState) {
-                addLogI("syncMusicInfo state=$state")
-            }
+        ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+            tools.syncMusicInfo(bean, object : SendCmdStateListener() {
+                override fun onState(state: SendCmdState) {
+                    addLogI("syncMusicInfo state=$state")
+                }
+            })
         })
     }
 

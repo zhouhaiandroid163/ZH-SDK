@@ -10,6 +10,7 @@ import com.zhapp.ble.parsing.SendCmdState
 import com.zjw.sdkdemo.R
 import com.zjw.sdkdemo.base.BaseActivity
 import com.zjw.sdkdemo.databinding.ActivityDeviceHistoryLogBinding
+import com.zjw.sdkdemo.utils.MyConstants
 
 class DeviceHistoryLogActivity : BaseActivity() {
     private val binding by lazy { ActivityDeviceHistoryLogBinding.inflate(layoutInflater) }
@@ -28,20 +29,24 @@ class DeviceHistoryLogActivity : BaseActivity() {
         clickCheckConnect(binding.btnGetDeviceLog) {
             addLogI("btnGetDeviceLog")
             addLogI("getFirmwareLog")
-            ControlBleTools.getInstance().getFirmwareLog(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getFirmwareLog state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getFirmwareLog(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getFirmwareLog state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnGetTrackingLog) {
             addLogI("btnGetTrackingLog")
             addLogI("getFirmwareTrackingLog")
-            ControlBleTools.getInstance().getFirmwareTrackingLog(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState) {
-                    addLogI("getFirmwareTrackingLog state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getFirmwareTrackingLog(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getFirmwareTrackingLog state=$state")
+                    }
+                })
             })
         }
     }

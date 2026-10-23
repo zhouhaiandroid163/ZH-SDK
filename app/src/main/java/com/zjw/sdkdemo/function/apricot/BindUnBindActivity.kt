@@ -35,10 +35,12 @@ class BindUnBindActivity : BaseActivity() {
         clickCheckConnect(binding.btnBindDevice) {
             addLogI("btnBindDevice")
             addLogI("requestDeviceBindState")
-            ControlBleTools.getInstance().requestDeviceBindState(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("requestDeviceBindState state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.requestDeviceBindState(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState?) {
+                        addLogI("requestDeviceBindState state=$state")
+                    }
+                })
             })
         }
 
@@ -46,33 +48,40 @@ class BindUnBindActivity : BaseActivity() {
             addLogI("btnVerifyUserId")
             val userId = binding.etUserId02.text.toString().trim()
             addLogI("verifyUserId userId=$userId")
-            ControlBleTools.getInstance().verifyUserId(userId, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("verifyUserId state=$state")
-                }
+
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools->
+                tools.verifyUserId(userId, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState?) {
+                        addLogI("verifyUserId state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnUnBindDevice) {
             addLogI("btnUnBindDevice")
             addLogI("unbindDevice")
-            ControlBleTools.getInstance().unbindDevice(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("unbindDevice state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.unbindDevice(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState?) {
+                        addLogI("unbindDevice state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.btnDeviceConfirmUnbind) {
             addLogI("btnDeviceConfirmUnbind")
             addLogI("unbindDeviceWaitConfirmation")
-            ControlBleTools.getInstance().unbindDeviceWaitConfirmation(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("unbindDeviceWaitConfirmation onState state=$state")
-                    if (state == SendCmdState.SUCCEED) {
-                        unBindDevice()
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                tools.unbindDeviceWaitConfirmation(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState?) {
+                        addLogI("unbindDeviceWaitConfirmation onState state=$state")
+                        if (state == SendCmdState.SUCCEED) {
+                            unBindDevice()
+                        }
                     }
-                }
+                })
             })
         }
 
@@ -89,10 +98,12 @@ class BindUnBindActivity : BaseActivity() {
             addLogI("requestDeviceBindStateCallBack state=$state")
             if (!state) {
                 addLogI("bindDevice")
-                ControlBleTools.getInstance().bindDevice(object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("bindDevice state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                    tools.bindDevice(object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState?) {
+                            addLogI("bindDevice state=$state")
+                        }
+                    })
                 })
             }
         }
@@ -105,10 +116,12 @@ class BindUnBindActivity : BaseActivity() {
 
                 val userId = binding.etUserId01.text.toString().trim()
                 addLogI("sendAppBindResult userId=$userId")
-                ControlBleTools.getInstance().sendAppBindResult(userId, object : SendCmdStateListener() {
-                    override fun onState(state: SendCmdState?) {
-                        addLogI("sendAppBindResult state=$state")
-                    }
+                ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{tools->
+                    tools.sendAppBindResult(userId, object : SendCmdStateListener() {
+                        override fun onState(state: SendCmdState?) {
+                            addLogI("sendAppBindResult state=$state")
+                        }
+                    })
                 })
             } else {
                 addLogI(getString(R.string.device_bind_fail))
@@ -137,7 +150,7 @@ class BindUnBindActivity : BaseActivity() {
         }
 
         addLogI("disconnect")
-        ControlBleTools.getInstance().disconnect()
+        ControlBleTools.getInstance().disconnect(MyConstants.deviceAddress)
         startActivity(Intent(this, ScanDeviceActivity::class.java))
         this.finish()
     }

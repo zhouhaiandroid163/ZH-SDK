@@ -32,6 +32,7 @@ import com.zjw.sdkdemo.utils.DialogUtils
 import com.zjw.sdkdemo.utils.ToastUtils
 import java.io.File
 import kotlin.math.min
+import com.zjw.sdkdemo.utils.MyConstants
 
 class BerrySetOtherActivity : BaseActivity() {
     private val binding by lazy { ActivityBerrySetOtherBinding.inflate(layoutInflater) }
@@ -72,10 +73,12 @@ class BerrySetOtherActivity : BaseActivity() {
                 this.content = content
             }
             addLogBean("setMorningPost", bean)
-            ControlBleTools.getInstance().setMorningPost(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setMorningPost state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setMorningPost(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setMorningPost state=$state")
+                    }
+                })
             })
         }
 
@@ -105,20 +108,24 @@ class BerrySetOtherActivity : BaseActivity() {
                 this.vaultStringList = vaultStringList
             }
             addLogBean("setVaultInfo", bean)
-            ControlBleTools.getInstance().setVaultInfo(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setVaultInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setVaultInfo(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setVaultInfo state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerrySetOtherVault.btnVaultGetSimpleList) {
             addLogI("btnVaultGetSimpleList")
             addLogI("getSimpleVaultInfoList")
-            ControlBleTools.getInstance().getSimpleVaultInfoList(object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getSimpleVaultInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getSimpleVaultInfoList(object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getSimpleVaultInfoList state=$state")
+                    }
+                })
             })
         }
 
@@ -126,10 +133,12 @@ class BerrySetOtherActivity : BaseActivity() {
             addLogI("btnVaultIdGet")
             val id = binding.layoutBerrySetOtherVault.etCardId02.text.toString().trim()
             addLogI("getVaultInfo id=$id")
-            ControlBleTools.getInstance().getVaultInfo(id, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("getVaultInfo state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.getVaultInfo(id, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("getVaultInfo state=$state")
+                    }
+                })
             })
         }
         clickCheckConnect(binding.layoutBerrySetOtherVault.btnVaultIdDelete) {
@@ -143,10 +152,12 @@ class BerrySetOtherActivity : BaseActivity() {
                 list.add(ids)
             }
             addLogBean("delVaultInfoList", list)
-            ControlBleTools.getInstance().delVaultInfoList(list, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("delVaultInfoList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.delVaultInfoList(list, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("delVaultInfoList state=$state")
+                    }
+                })
             })
         }
 
@@ -154,10 +165,12 @@ class BerrySetOtherActivity : BaseActivity() {
             addLogI("layoutBerrySetOtherRecording.btnSend")
             val value = binding.layoutBerrySetOtherRecording.etCmd.text.toString().trim().toInt()
             addLogI("sendRecordingCmd value=$value")
-            ControlBleTools.getInstance().sendRecordingCmd(value, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("sendRecordingCmd state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.sendRecordingCmd(value, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("sendRecordingCmd state=$state")
+                    }
+                })
             })
         }
 
@@ -186,30 +199,36 @@ class BerrySetOtherActivity : BaseActivity() {
                 })
             }
             bean.deviceList = list
-            ControlBleTools.getInstance().setTvDeviceList(bean, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTvDeviceList state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTvDeviceList(bean, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTvDeviceList state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerrySetOtherTv.btnError) {
             addLogI("layoutBerrySetOtherTv.btnError")
             val error = binding.layoutBerrySetOtherTv.etError.text.toString().trim().toInt()
-            ControlBleTools.getInstance().setTvErrorStatus(error, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setTvErrorStatus state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setTvErrorStatus(error, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setTvErrorStatus state=$state")
+                    }
+                })
             })
         }
 
         clickCheckConnect(binding.layoutBerrySetOtherPassword.btnPassword) {
             addLogI("layoutBerrySetOtherPassword.btnPassword")
             val password = binding.layoutBerrySetOtherPassword.etPassword.text.toString().trim()
-            ControlBleTools.getInstance().setBerryDevicePassword(password, object : SendCmdStateListener() {
-                override fun onState(state: SendCmdState?) {
-                    addLogI("setBerryDevicePassword state=$state")
-                }
+            ControlBleTools.getInstance().runForDevice(MyConstants.deviceAddress,{ tools ->
+                tools.setBerryDevicePassword(password, object : SendCmdStateListener() {
+                    override fun onState(state: SendCmdState) {
+                        addLogI("setBerryDevicePassword state=$state")
+                    }
+                })
             })
         }
 
