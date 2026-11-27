@@ -50,7 +50,7 @@ message SEWear {
     GET_DEVICE_DISCONNECT_REASON = 0x0022; //获取设备断开原因
     GET_MPT_POWER_LOG = 0x0023; //获取设备电量使用情况
     GET_MPT_POWER_LOG_LIST = 0x0024; //获取设备电量使用情况list
-	  DEVICE_BATTERY_VALUE_REQUEST = 0x0025; //设备主动上报电量状态(戒指项目)
+    DEVICE_BATTERY_VALUE_REQUEST = 0x0025; //设备主动上报电量状态(戒指项目)
     GET_CHARGING_CASE_STATUS = 0x0026; //获取设备充电仓信息
     //----------------------------------------------Device----------------------------------------------
 
@@ -70,10 +70,10 @@ message SEWear {
     SET_USER_PROFILE = 0x0044; //设置用户基本信息
     SET_USER_INFORMATION = 0x0045; //设置用户信息（同步调用）
     GET_USER_PROFILE = 0x0046; //向手环获取用户基本信息
-	  SET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0047; //设置Gomore全天睡眠开关(戒指项目)
-	  GET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0048; //获取Gomore全天睡眠开关(戒指项目)
-	  SET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0049; //设置Gomore自动活动检测开关(戒指项目)
-	  GET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0140; //获取Gomore自动活动检测开关(戒指项目)
+    SET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0047; //设置Gomore全天睡眠开关(戒指项目)
+    GET_GOMORE_ALLDAY_SLEEP_CONFIG = 0X0048; //获取Gomore全天睡眠开关(戒指项目)
+    SET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0049; //设置Gomore自动活动检测开关(戒指项目)
+    GET_GOMORE_AUTO_ACTIVE_SPORT_CONFIG = 0X0140; //获取Gomore自动活动检测开关(戒指项目)
     //----------------------------------------------User_Settings----------------------------------------------
 
     //----------------------------------------------WatchFace----------------------------------------------
@@ -101,10 +101,10 @@ message SEWear {
     SECONDARY_SCREEN_SPORT_REQUEST = 0x0160; //发起副屏运动
     SECONDARY_SCREEN_PHONE_SPORT_DATA = 0x0161; //副屏运动手机运动数据
     SECONDARY_SCREEN_WEAR_SPORT_DATA = 0x0162; //副屏运动手表运动数据
-	
+
     SET_RING_SPORT_STATUS = 0x0163; //设置戒指运动状态 ref:ring_Sport_Param_Data
-	  GET_RING_SPORT_STATUS = 0x0164; //获取戒指运动状态 ref:ring_Sport_Param_Data
-	  REQUSET_RING_SPORT_STATUS = 0x0165; //请求获取戒指运动状态 ref:ring_Sport_Param_Data 
+    GET_RING_SPORT_STATUS = 0x0164; //获取戒指运动状态 ref:ring_Sport_Param_Data
+    REQUSET_RING_SPORT_STATUS = 0x0165; //请求获取戒指运动状态 ref:ring_Sport_Param_Data
     RING_WEAR_SPORT_DATA = 0x016B; //请求获取RING 手表数据
     //----------------------------------------------Message----------------------------------------------
     MESSAGE_START_MESSAGE = 0x0069; //开始测量心率/血氧/体温/压力
@@ -112,9 +112,9 @@ message SEWear {
     MESSAGE_SEND_MESSAGE_VALUE = 0X006B;  //实时发送测量值
     MESSAGE_SEND_MESSAGE_RESULT = 0x006C; //发送测量结果
     MESSAGE_STOP_MESSAGE = 0X006D;  //手动结束测量
-	
+
     GET_AUTO_SPORT_DATA_LIST = 0x006E;  //获取自动运动数据列表    ref:auto_sport_data_list
-	  REQUSET_GET_AUTO_SPORT_DATA_LIST = 0x006F;  //戒指请求APP获取自动运动数据列表    ref:auto_sport_data_list
+    REQUSET_GET_AUTO_SPORT_DATA_LIST = 0x006F;  //戒指请求APP获取自动运动数据列表    ref:auto_sport_data_list
 
     WEAR_START_MESSAGE = 0x0166;  //开始测量心率/血氧/体温/压力
     WEAR_SEND_WEAR_STATUS = 0X0167; //发送佩戴状态(开始测量的第几s后)
@@ -136,6 +136,9 @@ message SEWear {
     CONFIRM_FITNESS_SPORT_ID_LIST = 0x0079; //确认删除运动数据ID列表-暂不支持
     GET_FITNESS_NO_SLEEP_TYPE_ID_LIST = 0x007A;//获取日常数据ID列表-多个（没有睡眠）
     FITNESS_DATA_RECEPTION_STATUS = 0x007B;//APP确认收到戒指同步上来的数据（戒指使用）
+    REPORT_AUTO_SPORT_STATE = 0x007C; // see@Sporting:SEReportAutoSportState
+    MESSAGE_SET_ALLOW_AUTO_SPORT = 0x007D;	// APP收到REPORT_AUTO_SPORT_STATE后是否允许自动运动开始 see@Sporting:SEAllowAutoSportState
+    MESSAGE_GET_IS_AUTO_SPORTING = 0x007E; // 获取当前运动是否为自动运动
     //----------------------------------------------Fitness----------------------------------------------
 
     //----------------------------------------------Weather----------------------------------------------
@@ -152,8 +155,8 @@ message SEWear {
     REQUEST_OFFLINE = 0x0092;//请求升级AGPS（先弃用）
     REQUEST_AGPS_STATE = 0x0093;//请求AGPS状态（是否已过期）
     REQUEST_BREAKPOINT_CONTINUATION_STATE = 0x0094;//请求断点续传状态
-	  PREPARE_SOUND = 0x0095; //准备sound升级
-	  SOUND_INSTALL_RESULT = 0x0096;//sound升级后回调
+    PREPARE_SOUND = 0x0095; //准备sound升级
+    SOUND_INSTALL_RESULT = 0x0096;//sound升级后回调
     //----------------------------------------------Large_File----------------------------------------------
 
     //----------------------------------------------Micro_Function----------------------------------------------
@@ -182,6 +185,10 @@ message SEWear {
     REQUEST_NFC_SLEEP_ERR = 0x01A3; //戒指项目 APP获取NFC睡眠状态
     GET_RING_WEAR_STATUS = 0x01A4; //戒指项目 APP获取戒指佩戴状态
     REQUEST_DEVICE_WEAR_STATUS = 0x01A5; //戒指项目 设备主动上报佩戴状态
+
+    GET_SLEEP_STATUS = 0x01A6; //戒指项目 APP获取睡眠状态
+    GET_RING_SAR_CALIBRATION = 0x01A7;  //戒指项目 获取戒指校准参数
+    START_SAR_CALIBRATION   = 0x01A8; //戒指项目 开启戒指SAR校准
     //----------------------------------------------Micro_Function----------------------------------------------
 
     //----------------------------------------------Notification----------------------------------------------
@@ -350,16 +357,16 @@ message SEWear {
     GET_SLEEP_REMINDER_SETTINGS = 0X01FE; //获取睡觉提醒的设置参数
     SET_SLEEP_REMINDER_SETTINGS = 0X01FF; //设置睡觉提醒的设置参数
     REQUEST_GET_SLEEP_REMINDER_SETTINGS = 0X02D0; //请求获取睡觉提醒的设置参数
-	
-	  GET_SOUND_LIST_SETTINGS = 0X02D1; //获取铃声数据的列表数据的设置参数
+
+    GET_SOUND_LIST_SETTINGS = 0X02D1; //获取铃声数据的列表数据的设置参数
     SET_SOUND_LIST_SETTINGS = 0X02D2; //设置铃声数据的列表数据的设置参数
     REQUEST_GET_SOUND_LIST_SETTINGS = 0X02D3; //请求获取铃声数据的列表数据的设置参数
-	
-	  GET_CUSTOMIZE_SETTING = 0X02D4; //获取自定义左键功能定义的设置参数
+
+    GET_CUSTOMIZE_SETTING = 0X02D4; //获取自定义左键功能定义的设置参数
     SET_CUSTOMIZE_SETTING = 0X02D5; //设置自定义左键功能定义的设置参数
     REQUEST_GET_CUSTOMIZE_SETTING = 0X02D6; //请求获取自定义左键功能定义的设置参数
-	
-	  GET_VIBRATION_INTENSITY_TIME = 0X02D7; //获取震动时长参数
+
+    GET_VIBRATION_INTENSITY_TIME = 0X02D7; //获取震动时长参数
     SET_VIBRATION_INTENSITY_TIME = 0X02D8; //设置震动时长参数
     REQUEST_GET_VIBRATION_INTENSITY_TIME = 0X02D9; //请求获取震动时长参数
 
@@ -390,8 +397,53 @@ message SEWear {
     SET_EV_DATA_INFO = 0x2EC;
     GET_EV_REMIND_STATUS = 0x2ED;
     SET_EV_REMIND_STATUS = 0x2EE;
-    
+
     SET_RING_AIRPLANEMODE = 0x2EF;   // 戒指开启飞行模式
+
+    GET_SPO2_MONITOR = 0x02F0; //获取血氧监测参数
+    SET_SPO2_MONITOR = 0x02F1; //设置血氧监测参数
+    REQUEST_SPO2_MONITOR = 0x02F2; //请求获取血氧监测参数
+
+    GET_HRV_MONITOR = 0x02F3; //获取HRV监测值参数
+    SET_HRV_MONITOR = 0x02F4; //设置HRV监测值参数
+    REQUEST_HRV_MONITOR = 0x02F5; //请求获取HRV监测值参数
+
+    GET_BREATHING_RELAXATION_MONITOR = 0x02F6; //获取BREATHING_RELAXATION监测值参数
+    SET_BREATHING_RELAXATION_MONITOR = 0x02F7; //设置BREATHING_RELAXATION监测值参数
+    REQUEST_BREATHING_RELAXATION_MONITOR = 0x02F8; //请求获取BREATHING_RELAXATION监测值参数
+
+    DEVICE_REQUEST_BREATHING_RELAXATION_REMINDER = 0x02F9; //请求呼吸放松提醒
+
+    GET_HEART_RATE_REMINDER = 0x02FA; //获取心率提醒参数
+    SET_HEART_RATE_REMINDER = 0x02FB; //设置心率提醒参数
+    REQUEST_GET_HEART_RATE_REMINDER = 0x02FC; //请求获取心率提醒参数
+
+    DEVICE_NOTIFY_APP_REMINDER_EVENT = 0x02FD; //设备通知APP提醒事件
+
+    GET_LOWPOWER_REMINDER = 0x02FE; //获取低电量提醒参数
+    SET_LOWPOWER_REMINDER = 0x02FF; //设置低电量提醒参数
+
+    GET_DATA_MEASURE_FREQUENCY = 0x0300; // 获取测量频率
+    SET_DATA_MEASURE_FREQUENCY = 0x0301; // 设置测量频率
+
+    CONFIRE_DEVICE_TEMPERATURE_EVENT = 0x0302; //APP确认报告设备温度事件
+    REPORT_DEVICE_TEMPERATURE_EVENT = 0x0303; //报告设备温度事件
+
+    GET_SPORT_HEART_RATE_REMINDER = 0x0304; //获取心率提醒参数
+    SET_SPORT_HEART_RATE_REMINDER = 0x0305; //设置心率提醒参数
+
+    GET_AUTO_DETECTION_CONFIG	= 0x0306; // 获取自动运动配置参数
+    SET_AUTO_DETECTION_CONFIG	= 0x0307; // 设置自动运动配置参数
+
+    DEVICE_IDLE_REBOOT_REQUEST  = 0x0308; // 设备空闲重启请求
+    DEVICE_IDLE_REBOOT_RESPOND  = 0x0309; // 空闲重启响应
+
+    REPORT_SLEEP_STATE = 0x030A; // 上报睡眠状态
+    GET_SLEEP_STATE	= 0x030B; // 获取睡眠状态
+
+    GET_SLEEP_CONFIG = 0x030C; // 获取睡眠设置
+    SET_SLEEP_CONFIG = 0x030D; // 设置睡眠设置
+
     //----------------------------------------------SettingMenu----------------------------------------------
 
     //----------------------------------------------Factory----------------------------------------------
